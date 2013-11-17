@@ -1,0 +1,23 @@
+h2 {
+  text-align: center; }
+
+#content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 5% 10%;
+  width: 80%;
+  height: 80%;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3); }
+
+text.name {
+  text-anchor: end; }
+
+text.dis, text.poi-name {
+  text-anchor: middle; }
+
+rect.poi-name {
+  fill: white;
+  stroke: #999999;
+  stroke-width: 1px;
+  opacity: 0.8; }
