@@ -6,7 +6,7 @@ min = {}
 count = 0
 
 d3.csv \data.csv (data) ->
-  mgn = [50 90 90 90]
+  mgn = [50 80 90 50]
   console.log data
   dlist = []
   key-list = {}
@@ -14,6 +14,7 @@ d3.csv \data.csv (data) ->
   for item in data => for key of item
     if key==="年" or key==="總計" => continue
     v = parseInt(10*Math.sqrt(parseInt item[key]/10000))/10.0
+    max-overall>?= v
     max[key]>?= v
     min[key]<?= v
     key-list[key] = 1
@@ -32,13 +33,26 @@ d3.csv \data.csv (data) ->
     d = dlist[count]
     [x,y] = [sx(d.0), sy(d.1)]
     radius =  20 * ( (d.2 - min[d.1]) / (max[d.1] - min[d.1]) ) + 2
+    radius-all =  20 * ( d.2 / max-overall ) + 2
+
     e = d3.select \#svg .append \circle
     e .attr \cx x
       .attr \cy y
       .attr \r 0
+      .attr \fill \none
+      .attr \stroke -> color (d.1 + 1)
+      .attr \stroke-width \1px
+      .transition!ease \elastic .duration 500 .attr \r radius-all
+
+    e = d3.select \#svg .append \circle
+    e .attr \cx x
+      .attr \cy y
+      .attr \r 0
+      .style \opacity \0.5
       .attr \fill -> color d.1
       .transition!ease \elastic .duration 500 .attr \r radius
-    f = d3.select \#svg .append \text .text (->parseInt(d.2*d.2)) 
+
+    f = d3.select \#svg .append \text .text (->parseInt(d.2*d.2))
       .attr \text-anchor \middle .attr \x x
       .attr \fill \#f00
     set-handle = (e, f, x, y, r) ->
