@@ -1,0 +1,35 @@
+!!!5
+html
+  head
+    meta(charset="utf-8")
+    link(rel="stylesheet",type="text/css",href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css")
+    script(type="text/javascript",src="//codeorigin.jquery.com/jquery-1.10.2.min.js")
+    script(type="text/javascript",src="//d3js.org/d3.v3.min.js")
+    script(type="text/javascript",src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js")
+    //link(rel="stylesheet",type="text/css",href="/css/bootstrap.min.css")
+    link(rel="stylesheet",type="text/css",href="index.css")
+    //-
+      script(type="text/javascript",src="/js/jquery-1.10.2.min.js")
+      script(type="text/javascript",src="/js/bootstrap.min.js")
+      script(type="text/javascript",src="/js/d3.v3.min.js")
+    script(type="text/javascript",src="index.js")
+  body
+    #content
+      h2 g0v.tw#freenode 統計資訊
+
+      h3 對話關係圖
+      div.center
+        | 圓圈表示匿稱，連線表示交談。
+        br
+        | 尋找特定暱稱
+        br
+        select#select-name(onchange="update()")
+      #relation-chart.chart
+
+      h3 聊天室各週的平均每天同時線上人數
+      h4 逐週統計
+      #line-chart1.chart
+      h4 逐月統計
+      #line-chart2.chart
+
+    #relation-name
