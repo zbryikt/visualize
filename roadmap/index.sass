@@ -1,0 +1,40 @@
+html, body
+  width: 100%
+  height: 100%
+  margin: 0
+  padding: 0
+#svg
+  display: block
+  position: relative
+  width: 500px
+  height: 80%
+  margin: 5% auto
+  border: 0px solid #ccc
+
+path.road
+  stroke: #000
+  stroke-width: 2px
+  stroke-dasharray: 10,4
+ 
+circle.poi
+  fill: #fff
+  stroke: #000
+  stroke-width: 1.5px
+  &.vip
+    font-size: 1.1em
+    &.pos
+      fill: #9f9
+    &.neg
+      fill: #f99
+    &.neu
+      stroke: none
+      fill: #fff
+  
+text.poi
+  font-size: 0.5em
+  &.vip
+    font-size: 1.1em
+    &.pos
+      fill: #090
+    &.neg
+      fill: #900
