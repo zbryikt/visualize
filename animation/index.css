@@ -1,0 +1,213 @@
+body {
+  padding: 30px; }
+
+img {
+  width: 64px;
+  height: 64px;
+  margin: 20px;
+  display: inline-block; }
+
+i.icon.kirby, .fixed {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin: 20px;
+  line-height: 64px;
+  display: inline-block; }
+
+@-webkit-keyframes pudin {
+  0% {
+    -webkit-transform: scale(2); }
+
+  11% {
+    -webkit-transform: scale(0.5); }
+
+  22% {
+    -webkit-transform: scale(1.5); }
+
+  32% {
+    -webkit-transform: scale(0.6); }
+
+  42% {
+    -webkit-transform: scale(1.25); }
+
+  51% {
+    -webkit-transform: scale(0.7); }
+
+  60% {
+    -webkit-transform: scale(1.125); }
+
+  68% {
+    -webkit-transform: scale(0.8); }
+
+  76% {
+    -webkit-transform: scale(1.0625); }
+
+  83% {
+    -webkit-transform: scale(0.9); }
+
+  90% {
+    -webkit-transform: scale(1.03125); }
+
+  95% {
+    -webkit-transform: scale(0.95); }
+
+  100% {
+    -webkit-transform: scale(1); } }
+
+.pudin {
+  text-shadow: 0 0 5px #e4bf5c;
+  color: #991c06;
+  -webkit-animation-name: pudin;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: ease; }
+
+@-webkit-keyframes flip {
+  0% {
+    -webkit-transform: rotateY(0deg); }
+
+  25% {
+    -webkit-transform: rotateY(90deg); }
+
+  50% {
+    -webkit-transform: rotateY(180deg); }
+
+  75% {
+    -webkit-transform: rotateY(270deg); }
+
+  100% {
+    -webkit-transform: rotateY(360deg); } }
+
+.flip {
+  -webkit-perspective: 1000px;
+  -webkit-perspective-origin: 50% 50%;
+  -webkit-animation-name: flip;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear; }
+
+@-webkit-keyframes bounce {
+  0% {
+    -webkit-transform: scaleY(0.25) translate(0, 48px); }
+
+  5% {
+    -webkit-transform: scaleY(1) translate(0, 0px); }
+
+  20% {
+    -webkit-transform: scaleY(1) translate(0, -30px); }
+
+  32% {
+    -webkit-transform: scaleY(1) translate(0, -35px); }
+
+  40% {
+    -webkit-transform: scaleY(1) translate(0, -38px); }
+
+  45% {
+    -webkit-transform: scaleY(1) translate(0, -40px); }
+
+  48% {
+    -webkit-transform: scaleY(1) translate(0, -41px); }
+
+  50% {
+    -webkit-transform: scaleY(1) translate(0, -41px); }
+
+  52% {
+    -webkit-transform: scaleY(1) translate(0, -41px); }
+
+  55% {
+    -webkit-transform: scaleY(1) translate(0, -40px); }
+
+  60% {
+    -webkit-transform: scaleY(1) translate(0, -38px); }
+
+  68% {
+    -webkit-transform: scaleY(1) translate(0, -35px); }
+
+  80% {
+    -webkit-transform: scaleY(1) translate(0, -30px); }
+
+  95% {
+    -webkit-transform: scaleY(1) translate(0, 0px); }
+
+  100% {
+    -webkit-transform: scaleY(0.25) translate(0, 48px); } }
+
+@-webkit-keyframes rainbow {
+  0% {
+    color: red; }
+
+  25% {
+    color: lime; }
+
+  50% {
+    color: blue; }
+
+  75% {
+    color: lime; }
+
+  100% {
+    color: red; } }
+
+.bounce {
+  -webkit-animation-name: bounce, rainbow;
+  -webkit-animation-duration: 0.8s, 0.8s;
+  -webkit-animation-iteration-count: infinite, infinite;
+  -webkit-animation-timing-function: linear, linear; }
+
+@-webkit-keyframes slide {
+  0% {
+    -webkit-transform: translate(0, 0); }
+
+  25% {
+    -webkit-transform: translate(64px, 0); }
+
+  50% {
+    -webkit-transform: translate(64px, 0);
+    opacity: 1; }
+
+  73% {
+    -webkit-transform: translate(64px, 0);
+    opacity: 0; }
+
+  74% {
+    -webkit-transform: translate(-64px, 0);
+    opacity: 0; }
+
+  75% {
+    -webkit-transform: translate(-64px, 0);
+    opacity: 1; }
+
+  100% {
+    -webkit-transform: translate(0, 0); } }
+
+.fixed {
+  overflow: hidden;
+  top: 32px;
+  position: relative;
+  line-height: 58px; }
+  .fixed i.icon.kirby {
+    margin: 0; }
+
+.slide {
+  -webkit-animation-name: slide;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear; }
+
+@-webkit-keyframes rotate {
+  0% {
+    -webkit-transform: translate(10px, 0) rotate(45deg); }
+
+  50% {
+    -webkit-transform: translate(-10px, 0) rotate(-45deg); }
+
+  100% {
+    -webkit-transform: translate(10px, 0) rotate(45deg); } }
+
+.rotate {
+  color: #641b26;
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: ease; }

@@ -1,0 +1,5 @@
+
+@font-face{font-family:myfont;src:url('font.ttf')}
+i.icon{font-style:normal;font-family:myfont;vertical-align:baseline}
+i.icon:after{display:inline}
+  i.icon.kirby:after { content: "\f001" }
