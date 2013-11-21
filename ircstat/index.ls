@@ -72,6 +72,24 @@ relation-chart = (data) ->
   svg = new-svg \relation-chart, d3.select \#relation-chart
   dim = $ \#relation-chart .offset!
 
+  svg.append \text .attr \x m.0 + 20 .attr \y m.1 + 5 .text "活躍人物" .attr \text-anchor \middle
+  text-tag = svg.selectAll \g.vip .data nodes.filter(-> it.charge>5)sort((a,b) -> a.charge - b.charge)
+    ..enter!append \g .attr \class \.vip
+      ..append \line
+        .attr \x1 -> m.0 + 20 + (it.name.length + 4) * 3
+        .attr \y1 (d,i) -> i * 15 + 17 + m.1
+        .attr \stroke \#ddd
+        .attr \stroke-width \1px
+        .attr \stroke-dasharray "1,7"
+      ..append \text .attr \class \vip
+        .attr \x m.0 + 20
+        .attr \y (d,i) -> i*15 + 15 + m.1
+        .attr \text-anchor \middle
+        .attr \dominant-baseline \central
+        .attr \font-size \0.5em
+        .text -> "#{it.name} (#{it.charge - 1})"
+        .on \mouseover -> update it.name
+      ..each -> hash[it.name].vip = @
   link-tag = svg.selectAll \line.link .data links
     ..enter!append \g .attr \class \link-group
       ..append \line .attr \class \link
@@ -95,20 +113,26 @@ relation-chart = (data) ->
   last-find = do
     r: null
     charge: 0
-  update := ->
-    v = $ \#select-name .val! .trim!
-    if not (v of hash) => return
+  update := (v=null) ->
+    if v==null => v = $ \#select-name .val! .trim!
     if last-find.r =>
-      last-find.r.charge = last-find.charge
-      last-find.r.active = 0
+      that.charge = last-find.charge
+      that.active = 0
+      if that.vip => d3.select that .select \line .attr \class ""
+    if not (v of hash) => return
     r = hash[v]
     last-find.r = r
     last-find.charge = r.charge
+    if r.vip => d3.select r.vip .select \line .attr \class \active
     r.charge = -100
     r.active = 1
     force.start!
 
   force.on \tick, ->
+    text-tag.each (d,i) ->
+      d3.select @ .select \line
+        .attr \x2 -> d.x
+        .attr \y2 -> d.y
     link-tag .selectAll \line.link
       .attr \x1 -> it.source.x
       .attr \y1 -> it.source.y

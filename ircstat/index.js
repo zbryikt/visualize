@@ -104,7 +104,7 @@ $(document).ready(function(){
     }
   };
   relationChart = function(data){
-    var force, hash, it, jt, nodes, links, sel, i$, len$, j$, ref$, ref1$, x, len1$, svg, dim, x$, linkTag, y$, z$, nodeTag, z1$, text, lastFind;
+    var force, hash, it, jt, nodes, links, sel, i$, len$, j$, ref$, ref1$, x, len1$, svg, dim, x$, textTag, y$, z$, linkTag, z1$, z2$, nodeTag, z3$, text, lastFind;
     data = data.by_nick_to;
     force = d3.layout.force();
     hash = {};
@@ -165,12 +165,34 @@ $(document).ready(function(){
     }).start();
     svg = newSvg('relation-chart', d3.select('#relation-chart'));
     dim = $('#relation-chart').offset();
-    x$ = linkTag = svg.selectAll('line.link').data(links);
-    y$ = x$.enter().append('g').attr('class', 'link-group');
-    y$.append('line').attr('class', 'link').attr('stroke-width', '1px').attr('stroke', '#ccc').attr('stroke-dasharray', "3,1");
-    z$ = nodeTag = svg.selectAll('circle.node').data(nodes);
-    z1$ = z$.enter().append('g').attr('class', 'node-group');
-    z1$.append('circle').attr('class', 'node').attr('r', function(it){
+    svg.append('text').attr('x', m[0] + 20).attr('y', m[1] + 5).text("活躍人物").attr('text-anchor', 'middle');
+    x$ = textTag = svg.selectAll('g.vip').data(nodes.filter(function(it){
+      return it.charge > 5;
+    }).sort(function(a, b){
+      return a.charge - b.charge;
+    }));
+    y$ = x$.enter().append('g').attr('class', '.vip');
+    y$.append('line').attr('x1', function(it){
+      return m[0] + 20 + (it.name.length + 4) * 3;
+    }).attr('y1', function(d, i){
+      return i * 15 + 17 + m[1];
+    }).attr('stroke', '#ddd').attr('stroke-width', '1px').attr('stroke-dasharray', "1,7");
+    y$.append('text').attr('class', 'vip').attr('x', m[0] + 20).attr('y', function(d, i){
+      return i * 15 + 15 + m[1];
+    }).attr('text-anchor', 'middle').attr('dominant-baseline', 'central').attr('font-size', '0.5em').text(function(it){
+      return it.name + " (" + (it.charge - 1) + ")";
+    }).on('mouseover', function(it){
+      return update(it.name);
+    });
+    y$.each(function(it){
+      return hash[it.name].vip = this;
+    });
+    z$ = linkTag = svg.selectAll('line.link').data(links);
+    z1$ = z$.enter().append('g').attr('class', 'link-group');
+    z1$.append('line').attr('class', 'link').attr('stroke-width', '1px').attr('stroke', '#ccc').attr('stroke-dasharray', "3,1");
+    z2$ = nodeTag = svg.selectAll('circle.node').data(nodes);
+    z3$ = z2$.enter().append('g').attr('class', 'node-group');
+    z3$.append('circle').attr('class', 'node').attr('r', function(it){
       return 2 + Math.sqrt(it.charge);
     }).attr('fill', function(it){
       return color(it.name);
@@ -185,24 +207,40 @@ $(document).ready(function(){
       r: null,
       charge: 0
     };
-    update = function(){
-      var v, r;
-      v = $('#select-name').val().trim();
+    update = function(v){
+      var that, r;
+      v == null && (v = null);
+      if (v === null) {
+        v = $('#select-name').val().trim();
+      }
+      if (that = lastFind.r) {
+        that.charge = lastFind.charge;
+        that.active = 0;
+        if (that = that.vip) {
+          d3.select(that).select('line').attr('class', "");
+        }
+      }
       if (!(v in hash)) {
         return;
-      }
-      if (lastFind.r) {
-        lastFind.r.charge = lastFind.charge;
-        lastFind.r.active = 0;
       }
       r = hash[v];
       lastFind.r = r;
       lastFind.charge = r.charge;
+      if (r.vip) {
+        d3.select(r.vip).select('line').attr('class', 'active');
+      }
       r.charge = -100;
       r.active = 1;
       return force.start();
     };
     return force.on('tick', function(){
+      textTag.each(function(d, i){
+        return d3.select(this).select('line').attr('x2', function(){
+          return d.x;
+        }).attr('y2', function(){
+          return d.y;
+        });
+      });
       linkTag.selectAll('line.link').attr('x1', function(it){
         return it.source.x;
       }).attr('y1', function(it){
