@@ -4,7 +4,7 @@ update = null;
 $(document).ready(function(){
   var color;
   color = d3.scale.category20();
-  return d3.json('g0v-count.json', function(data){
+  return d3.json('http://kcwu.csie.org/~kcwu/ircstat/g0v-count.json', function(data){
     var ref$, w, h, max, it, nick, svg, root, draw;
     ref$ = [$('#content').width(), $('#content').height()], w = ref$[0], h = ref$[1];
     data = data.by_nick;
