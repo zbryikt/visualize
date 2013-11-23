@@ -2,8 +2,8 @@ update = null
 <- $ document .ready!
 
 color = d3.scale.category20!
-#(data) <- d3.json \http://kcwu.csie.org/~kcwu/ircstat/g0v-count.json
-(data) <- d3.json \g0v-count.json
+(data) <- d3.json \http://kcwu.csie.org/~kcwu/ircstat/g0v-count.json
+#(data) <- d3.json \g0v-count.json
 
 [w,h] = [$ \#content .width!, $ \#content .height!]
 data = data.by_nick
