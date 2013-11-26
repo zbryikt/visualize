@@ -1,0 +1,57 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: "Century Gothic", "Arial Rounded MT Bold", Arial, STHeiti; }
+
+.chart > .title {
+  font-size: 24px;
+  font-weight: 900; }
+
+#content {
+  margin: 20px auto;
+  width: 1024px;
+  text-align: center; }
+
+#gender {
+  display: block;
+  float: left;
+  width: 300px;
+  margin: 20px auto;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle; }
+  #gender .title {
+    margin-bottom: 20px; }
+
+#female, #male {
+  display: inline-block;
+  margin: 20px 10px;
+  width: 128px;
+  text-align: center; }
+  #female img, #male img {
+    width: 50px;
+    margin: 0;
+    z-index: 0; }
+  #female .title, #male .title {
+    margin: 10px 3px 3px;
+    font-size: 1.3em;
+    z-index: 1; }
+
+#party {
+  display: block;
+  float: left;
+  width: 400px; }
+  #party svg.chart {
+    display: block;
+    margin: 0 auto; }
+  #party .flag {
+    display: inline-block; }
+    #party .flag .title {
+      font-size: 14px;
+      font-weight: 200;
+      margin-top: 8px; }
+  #party i.g0v-icon {
+    margin: 20px 10px 10px;
+    font-size: 32px; }
