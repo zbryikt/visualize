@@ -38,10 +38,28 @@ $(document).ready(function(){
       it = data[i$];
       lg[it.name] = it;
     }
-    return d3.json('ttsinterpellation-30.json', function(data){
+    return d3.json('ttsinterpellation.json', function(data){
       var allData, filter, askedByFilter, categoryFilter, topicFilter, keywordsFilter, partyFilter, lastnameFilter, sexFilter, constuiencyFilter, update;
       console.log(data.entries);
       allData = data.entries;
+      allData = allData.map(function(it){
+        if (!it.asked_by) {
+          it.asked_by = [];
+        }
+        return it;
+      }).filter(function(it){
+        var x;
+        return (function(){
+          var i$, ref$, len$, results$ = [];
+          for (i$ = 0, len$ = (ref$ = it.asked_by).length; i$ < len$; ++i$) {
+            x = ref$[i$];
+            results$.push(lg[x]);
+          }
+          return results$;
+        }()).filter(function(it){
+          return it;
+        }).length > 0;
+      });
       filter = crossfilter(allData);
       console.log(filter.groupAll().value());
       askedByFilter = filter.dimension(function(it){
@@ -252,7 +270,6 @@ $(document).ready(function(){
         return d3.select('#county svg').selectAll('path.county').style('fill', function(it){
           var v;
           v = ~~(it.value * 255 / constuiencyMax);
-          console.log(it.properties.COUNTYNAME, "rgba(" + v + "," + v / 2 + "," + v / 3 + ", " + (0.1 + 0.9 * v / 255) + ")");
           return "rgba(" + v + "," + ~~(v / 2) + "," + ~~v / 3 + ", " + (0.1 + 0.9 * v / 255) + ")";
         });
       };

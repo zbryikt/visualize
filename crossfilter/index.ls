@@ -35,6 +35,12 @@ for it in data => lg[it.name] = it
 (data) <- d3.json \ttsinterpellation-30.json
 console.log data.entries
 all-data = data.entries
+all-data = all-data.map(->
+  if not it.asked_by => it.asked_by = [];
+  return it
+)filter(->
+  [lg[x] for x in it.asked_by]filter(->it)length>0
+)
 filter = crossfilter all-data
 console.log filter.group-all!value!
 asked-by-filter = filter.dimension -> it.asked_by
@@ -103,7 +109,6 @@ update = (data) ->
   constuiency-max = d3.max [it.value for it in topo.features]
   d3.select '#county svg' .selectAll \path.county .style \fill ->
     v = ~~(it.value * 255 / constuiency-max)
-    console.log it.properties.COUNTYNAME, "rgba(#v,#{v/2},#{v/3}, #{0.1 + 0.9 * v / 255})"
     "rgba(#v,#{~~(v/2)},#{~~(v)/3}, #{0.1 + 0.9 * v / 255})"
 
 
