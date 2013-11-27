@@ -80,3 +80,14 @@ body, html {
       border: 1px solid #cccccc;
       background: #dddddd;
       border-radius: 50%; }
+
+#keywords, #topic, #category {
+  margin-top: 15px; }
+  #keywords .title, #topic .title, #category .title {
+    margin: 5px; }
+
+#topic, #category {
+  width: 50%; }
+
+#keywords {
+  width: 100%; }

@@ -41,17 +41,13 @@ html
         svg(width="200px",height="250px",viewBox="0 0 800 600",preserveAspectRatio="xMidYMid")
       #asked-by.dim
         .title 參與質詢的立委們
-      #keywords.chart
-        svg(width="900px",height="300px",viewBox="0 0 900 300")
-
-    //-
-      #content
-        #party
-        #constuiency
-        #lastname
-        #sex
-        #asked-by
-        #topic
-        #category
-        #keywords
-      button(onclick="reset()") reset
+      #topic.dim
+        .title 質詢的主題
+        svg(width="100%",height="200px",viewBox="0 0 500 200")
+      #category.dim
+        .title 質詢的類別
+        svg(width="100%",height="200px",viewBox="0 0 500 200")
+      #keywords.dim
+        .title 質詢內容的關鍵字
+        svg(width="100%",height="400px",viewBox="0 0 500 200")
+      //-button(onclick="reset()") reset

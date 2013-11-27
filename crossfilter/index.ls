@@ -35,7 +35,7 @@ lg = {}
 
 (data) <- d3.json \mly-8-with-sex.json
 for it in data => lg[it.name] = it
-(data) <- d3.json \ttsinterpellation-30.json
+(data) <- d3.json \ttsinterpellation.json
 console.log data.entries
 all-data = data.entries
 all-data = all-data.map(->
@@ -47,20 +47,21 @@ all-data = all-data.map(->
 filter = crossfilter all-data
 console.log filter.group-all!value!
 asked-by-filter = filter.dimension -> it.asked_by
-category-filter = filter.dimension -> it.category
-topic-filter = filter.dimension -> it.topic
-keywords-filter = filter.dimension -> it.keywords
 party-filter = filter.dimension -> it.asked_by.map -> lg[it]party
 lastname-filter = filter.dimension -> it.asked_by.map -> it.substring 0,1
 sex-filter = filter.dimension -> it.asked_by.map -> lg[it]sex
 constuiency-filter = filter.dimension -> it.asked_by.map -> lg[it]constuiency.0
 
-all-keywords-hash = {}
-all-keywords = flatten [it.keywords for it in all-data]
-for it in all-keywords
-  all-keywords-hash[it]>?=0
-  all-keywords-hash[it]++
-all-keywords = [{text: k, raw-size: v} for k,v of all-keywords-hash]
+words = {}
+
+<[topic category keywords]>map (n) ->
+  words.{}[n].hash = {}
+  words[n].filter = filter.dimension -> it[n]
+  words[n].list = flatten [it[n] for it in all-data]
+  for it in words[n].list
+    words[n].hash[it]>?=0
+    words[n].hash[it]++
+  words[n].list = [{text: k, raw-size: v} for k,v of words[n].hash]sort((a,b) -> b.raw-size - a.raw-size)[0 til 300].filter(->it)
 
 update = (data) ->
   category = unique [x.category for x in data]reduce(((a,b)->a ++ b),[])
@@ -73,7 +74,7 @@ update = (data) ->
   constuiency = unique [x.asked_by.map(->lg[it]constuiency.0) for x in data]reduce(((a,b)->a ++ b),[])
 
   # entries filtered by current settings
-  cur-set = category-filter.top(Infinity)
+  cur-set = words.category.filter.top(Infinity)
   cur-num = cur-set.length
 
   # formatting gender group
@@ -89,9 +90,15 @@ update = (data) ->
 
   # formatting party group
   party-group = party-filter.group!top Infinity
-  party-hash  = pairs-to-obj party-group.map -> [it.key.0, it.value/cur-num]
+  party-hash = {}
+  for item in party-group
+    for p in item.key
+      if not p => p = \NON
+      party-hash[p] >?= 0
+      party-hash[p] += item.value
+
   #TODO: auto gen list from mly-8.json
-  party-ratio = <[KMT DPP PFP TSU NSU NON]>map -> {name: it, value: party-hash[it] or 0}
+  party-ratio = <[KMT DPP PFP TSU NSU NON]>map -> {name: it, value: party-hash[it]/cur-num or 0}
   radius = 100
   pie = d3.layout.pie!sort null .value(->it.value)
   arc = d3.svg.arc!outerRadius radius/2.3 .innerRadius radius/4.5
@@ -112,15 +119,26 @@ update = (data) ->
     d3.select @
       ..select \i .attr \class -> "g0v-icon large #{it.name}"
       ..select \.title .text -> "#{~~(100 * it.value)}%"
+      ..on \click ->
+        console.log it.name
+        party-filter.filter it.name
+        update words.category.filter.top Infinity
+
 
   # formatting locality group
   constuiency-group = constuiency-filter.group!top Infinity
-  constuiency-hash = pairs-to-obj constuiency-group.map -> [constuiency-map[it.key.0], it.value]
-  topo.features.map -> it.value = (constuiency-hash[it.properties.COUNTYNAME] or 0) / cur-num
+
+  constuiency-hash = {}
+  for item in constuiency-group
+    for p in item.key
+      p = constuiency-map[p]
+      constuiency-hash[p] >?= 0
+      constuiency-hash[p] += item.value
+  topo.features.map -> it.value = Math.sqrt((constuiency-hash[it.properties.COUNTYNAME] or 0) / cur-num)
   constuiency-max = d3.max [it.value for it in topo.features]
   d3.select '#county svg' .selectAll \path.county .style \fill ->
     v = ~~(it.value * 255 / constuiency-max)
-    "rgba(#v,#{~~(v/2)},#{~~(v)/3}, #{0.1 + 0.9 * v / 255})"
+    "rgba(#v,#{~~(v/2)},#{~~(v/3)}, #{0.5 + 0.5 * v / 255})"
 
   # formatting speaker group
   asked-by-group = asked-by-filter.group!top Infinity
@@ -142,40 +160,50 @@ update = (data) ->
         .attr \src ->
           avatar = CryptoJS.MD5 "MLY/#{d.name}" .toString!
           "http://avatars.io/50a65bb26e293122b0000073/#{avatar}?size=medium"
-        .style \width -> "#{d.value * 400}px"
-        .style \height -> "#{d.value * 400}px"
+        .style \width -> "#{d.value * 400 >?15<?50}px"
+        .style \height -> "#{d.value * 400 >?15<?50}px"
+        .style \border -> "3px solid #{party-color lg[d.name]party}"
       ..select \div.title .text -> d.name
       ..select \div.times .text -> d.count
+      ..on \click ->
+        asked-by-filter.filter d.name
+        update words.category.filter.top Infinity
 
-  keywords-group = keywords-filter.group!top Infinity
-  keywords-hash = {}
-  for it in keywords-group
-    for v in it.key
-      keywords-hash[v] >?= 0
-      keywords-hash[v] += it.value
+  group = {}
+  <[topic category keywords]>.map (n)->
+    group.{}[n]group = words.keywords.filter.group!top Infinity
+    group[n]hash = {}
+    for it in group[n]group
+      for v in it.key
+        group[n]hash[v] >?= 0
+        group[n]hash[v] += it.value
+    [group[n]max, group[n]min] = [0,99999]
+    for t in words[n]list
+      v = group[n]hash[t.text]
+      if v =>
+        group[n]max>?=v
+        group[n]min<?=v
+    dmax = group[n]max - group[n]min
+    for it in words[n]list
+      it.size = 6 + (((group[n]hash[it.text] or group[n]min) - group[n]min) / dmax) * 80
 
-  for it in all-keywords
-    it.size = 10*(keywords-hash[it.text] or it.raw-size)>?20
-
-  cloud = d3.layout.cloud!size [900,300] .words all-keywords
-    .padding 0
-    .rotate 0
-    .font "century gothic"
-    .fontSize -> it.size
-  cloud
-    .on \end ->
-      d3.select '#keywords svg' .append \g .attr \transform "translate(450 150)" .selectAll \text.cloud .data all-keywords
-        ..exit!remove!
-        ..enter!append \text .attr \class \cloud
-          .style \font-family "century gothic"
-          .attr \text-anchor \middle
-      d3.select '#keywords svg g' .selectAll \text.cloud
-        .style \font-size -> "#{it.size}px"
-        .style \fill (d,i) -> color i
-        .attr \transform -> "translate(#{it.x},#{it.y}) rotate(#{it.rotate})"
-        .text -> it.text
-    .start!
-
+    d3.layout.cloud!size [500,200] .words words[n]list
+      .padding 0
+      .rotate -> ~~(Math.random!*20 - 10)
+      .font "century gothic"
+      .fontSize -> it.size
+      .on \end ->
+        d3.select "\##{n} svg" .append \g .attr \transform "translate(250 100)" .selectAll \text.cloud .data words[n].list
+          ..exit!remove!
+          ..enter!append \text .attr \class \cloud
+            .style \font-family "century gothic"
+            .attr \text-anchor \middle
+        d3.select "\##{n} svg g" .selectAll \text.cloud
+          .style \font-size -> "#{it.size}px"
+          .style \fill (d,i) -> color i
+          .attr \transform -> "translate(#{it.x},#{it.y}) rotate(#{it.rotate})"
+          .text -> it.text
+      .start!
 
 d3.json \twCounty2010.topo.json, (data) ->
   topo := topojson.feature data, data.objects["twCounty2010.geo"]
@@ -187,15 +215,15 @@ d3.json \twCounty2010.topo.json, (data) ->
     .style \fill -> color it.properties.COUNTYNAME
     .style \stroke \#fff
     .style \stroke-width \3px
-  update category-filter.top Infinity
+  update words.category.filter.top Infinity
 
 window.reset = ->
   constuiency-filter.filterAll!
   sex-filter.filterAll!
   lastname-filter.filterAll!
   party-filter.filterAll!
-  category-filter.filterAll!
-  keywords-filter.filterAll!
-  topic-filter.filterAll!
+  words.category.filter.filterAll!
+  words.keywords.filter.filterAll!
+  words.topic.filter.filterAll!
   asked-by-filter.filterAll!
   update category-filter.top Infinity
