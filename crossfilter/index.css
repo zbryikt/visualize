@@ -5,7 +5,7 @@ body, html {
   height: 100%;
   font-family: "Century Gothic", "Arial Rounded MT Bold", Arial, STHeiti; }
 
-.chart > .title {
+.dim > .title {
   font-size: 24px;
   font-weight: 900; }
 
@@ -13,10 +13,11 @@ body, html {
   margin: 20px auto;
   width: 1024px;
   text-align: center; }
+  #content > .dim {
+    display: block;
+    float: left; }
 
 #gender {
-  display: block;
-  float: left;
   width: 300px;
   margin: 20px auto;
   padding: 10px;
@@ -40,8 +41,6 @@ body, html {
     z-index: 1; }
 
 #party {
-  display: block;
-  float: left;
   width: 400px; }
   #party svg.chart {
     display: block;
@@ -55,3 +54,29 @@ body, html {
   #party i.g0v-icon {
     margin: 20px 10px 10px;
     font-size: 32px; }
+
+#asked-by {
+  width: 100%;
+  float: left;
+  clear: both;
+  text-align: center; }
+  #asked-by .avatar {
+    display: inline-block;
+    margin: 5px; }
+    #asked-by .avatar .img {
+      width: 50px;
+      height: 50px;
+      position: relative; }
+    #asked-by .avatar img {
+      position: absolute;
+      vertical-align: middle;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      width: 32px;
+      height: 32px;
+      border: 1px solid #cccccc;
+      background: #dddddd;
+      border-radius: 50%; }

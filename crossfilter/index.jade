@@ -16,11 +16,13 @@ html
     script(type="text/javascript",src="crossfilter.v1.min.js")
     script(type="text/javascript",src="prelude-browser-min.js")
     script(type="text/javascript",src="topojson.v1.min.js")
+    script(type="text/javascript",src="md5.js")
+    script(type="text/javascript",src="d3.layout.cloud.js")
     script(type="text/javascript",src="index.js")
   body
     #content
       h3 立委們都質詢了什麼樣的東西呢？
-      #gender.chart
+      #gender.dim
         .title 性別比例
         #female.block
           img(src="noun_project_117.svg")
@@ -30,13 +32,17 @@ html
           img(src="noun_project_129.svg")
           .title 男性立委
           .count 50%
-      #party.chart
+      #party.dim
         .title 政黨比例
         svg(width="200px",height="200px",viewBox="0 0 100 100",preserveAspectRatio="xMidYMid")
         .flags
-      #county.chart
+      #county.dim
         .title 地區比例
         svg(width="200px",height="250px",viewBox="0 0 800 600",preserveAspectRatio="xMidYMid")
+      #asked-by.dim
+        .title 參與質詢的立委們
+      #keywords.chart
+        svg(width="900px",height="300px",viewBox="0 0 900 300")
 
     //-
       #content
