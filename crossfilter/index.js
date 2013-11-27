@@ -371,11 +371,11 @@ $(document).ready(function(){
             avatar = CryptoJS.MD5("MLY/" + d.name).toString();
             return "http://avatars.io/50a65bb26e293122b0000073/" + avatar + "?size=medium";
           }).style('width', function(){
-            var ref$;
-            return ((ref$ = d.value * 400) > 15 ? ref$ : 15) + "px";
+            var ref$, ref1$;
+            return ((ref$ = (ref1$ = d.value * 400) > 15 ? ref1$ : 15) < 50 ? ref$ : 50) + "px";
           }).style('height', function(){
-            var ref$;
-            return ((ref$ = d.value * 400) > 15 ? ref$ : 15) + "px";
+            var ref$, ref1$;
+            return ((ref$ = (ref1$ = d.value * 400) > 15 ? ref1$ : 15) < 50 ? ref$ : 50) + "px";
           }).style('border', function(){
             return "3px solid " + partyColor(lg[d.name].party);
           });
