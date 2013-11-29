@@ -85,6 +85,19 @@ body, html {
   margin-top: 15px; }
   #keywords .title, #topic .title, #category .title {
     margin: 5px; }
+  #keywords .desc, #topic .desc, #category .desc {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    line-height: 20px; }
+  #keywords .tag, #topic .tag, #category .tag {
+    display: inline-flex;
+    font-size: 14px;
+    margin: 3px; }
+  #keywords .tag.end, #topic .tag.end, #category .tag.end {
+    flex: 100 1 auto; }
+  #keywords svg, #topic svg, #category svg {
+    display: none; }
 
 #topic, #category {
   width: 50%; }

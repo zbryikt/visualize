@@ -1,5 +1,7 @@
+d1 = new Date!
 {unique, pairs-to-obj, sum, flatten, keys} = require \prelude-ls
 
+d41 = 0
 color = d3.scale.category20!
 party-color = d3.scale.ordinal!domain <[KMT DPP PFP TSU NSU NON]> .range <[#0D2393 #009900 #FF6211 #994500 #CD1659 #999999]>
 
@@ -34,8 +36,10 @@ lg = {}
 
 
 (data) <- d3.json \mly-8-with-sex.json
+d2 = new Date!
 for it in data => lg[it.name] = it
-(data) <- d3.json \ttsinterpellation.json
+(data) <- d3.json \ttsinterpellation.compact.json
+d31 = new Date!
 console.log data.entries
 all-data = data.entries
 all-data = all-data.map(->
@@ -44,6 +48,7 @@ all-data = all-data.map(->
 )filter(->
   [lg[x] for x in it.asked_by]filter(->it)length>0
 )
+d32 = new Date!
 filter = crossfilter all-data
 console.log filter.group-all!value!
 asked-by-filter = filter.dimension -> it.asked_by
@@ -51,9 +56,9 @@ party-filter = filter.dimension -> it.asked_by.map -> lg[it]party
 lastname-filter = filter.dimension -> it.asked_by.map -> it.substring 0,1
 sex-filter = filter.dimension -> it.asked_by.map -> lg[it]sex
 constuiency-filter = filter.dimension -> it.asked_by.map -> lg[it]constuiency.0
+d33 = new Date!
 
 words = {}
-
 <[topic category keywords]>map (n) ->
   words.{}[n].hash = {}
   words[n].filter = filter.dimension -> it[n]
@@ -61,9 +66,13 @@ words = {}
   for it in words[n].list
     words[n].hash[it]>?=0
     words[n].hash[it]++
-  words[n].list = [{text: k, raw-size: v} for k,v of words[n].hash]sort((a,b) -> b.raw-size - a.raw-size)[0 til 300].filter(->it)
+  words[n].list = [{text: k, raw-size: v} for k,v of words[n].hash]sort((a,b) -> b.raw-size - a.raw-size)[0 til 150].filter(->it)
 
+d4 = new Date!
 update = (data) ->
+  d5 = new Date!
+  /*
+  # use reduce + prelude.unique : too slow
   category = unique [x.category for x in data]reduce(((a,b)->a ++ b),[])
   keywords = unique [x.keywords for x in data]reduce(((a,b)->a ++ b),[])
   topic    = unique [x.topic for x in data]reduce(((a,b)->a ++ b),[])
@@ -72,10 +81,18 @@ update = (data) ->
   sex      = unique [x.asked_by.map(->lg[it]sex) for x in data]reduce(((a,b)->a ++ b),[])
   lastname = unique [x.asked_by.map(->it.substring(0,1)) for x in data]reduce(((a,b)->a ++ b),[])
   constuiency = unique [x.asked_by.map(->lg[it]constuiency.0) for x in data]reduce(((a,b)->a ++ b),[])
+  */
+
+  # don't do reduce: much faster
+  unique2 = (n, h = {}) -> (for x in data => for it in x[n] or [] => h[it] = 1); [x for x of h]
+  unique3 = (n, h = {}) -> (for x in data => for it in x.asked_by or [] => h[n it] = 1); [x for x of h]
+  [category, keywords, topic, asked-by] = <[category keywords topic asked_by]>map -> unique2 it
+  [party, sex, constuiency] = <[party sex constuiency]>map (n)->((n)->->lg[it][n]) n
 
   # entries filtered by current settings
   cur-set = words.category.filter.top(Infinity)
   cur-num = cur-set.length
+  d51 = new Date!
 
   # formatting gender group
   sex-group = sex-filter.group!top Infinity
@@ -87,6 +104,7 @@ update = (data) ->
     d3.select @
       ..select \img .style \width "#{it.1 * 200}px"
       ..select \.count .text "#{~~(it.0 * 100)}%"
+  d52 = new Date!
 
   # formatting party group
   party-group = party-filter.group!top Infinity
@@ -124,6 +142,7 @@ update = (data) ->
         party-filter.filter it.name
         update words.category.filter.top Infinity
 
+  d53 = new Date!
 
   # formatting locality group
   constuiency-group = constuiency-filter.group!top Infinity
@@ -140,6 +159,7 @@ update = (data) ->
     v = ~~(it.value * 255 / constuiency-max)
     "rgba(#v,#{~~(v/2)},#{~~(v/3)}, #{0.5 + 0.5 * v / 255})"
 
+  d54 = new Date!
   # formatting speaker group
   asked-by-group = asked-by-filter.group!top Infinity
   avg = sum([(1 + it.value) or 1 for it in asked-by-group]) / asked-by-group.length
@@ -169,8 +189,11 @@ update = (data) ->
         asked-by-filter.filter d.name
         update words.category.filter.top Infinity
 
+  console.log \oko
+  d55 = new Date!
   group = {}
   <[topic category keywords]>.map (n)->
+    dd1 = new Date!
     group.{}[n]group = words.keywords.filter.group!top Infinity
     group[n]hash = {}
     for it in group[n]group
@@ -185,8 +208,17 @@ update = (data) ->
         group[n]min<?=v
     dmax = group[n]max - group[n]min
     for it in words[n]list
-      it.size = 6 + (((group[n]hash[it.text] or group[n]min) - group[n]min) / dmax) * 80
+      it.size = 12 + (((group[n]hash[it.text] or group[n]min) - group[n]min) / dmax) * 10
+    dd2 = new Date!
+    d3.select "\##{n} .desc" .selectAll \.tag .data words[n]list
+      ..exit!remove!
+      ..enter!append \div .attr \class \tag
+    d3.selectAll "\##{n} .desc .tag" .text -> it.text
+      .style \font-size -> "#{it.size}px"
+      .attr \class (d,i) -> if i == words[n]list.length - 1 => "tag end" else "tag"
 
+    /*
+    # cloud is quite slow, bottleneck on getImageData. not using it for now.
     d3.layout.cloud!size [500,200] .words words[n]list
       .padding 0
       .rotate -> ~~(Math.random!*20 - 10)
@@ -204,8 +236,16 @@ update = (data) ->
           .attr \transform -> "translate(#{it.x},#{it.y}) rotate(#{it.rotate})"
           .text -> it.text
       .start!
+    */
+    dd3 = new Date!
+    console.log dd2.getTime! - dd1.getTime!, dd3.getTime! - dd2.getTime!
+  d6 = new Date!
+  x = [d1,d2,d31,d32,d33,d4,d41,d5,d51,d52,d53,d54,d55,d6]map -> it.getTime!
+  for i in [1 to 13]
+    console.log i,"to",i+1, x[i] - x[i-1]
 
 d3.json \twCounty2010.topo.json, (data) ->
+  d41 := new Date!
   topo := topojson.feature data, data.objects["twCounty2010.geo"]
   prj = d3.geo.mercator!center [120.979531, 23.978567] .scale 90000
   path = d3.geo.path!projection prj
