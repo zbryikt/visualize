@@ -57,9 +57,9 @@ sex-filter = filter.dimension -> it.asked_by.map -> lg[it]sex
 constuiency-filter = filter.dimension -> it.asked_by.map -> lg[it]constuiency.0
 d33 = new Date!
 choices = {}
-choose = (f, n, v) ->
+choose = (f, n, v, r = null) ->
   choices[n] = v = if v==choices[n] => null else v
-  if v => f.filter v else f.filterAll!
+  if v => f.filter(r or v) else f.filterAll!
   update words.category.filter.top Infinity
 choice-opacity = {true: 1.0, false: 0.2}
 chosen = (n, v) -> if !choices[n] or choices[n]==v => true else false
@@ -251,7 +251,7 @@ update = (data) ->
     d3.selectAll "\##{n} .desc .tag" .text -> it.text
       .style \font-size -> "#{it.size}px"
       .attr \class (d,i) -> if i == group[n]data.length - 1 => "tag end" else "tag"
-      .on \click -> choose words[n]filter, n, it.text
+      .on \click (v) -> choose words[n]filter, n, v.text, (-> v.text in (it or []))
       .style \opacity -> choice-opacity[chosen n, it.text]
 
     /*

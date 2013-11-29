@@ -90,10 +90,11 @@ $(document).ready(function(){
       });
       d33 = new Date();
       choices = {};
-      choose = function(f, n, v){
+      choose = function(f, n, v, r){
+        r == null && (r = null);
         choices[n] = v = v === choices[n] ? null : v;
         if (v) {
-          f.filter(v);
+          f.filter(r || v);
         } else {
           f.filterAll();
         }
@@ -449,8 +450,10 @@ $(document).ready(function(){
             } else {
               return "tag";
             }
-          }).on('click', function(it){
-            return choose(words[n].filter, n, it.text);
+          }).on('click', function(v){
+            return choose(words[n].filter, n, v.text, function(it){
+              return in$(v.text, it || []);
+            });
           }).style('opacity', function(it){
             return choiceOpacity[chosen(n, it.text)];
           });
@@ -511,3 +514,8 @@ $(document).ready(function(){
     });
   });
 });
+function in$(x, xs){
+  var i = -1, l = xs.length >>> 0;
+  while (++i < l) if (x === xs[i]) return true;
+  return false;
+}
