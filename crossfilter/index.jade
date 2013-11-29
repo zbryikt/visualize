@@ -6,7 +6,9 @@ html
     script(type="text/javascript",src="//codeorigin.jquery.com/jquery-1.10.2.min.js")
     //script(type="text/javascript",src="//d3js.org/d3.v3.min.js")
     script(type="text/javascript",src="d3.v3.min.js") //- for topojson render issue
-    script(type="text/javascript",src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js")
+    //script(type="text/javascript",src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js")
+    link(rel="stylesheet",type="text/css",href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/css/semantic.min.css")
+    script(type="Text/javascript",src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/javascript/semantic.min.js")
     //link(rel="stylesheet",type="text/css",href="/css/bootstrap.min.css")
     //-
       script(type="text/javascript",src="/js/jquery-1.10.2.min.js")
@@ -55,4 +57,8 @@ html
         .title 質詢內容的關鍵字
         .desc
         svg(width="100%",height="400px",viewBox="0 0 500 200")
-      //-button(onclick="reset()") reset
+      #reset
+        .ui.button(onclick="reset()") 重新開始所有選擇
+      br(style="clear:both")
+    #help
+      br(style="clear:both")

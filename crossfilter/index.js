@@ -502,7 +502,11 @@ $(document).ready(function(){
         words.keywords.filter.filterAll();
         words.topic.filter.filterAll();
         askedByFilter.filterAll();
-        return update(categoryFilter.top(Infinity));
+        ['topic', 'category', 'keywords'].map(function(n){
+          return words[n].filter.filterAll();
+        });
+        choices = {};
+        return update(words.category.filter.top(Infinity));
       };
     });
   });

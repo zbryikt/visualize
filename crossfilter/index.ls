@@ -302,4 +302,6 @@ window.reset = ->
   words.keywords.filter.filterAll!
   words.topic.filter.filterAll!
   asked-by-filter.filterAll!
-  update category-filter.top Infinity
+  <[topic category keywords]>map (n) -> words[n]filter.filterAll!
+  choices := {}
+  update words.category.filter.top Infinity
