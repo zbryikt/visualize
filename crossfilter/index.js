@@ -6,29 +6,29 @@ d41 = 0;
 color = d3.scale.category20();
 partyColor = d3.scale.ordinal().domain(['KMT', 'DPP', 'PFP', 'TSU', 'NSU', 'NON']).range(['#0D2393', '#009900', '#FF6211', '#994500', '#CD1659', '#999999']);
 constuiencyMap = {
-  CHA: '彰化縣',
-  CYI: '嘉義市',
-  CYQ: '嘉義縣',
-  HSQ: '新竹縣',
-  HSZ: '新竹市',
-  HUA: '花蓮縣',
-  ILA: '宜蘭縣',
-  KEE: '基隆市',
-  KHH: '高雄市',
-  KHQ: '高雄縣',
-  MIA: '苗栗縣',
-  NAN: '南投縣',
-  PEN: '澎湖縣',
-  PIF: '屏東縣',
-  TAO: '桃園縣',
-  TNN: '台南市',
-  TNQ: '台南縣',
-  TPE: '台北市',
-  TPQ: '新北市',
-  TTT: '台東縣',
-  TXG: '台中市',
-  TXQ: '台中縣',
-  YUN: '雲林縣'
+  彰化縣: 'CHA',
+  嘉義市: 'CYI',
+  嘉義縣: 'CYQ',
+  新竹縣: 'HSQ',
+  新竹市: 'HSZ',
+  花蓮縣: 'HUA',
+  宜蘭縣: 'ILA',
+  基隆市: 'KEE',
+  高雄市: 'KHH',
+  高雄縣: 'KHQ',
+  苗栗縣: 'MIA',
+  南投縣: 'NAN',
+  澎湖縣: 'PEN',
+  屏東縣: 'PIF',
+  桃園縣: 'TAO',
+  台南市: 'TNN',
+  台南縣: 'TNQ',
+  台北市: 'TPE',
+  新北市: 'TPQ',
+  台東縣: 'TTT',
+  台中市: 'TXG',
+  台中縣: 'TXQ',
+  雲林縣: 'YUN'
 };
 topo = [];
 $(document).ready(function(){
@@ -42,9 +42,8 @@ $(document).ready(function(){
       lg[it.name] = it;
     }
     return d3.json('ttsinterpellation.compact.json', function(data){
-      var d31, allData, d32, filter, askedByFilter, partyFilter, lastnameFilter, sexFilter, constuiencyFilter, d33, words, d4, update;
+      var d31, allData, d32, filter, askedByFilter, partyFilter, lastnameFilter, sexFilter, constuiencyFilter, d33, choices, choose, choiceOpacity, chosen, words, d4, update;
       d31 = new Date();
-      console.log(data.entries);
       allData = data.entries;
       allData = allData.map(function(it){
         if (!it.asked_by) {
@@ -66,7 +65,6 @@ $(document).ready(function(){
       });
       d32 = new Date();
       filter = crossfilter(allData);
-      console.log(filter.groupAll().value());
       askedByFilter = filter.dimension(function(it){
         return it.asked_by;
       });
@@ -91,6 +89,27 @@ $(document).ready(function(){
         });
       });
       d33 = new Date();
+      choices = {};
+      choose = function(f, n, v){
+        choices[n] = v = v === choices[n] ? null : v;
+        if (v) {
+          f.filter(v);
+        } else {
+          f.filterAll();
+        }
+        return update(words.category.filter.top(Infinity));
+      };
+      choiceOpacity = {
+        'true': 1.0,
+        'false': 0.2
+      };
+      chosen = function(n, v){
+        if (!choices[n] || choices[n] === v) {
+          return true;
+        } else {
+          return false;
+        }
+      };
       words = {};
       ['topic', 'category', 'keywords'].map(function(n){
         var it, i$, ref$, len$, ref1$, k, v;
@@ -131,7 +150,7 @@ $(document).ready(function(){
       });
       d4 = new Date();
       update = function(data){
-        var d5, unique2, unique3, ref$, category, keywords, topic, askedBy, party, sex, constuiency, curSet, curNum, d51, sexGroup, sexRatio, d52, partyGroup, partyHash, i$, len$, item, j$, len1$, p, partyRatio, radius, pie, arc, partyRoot, x$, y$, d53, constuiencyGroup, constuiencyHash, constuiencyMax, it, d54, askedByGroup, avg, askedByRatio, res$, num, z$, d55, group, d6, x, i, results$ = [];
+        var d5, curSet, curNum, d51, x$, sex, d52, party, i$, ref$, len$, item, j$, ref1$, len1$, p, ref2$, radius, pie, arc, y$, z$, d53, constuiency, it, d54, askedBy, avg, k, v, z1$, d55, group, d6, x;
         d5 = new Date();
         /*
         # use reduce + prelude.unique : too slow
@@ -144,86 +163,64 @@ $(document).ready(function(){
         lastname = unique [x.asked_by.map(->it.substring(0,1)) for x in data]reduce(((a,b)->a ++ b),[])
         constuiency = unique [x.asked_by.map(->lg[it]constuiency.0) for x in data]reduce(((a,b)->a ++ b),[])
         */
-        unique2 = function(n, h){
-          var i$, ref$, len$, x, j$, ref1$, len1$, it, results$ = [];
-          h == null && (h = {});
-          for (i$ = 0, len$ = (ref$ = data).length; i$ < len$; ++i$) {
-            x = ref$[i$];
-            for (j$ = 0, len1$ = (ref1$ = x[n] || []).length; j$ < len1$; ++j$) {
-              it = ref1$[j$];
-              h[it] = 1;
-            }
-          }
-          for (x in h) {
-            results$.push(x);
-          }
-          return results$;
-        };
-        unique3 = function(n, h){
-          var i$, ref$, len$, x, j$, ref1$, len1$, it, results$ = [];
-          h == null && (h = {});
-          for (i$ = 0, len$ = (ref$ = data).length; i$ < len$; ++i$) {
-            x = ref$[i$];
-            for (j$ = 0, len1$ = (ref1$ = x.asked_by || []).length; j$ < len1$; ++j$) {
-              it = ref1$[j$];
-              h[n(it)] = 1;
-            }
-          }
-          for (x in h) {
-            results$.push(x);
-          }
-          return results$;
-        };
-        ref$ = ['category', 'keywords', 'topic', 'asked_by'].map(function(it){
-          return unique2(it);
-        }), category = ref$[0], keywords = ref$[1], topic = ref$[2], askedBy = ref$[3];
-        ref$ = ['party', 'sex', 'constuiency'].map(function(n){
-          return function(n){
-            return function(it){
-              return lg[it][n];
-            };
-          }(n);
-        }), party = ref$[0], sex = ref$[1], constuiency = ref$[2];
+        /*
+        unique2 = (n, h = {}) -> (for x in data => for it in x[n] or [] => h[it] = 1); [x for x of h]
+        unique3 = (n, h = {}) -> (for x in data => for it in x.asked_by or [] => h[n it] = 1); [x for x of h]
+        [category, keywords, topic, asked-by] = <[category keywords topic asked_by]>map -> unique2 it
+        [party, sex, constuiency] = <[party sex constuiency]>map (n)->((n)->->lg[it][n]) n
+        */
         curSet = words.category.filter.top(Infinity);
         curNum = curSet.length;
         d51 = new Date();
-        sexGroup = sexFilter.group().top(Infinity);
-        sexRatio = (sexGroup[0].key[0] === '男'
+        x$ = sex = {};
+        x$.group = sexFilter.group().top(Infinity);
+        x$.count = sum([0, 1].map(function(it){
+          return sex.group[it].value;
+        }));
+        x$.ratio = (sex.group[0].key[0] === '男'
           ? [0, 1]
           : [1, 0]).map(function(it){
-          return sexGroup[it].value / curNum;
+          return sex.group[it].value / sex.count;
         });
-        sexRatio = sexRatio.map(function(it){
+        x$.ratio = sex.ratio.map(function(it){
           var ref$;
           return [it, (ref$ = it > 0.2 ? it : 0.2) < 0.8 ? ref$ : 0.8];
         });
-        d3.select('#male.block').datum(sexRatio[0]);
-        d3.select('#female.block').datum(sexRatio[1]);
+        d3.select('#male.block').datum(sex.ratio[0]);
+        d3.select('#female.block').datum(sex.ratio[1]);
         d3.selectAll('#gender .block').each(function(it){
           var x$;
           x$ = d3.select(this);
           x$.select('img').style('width', it[1] * 200 + "px");
           x$.select('.count').text(~~(it[0] * 100) + "%");
           return x$;
+        }).on('click', function(d, i){
+          return choose(sexFilter, 'sex', ['女', '男'][i]);
+        }).style('opacity', function(d, i){
+          return choiceOpacity[chosen('sex', ['女', '男'][i])];
         });
         d52 = new Date();
-        partyGroup = partyFilter.group().top(Infinity);
-        partyHash = {};
-        for (i$ = 0, len$ = partyGroup.length; i$ < len$; ++i$) {
-          item = partyGroup[i$];
-          for (j$ = 0, len1$ = (ref$ = item.key).length; j$ < len1$; ++j$) {
-            p = ref$[j$];
+        party = {
+          group: partyFilter.group().top(Infinity),
+          count: 0,
+          hash: {}
+        };
+        for (i$ = 0, len$ = (ref$ = party.group).length; i$ < len$; ++i$) {
+          item = ref$[i$];
+          for (j$ = 0, len1$ = (ref1$ = item.key).length; j$ < len1$; ++j$) {
+            p = ref1$[j$];
             if (!p) {
               p = 'NON';
             }
-            partyHash[p] >= 0 || (partyHash[p] = 0);
-            partyHash[p] += item.value;
+            (ref2$ = party.hash)[p] >= 0 || (ref2$[p] = 0);
+            party.hash[p] += item.value;
+            party.count += item.value;
           }
         }
-        partyRatio = ['KMT', 'DPP', 'PFP', 'TSU', 'NSU', 'NON'].map(function(it){
+        party.ratio = ['KMT', 'DPP', 'PFP', 'TSU', 'NSU', 'NON'].map(function(it){
           return {
             name: it,
-            value: partyHash[it] / curNum || 0
+            value: party.hash[it] / party.count || 0
           };
         });
         radius = 100;
@@ -231,17 +228,26 @@ $(document).ready(function(){
           return it.value;
         });
         arc = d3.svg.arc().outerRadius(radius / 2.3).innerRadius(radius / 4.5);
-        partyRoot = d3.select('#party svg').append('g').attr('transform', "translate(50 50)");
-        x$ = partyRoot.selectAll('path.arc').data(pie(partyRatio));
-        x$.exit().remove();
-        x$.enter().append('path').attr('class', 'arc').attr('d', arc).attr('fill', function(it){
-          return partyColor(it.data.name);
+        party.root = d3.select('#party svg g');
+        y$ = party.root.selectAll('path.arc').data(pie(party.ratio));
+        y$.exit().remove();
+        y$.enter().append('path').attr('class', 'arc');
+        d3.selectAll('#party svg path.arc').attr('d', arc).attr('fill', function(it){
+          if (chosen('party', it.data.name)) {
+            return partyColor(it.data.name);
+          } else {
+            return '#999';
+          }
+        }).on('click', function(it){
+          return choose(partyFilter, 'party', it.data.name);
+        }).style('opacity', function(it){
+          return choiceOpacity[chosen('party', it.data.name)];
         });
-        y$ = d3.select('#party .flags').selectAll('div.flag').data(partyRatio.sort(function(a, b){
+        z$ = d3.select('#party .flags').selectAll('div.flag').data(party.ratio.sort(function(a, b){
           return b.value - a.value;
         }));
-        y$.exit().remove();
-        y$.enter().append('div').attr('class', 'flag').each(function(){
+        z$.exit().remove();
+        z$.enter().append('div').attr('class', 'flag').each(function(){
           var x$;
           x$ = d3.select(this);
           x$.append('i');
@@ -257,29 +263,32 @@ $(document).ready(function(){
           x$.select('.title').text(function(it){
             return ~~(100 * it.value) + "%";
           });
-          x$.on('click', function(it){
-            console.log(it.name);
-            partyFilter.filter(it.name);
-            return update(words.category.filter.top(Infinity));
-          });
           return x$;
+        }).on('click', function(it){
+          return choose(partyFilter, 'party', it.name);
+        }).style('opacity', function(it){
+          return choiceOpacity[chosen('party', it.name)];
         });
         d53 = new Date();
-        constuiencyGroup = constuiencyFilter.group().top(Infinity);
-        constuiencyHash = {};
-        for (i$ = 0, len$ = constuiencyGroup.length; i$ < len$; ++i$) {
-          item = constuiencyGroup[i$];
-          for (j$ = 0, len1$ = (ref$ = item.key).length; j$ < len1$; ++j$) {
-            p = ref$[j$];
-            p = constuiencyMap[p];
-            constuiencyHash[p] >= 0 || (constuiencyHash[p] = 0);
-            constuiencyHash[p] += item.value;
+        constuiency = {
+          group: constuiencyFilter.group().top(Infinity),
+          count: 0,
+          hash: {}
+        };
+        for (i$ = 0, len$ = (ref$ = constuiency.group).length; i$ < len$; ++i$) {
+          item = ref$[i$];
+          for (j$ = 0, len1$ = (ref1$ = item.key).length; j$ < len1$; ++j$) {
+            p = ref1$[j$];
+            (ref2$ = constuiency.hash)[p] >= 0 || (ref2$[p] = 0);
+            constuiency.hash[p] += item.value;
+            constuiency.count += item.value;
           }
         }
         topo.features.map(function(it){
-          return it.value = Math.sqrt((constuiencyHash[it.properties.COUNTYNAME] || 0) / curNum);
+          it.name = constuiencyMap[it.properties.COUNTYNAME];
+          return it.value = Math.sqrt((constuiency.hash[it.name] || 0) / constuiency.count);
         });
-        constuiencyMax = d3.max((function(){
+        constuiency.max = d3.max((function(){
           var i$, ref$, len$, results$ = [];
           for (i$ = 0, len$ = (ref$ = topo.features).length; i$ < len$; ++i$) {
             it = ref$[i$];
@@ -289,44 +298,53 @@ $(document).ready(function(){
         }()));
         d3.select('#county svg').selectAll('path.county').style('fill', function(it){
           var v;
-          v = ~~(it.value * 255 / constuiencyMax);
+          v = ~~(it.value * 255 / constuiency.max);
           return "rgba(" + v + "," + ~~(v / 2) + "," + ~~(v / 3) + ", " + (0.5 + 0.5 * v / 255) + ")";
+        }).on('click', function(it){
+          return choose(constuiencyFilter, 'constuiency', it.name);
+        }).style('opacity', function(it){
+          return choiceOpacity[chosen('constuiency', it.name)];
         });
         d54 = new Date();
-        askedByGroup = askedByFilter.group().top(Infinity);
+        askedBy = {
+          group: askedByFilter.group().top(Infinity),
+          hash: {},
+          count: 0
+        };
         avg = sum((function(){
           var i$, ref$, len$, results$ = [];
-          for (i$ = 0, len$ = (ref$ = askedByGroup).length; i$ < len$; ++i$) {
+          for (i$ = 0, len$ = (ref$ = askedBy.group).length; i$ < len$; ++i$) {
             it = ref$[i$];
             results$.push(1 + it.value || 1);
           }
           return results$;
-        }())) / askedByGroup.length;
-        res$ = [];
-        for (i$ = 0, len$ = askedByGroup.length; i$ < len$; ++i$) {
-          it = askedByGroup[i$];
-          res$.push({
-            name: it.key[0],
-            value: (1 + it.value || 1) / avg,
-            count: it.value
-          });
+        }())) / askedBy.group.length;
+        for (i$ = 0, len$ = (ref$ = askedBy.group).length; i$ < len$; ++i$) {
+          item = ref$[i$];
+          for (j$ = 0, len1$ = (ref1$ = item.key).length; j$ < len1$; ++j$) {
+            p = ref1$[j$];
+            (ref2$ = askedBy.hash)[p] >= 0 || (ref2$[p] = 0);
+            askedBy.hash[p] += item.value;
+            askedBy.count += item.value;
+          }
         }
-        askedByRatio = res$;
-        num = sum((function(){
-          var i$, ref$, len$, results$ = [];
-          for (i$ = 0, len$ = (ref$ = askedByRatio).length; i$ < len$; ++i$) {
-            it = ref$[i$];
-            results$.push(it.value);
+        askedBy.data = (function(){
+          var ref$, results$ = [];
+          for (k in ref$ = askedBy.hash) {
+            v = ref$[k];
+            results$.push({
+              name: k,
+              value: (1 + v || 1) / askedBy.count,
+              count: v
+            });
           }
           return results$;
-        }()));
-        for (i$ = 0, len$ = askedByRatio.length; i$ < len$; ++i$) {
-          it = askedByRatio[i$];
-          it.value /= num;
-        }
-        z$ = d3.select('#asked-by').selectAll('div.avatar').data(askedByRatio);
-        z$.exit().remove();
-        z$.enter().append('div').attr('class', 'avatar').each(function(){
+        }()).filter(function(it){
+          return it.count;
+        });
+        z1$ = d3.select('#asked-by').selectAll('div.avatar').data(askedBy.data);
+        z1$.exit().remove();
+        z1$.enter().append('div').attr('class', 'avatar').each(function(){
           var x$;
           x$ = d3.select(this);
           x$.append('div').attr('class', 'img').append('img');
@@ -356,19 +374,18 @@ $(document).ready(function(){
           x$.select('div.times').text(function(){
             return d.count;
           });
-          x$.on('click', function(){
-            askedByFilter.filter(d.name);
-            return update(words.category.filter.top(Infinity));
-          });
           return x$;
+        }).on('click', function(it){
+          return choose(askedByFilter, 'asked-by', it.name);
+        }).style('opacity', function(it){
+          return choiceOpacity[chosen('asked-by', it.name)];
         });
-        console.log('oko');
         d55 = new Date();
         group = {};
         ['topic', 'category', 'keywords'].map(function(n){
-          var dd1, i$, ref$, len$, it, j$, ref1$, len1$, v, ref2$, t, dmax, dd2, x$, dd3;
+          var dd1, i$, ref$, len$, it, j$, ref1$, len1$, v, ref2$, k, dmax, dd2, x$, dd3;
           dd1 = new Date();
-          (group[n] || (group[n] = {})).group = words.keywords.filter.group().top(Infinity);
+          (group[n] || (group[n] = {})).group = words[n].filter.group().top(Infinity);
           group[n].hash = {};
           for (i$ = 0, len$ = (ref$ = group[n].group).length; i$ < len$; ++i$) {
             it = ref$[i$];
@@ -379,21 +396,47 @@ $(document).ready(function(){
             }
           }
           ref$ = [0, 99999], group[n].max = ref$[0], group[n].min = ref$[1];
-          for (i$ = 0, len$ = (ref$ = words[n].list).length; i$ < len$; ++i$) {
-            t = ref$[i$];
-            v = group[n].hash[t.text];
-            if (v) {
-              (ref1$ = group[n]).max >= v || (ref1$.max = v);
-              (ref1$ = group[n]).min <= v || (ref1$.min = v);
+          group[n].data = [
+            (ref$ = (function(){
+              var ref$, results$ = [];
+              for (k in ref$ = group[n].hash) {
+                v = ref$[k];
+                results$.push({
+                  text: k,
+                  value: v
+                });
+              }
+              return results$;
+            }()).sort())[0], ref$[1], ref$[2], ref$[3], ref$[4], ref$[5], ref$[6], ref$[7], ref$[8], ref$[9], ref$[10], ref$[11], ref$[12], ref$[13], ref$[14], ref$[15], ref$[16], ref$[17], ref$[18], ref$[19], ref$[20], ref$[21], ref$[22], ref$[23], ref$[24], ref$[25], ref$[26], ref$[27], ref$[28], ref$[29], ref$[30], ref$[31], ref$[32], ref$[33], ref$[34], ref$[35], ref$[36], ref$[37], ref$[38], ref$[39], ref$[40], ref$[41], ref$[42], ref$[43], ref$[44], ref$[45], ref$[46], ref$[47], ref$[48], ref$[49], ref$[50], ref$[51], ref$[52], ref$[53], ref$[54], ref$[55], ref$[56], ref$[57], ref$[58], ref$[59], ref$[60], ref$[61], ref$[62], ref$[63], ref$[64], ref$[65], ref$[66], ref$[67], ref$[68], ref$[69], ref$[70], ref$[71], ref$[72], ref$[73], ref$[74], ref$[75], ref$[76], ref$[77], ref$[78], ref$[79], ref$[80], ref$[81], ref$[82], ref$[83], ref$[84], ref$[85], ref$[86], ref$[87], ref$[88], ref$[89], ref$[90], ref$[91], ref$[92], ref$[93], ref$[94], ref$[95], ref$[96], ref$[97], ref$[98], ref$[99]
+          ].sort(function(){
+            return ~~(Math.random() * 2 - 1);
+          });
+          group[n].list = (function(){
+            var i$, ref$, len$, results$ = [];
+            for (i$ = 0, len$ = (ref$ = group[n].data).length; i$ < len$; ++i$) {
+              it = ref$[i$];
+              results$.push(it.value);
             }
-          }
+            return results$;
+          }());
+          ref1$ = group[n];
+          ref1$.max = d3.max(group[n].list);
+          ref1$.min = d3.min(group[n].list);
+          /*
+          # use word list from all interpellation.
+          for t in words[n]list
+            v = group[n]hash[t.text]
+            if v =>
+              group[n]max>?=v
+              group[n]min<?=v
+          */
           dmax = group[n].max - group[n].min;
-          for (i$ = 0, len$ = (ref$ = words[n].list).length; i$ < len$; ++i$) {
-            it = ref$[i$];
-            it.size = 12 + (((group[n].hash[it.text] || group[n].min) - group[n].min) / dmax) * 10;
+          for (i$ = 0, len$ = (ref1$ = group[n].data).length; i$ < len$; ++i$) {
+            it = ref1$[i$];
+            it.size = 12 + ((it.value - group[n].min) / dmax) * 14;
           }
           dd2 = new Date();
-          x$ = d3.select("#" + n + " .desc").selectAll('.tag').data(words[n].list);
+          x$ = d3.select("#" + n + " .desc").selectAll('.tag').data(group[n].data);
           x$.exit().remove();
           x$.enter().append('div').attr('class', 'tag');
           d3.selectAll("#" + n + " .desc .tag").text(function(it){
@@ -401,11 +444,15 @@ $(document).ready(function(){
           }).style('font-size', function(it){
             return it.size + "px";
           }).attr('class', function(d, i){
-            if (i === words[n].list.length - 1) {
+            if (i === group[n].data.length - 1) {
               return "tag end";
             } else {
               return "tag";
             }
+          }).on('click', function(it){
+            return choose(words[n].filter, n, it.text);
+          }).style('opacity', function(it){
+            return choiceOpacity[chosen(n, it.text)];
           });
           /*
           # cloud is quite slow, bottleneck on getImageData. not using it for now.
@@ -427,18 +474,12 @@ $(document).ready(function(){
                 .text -> it.text
             .start!
           */
-          dd3 = new Date();
-          return console.log(dd2.getTime() - dd1.getTime(), dd3.getTime() - dd2.getTime());
+          return dd3 = new Date();
         });
         d6 = new Date();
-        x = [d1, d2, d31, d32, d33, d4, d41, d5, d51, d52, d53, d54, d55, d6].map(function(it){
+        return x = [d1, d2, d31, d32, d33, d4, d41, d5, d51, d52, d53, d54, d55, d6].map(function(it){
           return it.getTime();
         });
-        for (i$ = 0, len$ = (ref$ = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]).length; i$ < len$; ++i$) {
-          i = ref$[i$];
-          results$.push(console.log(i, "to", i + 1, x[i] - x[i - 1]));
-        }
-        return results$;
       };
       d3.json('twCounty2010.topo.json', function(data){
         var prj, path, svg;

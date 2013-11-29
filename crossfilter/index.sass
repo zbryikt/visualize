@@ -5,6 +5,10 @@ body,html
   height: 100%
   font-family: 'Century Gothic', 'Arial Rounded MT Bold', Arial, STHeiti
 
+svg
+  user-select: none
+  -webkit-user-select: none
+
 .dim > .title
   font-size: 24px
   font-weight: 900
@@ -19,19 +23,24 @@ body,html
 
 #gender
   width: 300px
-  margin: 20px auto
+  height: 290px
+  margin: 0 auto
   padding: 10px
   text-align: center
   vertical-align: middle
   .title
     margin-bottom: 20px
 #female, #male
+  cursor: pointer
+  user-select: none
+  -webkit-user-select: none
   display: inline-block
   margin: 20px 10px
   width: 128px
   text-align: center
   img
     width: 50px
+    max-height: 140px
     margin: 0
     z-index: 0
   .title
@@ -41,6 +50,10 @@ body,html
 
 #party
   width: 400px
+  path.arc, .flag
+    cursor: pointer
+    user-select: none
+    -webkit-user-select: none
   svg.chart
     display: block
     margin: 0 auto
@@ -60,6 +73,9 @@ body,html
   clear: both
   text-align: center
   .avatar
+    cursor: pointer
+    user-select: none
+    -webkit-user-select: none
     display: inline-block
     margin: 5px
     .img
@@ -82,6 +98,8 @@ body,html
       border-radius: 50%
 
 #keywords, #topic, #category
+  user-select: none
+  -webkit-user-select: none
   margin-top: 15px
   .title
     margin: 5px
@@ -89,17 +107,19 @@ body,html
     display: flex
     flex-wrap: wrap
     justify-content: space-between
-    line-height: 20px
+    line-height: 24px
   .tag
     display: inline-flex
     font-size: 14px
     margin: 3px
+    cursor: pointer
   .tag.end
     flex: 100 1 auto
   svg
     display: none
 
 #topic, #category
-  width: 50%
+  width: 48%
+  margin: 0 1%
 #keywords
   width: 100%
