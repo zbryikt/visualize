@@ -23,7 +23,7 @@ $(document).ready(function(){
   };
   return d3.csv('data.csv', function(data){
     var mgn, dlist, keyList, yrList, i$, len$, item, key, v, res$, k, sx, sy, xy, xx, color, show;
-    mgn = [50, 60, 90, 30];
+    mgn = [50, 60, 90, 40];
     console.log(data);
     dlist = [];
     keyList = {};
@@ -104,7 +104,7 @@ $(document).ready(function(){
       return results$;
     };
     d3.select('#svg').append('g').attr('class', 'yaxis').attr('transform', "translate(780 0)").call(xy);
-    d3.select('#svg').append('g').attr('class', 'xaxis').attr('transform', "translate(0 30)").call(xx);
+    d3.select('#svg').append('g').attr('class', 'xaxis').attr('transform', "translate(0 35)").call(xx);
     return show();
   });
 });

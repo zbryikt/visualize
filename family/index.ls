@@ -10,7 +10,7 @@ window.visible = (type) ->
   d3.selectAll '#svg circle.horizontal' .transition!duration 500 .style \opacity -> if type%2 => 0.5 else 0
 
 d3.csv \data.csv (data) ->
-  mgn = [50 60 90 30]
+  mgn = [50 60 90 40]
   console.log data
   dlist = []
   key-list = {}
@@ -70,5 +70,5 @@ d3.csv \data.csv (data) ->
     for i from 0 to parseInt Math.random!*2
       setTimeout show, parseInt(Math.random!*700)
   d3.select \#svg .append \g .attr \class \yaxis .attr \transform, "translate(780 0)" .call xy
-  d3.select \#svg .append \g .attr \class \xaxis .attr \transform, "translate(0 30)" .call xx
+  d3.select \#svg .append \g .attr \class \xaxis .attr \transform, "translate(0 35)" .call xx
   show!
