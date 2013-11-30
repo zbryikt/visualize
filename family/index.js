@@ -5,9 +5,25 @@ $(document).ready(function(){
   max = {};
   min = {};
   count = 0;
+  window.visible = function(type){
+    d3.selectAll('#svg circle.vertical').transition().duration(500).style('opacity', function(){
+      if (type > 1) {
+        return 1.0;
+      } else {
+        return 0;
+      }
+    });
+    return d3.selectAll('#svg circle.horizontal').transition().duration(500).style('opacity', function(){
+      if (type % 2) {
+        return 0.5;
+      } else {
+        return 0;
+      }
+    });
+  };
   return d3.csv('data.csv', function(data){
     var mgn, dlist, keyList, yrList, i$, len$, item, key, v, res$, k, sx, sy, xy, xx, color, show;
-    mgn = [50, 80, 90, 50];
+    mgn = [50, 60, 90, 30];
     console.log(data);
     dlist = [];
     keyList = {};
@@ -41,7 +57,7 @@ $(document).ready(function(){
     }
     yrList = res$;
     sx = d3.scale.ordinal().domain(yrList).rangePoints([mgn[0], 800 - mgn[2]]);
-    sy = d3.scale.ordinal().domain(keyList).rangePoints([mgn[1], 500 - mgn[3]]);
+    sy = d3.scale.ordinal().domain(keyList).rangePoints([mgn[1], 430 - mgn[3]]);
     xy = d3.svg.axis().scale(sy).orient('left').tickValues(keyList).tickPadding(0);
     xx = d3.svg.axis().scale(sx).orient('top').tickValues(yrList).tickPadding(0);
     color = d3.scale.category20b();
@@ -54,11 +70,11 @@ $(document).ready(function(){
       ref$ = [sx(d[0]), sy(d[1])], x = ref$[0], y = ref$[1];
       radius = 20 * ((d[2] - min[d[1]]) / (max[d[1]] - min[d[1]])) + 2;
       radiusAll = 20 * (d[2] / maxOverall) + 2;
-      e = d3.select('#svg').append('circle');
+      e = d3.select('#svg').append('circle').attr('class', 'vertical');
       e.attr('cx', x).attr('cy', y).attr('r', 0).attr('fill', 'none').attr('stroke', function(){
         return color(d[1] + 1);
       }).attr('stroke-width', '1px').transition().ease('elastic').duration(500).attr('r', radiusAll);
-      e = d3.select('#svg').append('circle');
+      e = d3.select('#svg').append('circle').attr('class', 'horizontal');
       e.attr('cx', x).attr('cy', y).attr('r', 0).style('opacity', '0.5').attr('fill', function(){
         return color(d[1]);
       }).transition().ease('elastic').duration(500).attr('r', radius);
@@ -88,7 +104,7 @@ $(document).ready(function(){
       return results$;
     };
     d3.select('#svg').append('g').attr('class', 'yaxis').attr('transform', "translate(780 0)").call(xy);
-    d3.select('#svg').append('g').attr('class', 'xaxis').attr('transform', "translate(0 40)").call(xx);
+    d3.select('#svg').append('g').attr('class', 'xaxis').attr('transform', "translate(0 30)").call(xx);
     return show();
   });
 });
