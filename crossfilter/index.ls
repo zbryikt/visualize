@@ -30,6 +30,7 @@ constuiency-map = do
   台中縣: \TXQ
   雲林縣: \YUN
 
+load-hash = false
 topo = []
 <- $ document .ready
 lg = {}
@@ -55,6 +56,7 @@ party-filter = filter.dimension -> it.asked_by.map -> lg[it]party
 lastname-filter = filter.dimension -> it.asked_by.map -> it.substring 0,1
 sex-filter = filter.dimension -> it.asked_by.map -> lg[it]sex
 constuiency-filter = filter.dimension -> it.asked_by.map -> lg[it]constuiency.0
+
 d33 = new Date!
 choices = {}
 choose = (f, n, v, r = null) ->
@@ -278,7 +280,14 @@ update = (data) ->
     #console.log dd2.getTime! - dd1.getTime!, dd3.getTime! - dd2.getTime!
   d6 = new Date!
   x = [d1,d2,d31,d32,d33,d4,d41,d5,d51,d52,d53,d54,d55,d6]map -> it.getTime!
+  if not load-hash =>
+    load-hash := true
+    ret = /\#([^#]+)$/.exec window.location.href
+    href-hash = if ret => ret.1 else ""
+    if href-hash => choose asked-by-filter, \asked-by, href-hash
+
   #for i in [1 to 13] => console.log i,"to",i+1, x[i] - x[i-1]
+
 
 d3.json \twCounty2010.topo.json, (data) ->
   d41 := new Date!
