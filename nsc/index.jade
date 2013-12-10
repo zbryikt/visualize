@@ -1,6 +1,6 @@
 !!!5
 //- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
-- var usecdn = true
+- var usecdn = false
 - var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
 - var assets = "/assets"
 html
@@ -20,3 +20,15 @@ html
         | {{inst}}
         | {{name}}
       input(type="text",placeholder="我要找單位",ng-model="query")
+    hr
+    #desc
+      h3 不同組織間的比較
+      .img
+        img(src="cat1.png")
+        .desc 研究院 - 數量少, 但經費多
+      .img
+        img(src="cat2.png")
+        .desc 大學 - 數量多, 經費也多
+      .img
+        img(src="cat3.png")
+        .desc 醫院 - 數量多, 但經費少

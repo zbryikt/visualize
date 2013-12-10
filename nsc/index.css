@@ -5,7 +5,7 @@ html, body {
   height: 100%; }
 
 #svg {
-  margin: 100px auto;
+  margin: 100px auto 0;
   display: block; }
 
 .name {
@@ -33,3 +33,15 @@ h3 {
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
   background: rgba(255, 255, 255, 0.7); }
+
+#desc {
+  width: 1024px;
+  text-align: center;
+  margin: 10px auto;
+  padding: 20px 0 60px; }
+  #desc h3 {
+    margin: 20px; }
+  #desc .img {
+    display: inline-block; }
+    #desc .img img {
+      margin-bottom: 10px; }
