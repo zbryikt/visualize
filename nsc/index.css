@@ -13,6 +13,14 @@ html, body {
   text-anchor: middle;
   dominant-baseline: central; }
 
+h3 {
+  margin: 10px; }
+
+#inst .name {
+  font-size: 16px;
+  margin: 5px;
+  height: 16px; }
+
 #inst {
   position: fixed;
   top: 10px;

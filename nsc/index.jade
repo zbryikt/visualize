@@ -1,6 +1,6 @@
 !!!5
 //- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
-- var usecdn = true
+- var usecdn = false
 - var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
 - var assets = "/assets"
 html
@@ -16,5 +16,7 @@ html
     svg#svg(width="900px",height="900px",viewBox="0 0 900 900",preserveAspectRatio="xMidYMid")
     #inst
       h3 國科會計畫補助金額 - 哪所學校領了最多錢？
-      | {{inst}}
-      | {{name}}
+      .name
+        | {{inst}}
+        | {{name}}
+      input(type="text",placeholder="我要找單位",ng-model="query")

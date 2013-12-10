@@ -7,7 +7,7 @@ for line in lines:
   #c1 = string.find(line[2], "大學")
   #c2 = string.find(line[2], "學院")
   #c3 = string.find(line[2], "研究院")
-  instpostfix = ["物院","署","研究院","中心","大學","學院","專科學校","醫院","基金會","委員會"]
+  instpostfix = ["博物院","署","研究院","大學","學院","專科學校","醫院","基金會","委員會","中心"]
   cs = map(lambda x:string.find(line[2],x), instpostfix)
   count = 0
   inst = ""
@@ -25,7 +25,8 @@ for line in lines:
   dept = re.sub(inst, "", dept)
   dept = re.sub(ur"[（].*?[）]","",dept)
   dept = re.sub(ur"\(.+\)","",dept)
-  inst = re.sub(ur"國立|私立|財團法人","",inst)
+  inst = re.sub(ur"國立|私立|財團法人|臺灣基督長老教會馬偕紀念社會事業基金會","",inst)
+  inst = re.sub(ur"科技大學", u"科大", inst)
   inst = re.sub(ur"[（].*?[）]","",inst)
   inst = re.sub(ur"\(.+\)","",inst)
   
