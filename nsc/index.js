@@ -22,7 +22,7 @@ budgetCtrl = function($scope){
           results$.push({
             name: key,
             inst: key,
-            value: data[key][0],
+            value: Math.sqrt(data[key][0]),
             c: (fn$())
           });
         }
@@ -33,7 +33,7 @@ budgetCtrl = function($scope){
             results$.push({
               name: dept,
               inst: key,
-              value: (ref$ = data[key][1][dept]) > 1 ? ref$ : 1
+              value: Math.sqrt((ref$ = data[key][1][dept]) > 1 ? ref$ : 1)
             });
           }
           return results$;
@@ -55,7 +55,7 @@ budgetCtrl = function($scope){
       }
     });
     y$.append('text').attr('class', 'name').text(function(it){
-      if (it.r > 10) {
+      if (it.r > 15) {
         return it.name;
       } else {
         return "";

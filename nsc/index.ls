@@ -13,8 +13,8 @@ budgetCtrl = ($scope) ->
     children: for key of data => do
       name: key
       inst: key
-      value: data[key]0
-      c: for dept of data[key]1 => {name: dept, inst: key, value: data[key]1[dept]>?1}
+      value: Math.sqrt(data[key]0)
+      c: for dept of data[key]1 => {name: dept, inst: key, value: Math.sqrt(data[key]1[dept]>?1)}
 
   svg.selectAll \g.inst .data bubble.nodes(root)
     ..enter!append \g .attr \class \inst
@@ -23,7 +23,7 @@ budgetCtrl = ($scope) ->
         .attr \r -> it.r
         .attr \fill -> if it.inst => color it.inst else \none
       ..append \text .attr \class \name
-        .text -> if it.r>10 => it.name else ""
+        .text -> if it.r>15 => it.name else ""
       ..each (d) ->
         d3.select @ .on \mouseover (e) ~>
           $scope.$apply (e)-> $scope.inst = d.inst
