@@ -38,9 +38,12 @@ h3 {
   width: 1024px;
   text-align: center;
   margin: 10px auto;
-  padding: 20px 0 60px; }
+  padding: 0 0 60px; }
   #desc h3 {
-    margin: 20px; }
+    margin: 20px 20px 5px; }
+  #desc .subtitle {
+    font-size: 12px;
+    margin: 0 20px 20px; }
   #desc .img {
     display: inline-block; }
     #desc .img img {
