@@ -1,1 +1,27 @@
-<!DOCTYPE html><html><head><title> </title><meta charset="utf-8"><!-- libraries--><script type="text/javascript" src="//codeorigin.jquery.com/jquery-1.10.2.min.js"></script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.1/d3.v3.min.js"></script><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script><link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/css/semantic.min.css"><script type="Text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/javascript/semantic.min.js"></script><!-- custom files--><link rel="stylesheet" type="text/css" href="index.css"><script type="text/javascript" src="topojson.v1.min.js"></script><script type="text/javascript" src="fisheye.js"></script><script type="text/javascript" src="index.js"></script></head><body ng-app ng-controller="mapCtrl"><div id="content" ng-mousemove="mousemove()"><h2>Angularjs + D3js</h2><div class="desc">Use angularjs to bind data to dom, and use d3js's powerful library to render data</div><svg id="svg" width="900px" height="600px" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid"><path ng-repeat="x in geoblock" ng-attr-d="{{x.1}}" ng-attr-fill="{{x.0}}" stroke="#000"></path></svg></div></body></html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> </title>
+    <meta charset="utf-8">
+    <!-- libraries-->
+    <script type="text/javascript" src="//codeorigin.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.1/d3.v3.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/css/semantic.min.css">
+    <script type="Text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.9.3/javascript/semantic.min.js"></script>
+    <!-- custom files-->
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="topojson.v1.min.js"></script>
+    <script type="text/javascript" src="fisheye.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body ng-app ng-controller="mapCtrl">
+    <div id="content" ng-mousemove="mousemove()">
+      <h2>Angularjs + D3js</h2>
+      <div class="desc">Use angularjs to bind data to dom, and use d3js's powerful library to render data. For example move mouse over it you will see fisheye effect over this map, which is powered by d3js's fisheye plugin.</div>
+      <svg id="svg" width="900px" height="600px" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid">
+        <path ng-repeat="x in geoblock" ng-attr-d="{{x.1}}" ng-attr-fill="{{x.0}}" stroke="#000"></path>
+      </svg>
+    </div>
+  </body>
+</html>

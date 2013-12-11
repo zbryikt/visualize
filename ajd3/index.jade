@@ -17,6 +17,6 @@ html
   body(ng-app,ng-controller="mapCtrl")
     #content(ng-mousemove="mousemove()")
       h2 Angularjs + D3js
-      .desc Use angularjs to bind data to dom, and use d3js's powerful library to render data
+      .desc Use angularjs to bind data to dom, and use d3js's powerful library to render data. For example move mouse over it you will see fisheye effect over this map, which is powered by d3js's fisheye plugin.
       svg#svg(width="900px",height="600px",viewBox="0 0 900 600",preserveAspectRatio="xMidYMid")
         path(ng-repeat="x in geoblock",ng-attr-d="{{x.1}}",ng-attr-fill="{{x.0}}",stroke="#000")
