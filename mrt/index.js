@@ -24,9 +24,11 @@ mrtCtrl = function($scope){
     return $scope.play = !$scope.play;
   };
   $scope.setDate = function(e){
-    var ref$, ref1$, ref2$;
-    if ($scope.dates && e.offsetX < 40) {
-      $scope.dindex = parseInt($scope.dates.length * ((e.offsetY - 60) / 420));
+    var offset, ref$, x, y, ref1$, ref2$;
+    offset = $('#svg').offset();
+    ref$ = [e.clientX - offset.left, e.clientY - offset.top], x = ref$[0], y = ref$[1];
+    if ($scope.dates && x < 40) {
+      $scope.dindex = parseInt($scope.dates.length * ((y - 60) / 420));
       $scope.dindex = (ref$ = (ref2$ = $scope.dindex) > 0 ? ref2$ : 0) < (ref1$ = $scope.dates.length) ? ref$ : ref1$;
       return $scope.dateHite = $scope.datebar($scope.dindex);
     }
