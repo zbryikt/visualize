@@ -2,12 +2,21 @@ mrtCtrl = ($scope) ->
   $scope.site-hash = {a: 1, b: 2}
   $scope.links = []
   $scope.dindex = 0
+  $scope.date-hite = 60
+  $scope.play = true
   $scope.color = d3.scale.linear!domain [0 10] .range <[blue red]>
   $scope.prj = d3.geo.mercator!center [121.51833286913558, 25.09823258363324] .scale 120000
   $scope.coloring = -> $scope.color it
   $scope.v1 = -> it>1
   $scope.v2 = (link,date)-> link.source[date] > 1 and link.target[date] > 1
-  $scope.force = d3.layout.force!gravity 0.3
+  $scope.toggle-play = ->
+    $scope.play = !$scope.play
+  $scope.set-date = (e) ->
+    if $scope.dates and e.offsetX < 40 =>
+      $scope.dindex = parseInt($scope.dates.length * (( e.offsetY - 60 ) / 420 ))
+      $scope.dindex = $scope.dindex>?0<?$scope.dates.length
+      $scope.date-hite = $scope.datebar $scope.dindex
+  $scope.force = d3.layout.force!gravity 0.5
     .charge ->
       if not it.name => return -30
       -it.name.length * 100
@@ -26,10 +35,10 @@ mrtCtrl = ($scope) ->
     if typeof raw-links == typeof "" => raw-links = JSON.parse raw-links
     links = []
     for path in raw-links
-      for i from 1 til path.length
+      for i from 2 til path.length
         src = $scope.site-hash[path[i - 1]]
         des = $scope.site-hash[path[i]]
-        links.push {source: $scope.site-hash[path[i - 1]], target: $scope.site-hash[path[i]]}
+        links.push {source: $scope.site-hash[path[i - 1]], target: $scope.site-hash[path[i]], color: path.0}
     $scope.$apply -> $scope.links = links
     $.ajax \flow.utf-8.px .done (flow) ->
       px = new Px flow
@@ -48,14 +57,19 @@ mrtCtrl = ($scope) ->
         $scope.site-hash[s][d] = if v=='"."' => 0 else Math.sqrt(~~v) / 100
         count += 1
       $scope.$apply ->
+        $scope.datebar = d3.scale.linear!domain [0 dates.length - 1] .range [60 480]
         for k of $scope.site-hash
           v = $scope.site-hash[k]
           [x,y] = $scope.prj [v.lng, v.lat]
           v <<< {x,y}
         $scope.dates = dates
-        $scope.force.nodes [$scope.site-hash[x] for x of $scope.site-hash] .links $scope.links .size [900,700] .start!
+        $scope.force.nodes [$scope.site-hash[x] for x of $scope.site-hash] .links $scope.links .size [1024,500] .start!
         $scope.site-hash = $scope.site-hash
       setInterval ->
-        $scope.$apply ->
+        if $scope.play => $scope.$apply ->
           $scope.dindex = ($scope.dindex + 1) % dates.length
+          $scope.date-hite = $scope.datebar $scope.dindex
+          if !$scope.force.alpha! => $scope.force.start!
+        else
+          $scope.force.stop!
       , 200

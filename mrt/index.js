@@ -7,6 +7,8 @@ mrtCtrl = function($scope){
   };
   $scope.links = [];
   $scope.dindex = 0;
+  $scope.dateHite = 60;
+  $scope.play = true;
   $scope.color = d3.scale.linear().domain([0, 10]).range(['blue', 'red']);
   $scope.prj = d3.geo.mercator().center([121.51833286913558, 25.09823258363324]).scale(120000);
   $scope.coloring = function(it){
@@ -18,7 +20,18 @@ mrtCtrl = function($scope){
   $scope.v2 = function(link, date){
     return link.source[date] > 1 && link.target[date] > 1;
   };
-  $scope.force = d3.layout.force().gravity(0.3).charge(function(it){
+  $scope.togglePlay = function(){
+    return $scope.play = !$scope.play;
+  };
+  $scope.setDate = function(e){
+    var ref$, ref1$, ref2$;
+    if ($scope.dates && e.offsetX < 40) {
+      $scope.dindex = parseInt($scope.dates.length * ((e.offsetY - 60) / 420));
+      $scope.dindex = (ref$ = (ref2$ = $scope.dindex) > 0 ? ref2$ : 0) < (ref1$ = $scope.dates.length) ? ref$ : ref1$;
+      return $scope.dateHite = $scope.datebar($scope.dindex);
+    }
+  };
+  $scope.force = d3.layout.force().gravity(0.5).charge(function(it){
     if (!it.name) {
       return -30;
     }
@@ -56,13 +69,14 @@ mrtCtrl = function($scope){
       links = [];
       for (i$ = 0, len$ = rawLinks.length; i$ < len$; ++i$) {
         path = rawLinks[i$];
-        for (j$ = 1, to$ = path.length; j$ < to$; ++j$) {
+        for (j$ = 2, to$ = path.length; j$ < to$; ++j$) {
           i = j$;
           src = $scope.siteHash[path[i - 1]];
           des = $scope.siteHash[path[i]];
           links.push({
             source: $scope.siteHash[path[i - 1]],
-            target: $scope.siteHash[path[i]]
+            target: $scope.siteHash[path[i]],
+            color: path[0]
           });
         }
       }
@@ -101,6 +115,7 @@ mrtCtrl = function($scope){
         }
         $scope.$apply(function(){
           var k, v, ref$, x, y;
+          $scope.datebar = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);
           for (k in $scope.siteHash) {
             v = $scope.siteHash[k];
             ref$ = $scope.prj([v.lng, v.lat]), x = ref$[0], y = ref$[1];
@@ -114,13 +129,21 @@ mrtCtrl = function($scope){
               results$.push($scope.siteHash[x]);
             }
             return results$;
-          }())).links($scope.links).size([900, 700]).start();
+          }())).links($scope.links).size([1024, 500]).start();
           return $scope.siteHash = $scope.siteHash;
         });
         return setInterval(function(){
-          return $scope.$apply(function(){
-            return $scope.dindex = ($scope.dindex + 1) % dates.length;
-          });
+          if ($scope.play) {
+            return $scope.$apply(function(){
+              $scope.dindex = ($scope.dindex + 1) % dates.length;
+              $scope.dateHite = $scope.datebar($scope.dindex);
+              if (!$scope.force.alpha()) {
+                return $scope.force.start();
+              }
+            });
+          } else {
+            return $scope.force.stop();
+          }
         }, 200);
       });
     });

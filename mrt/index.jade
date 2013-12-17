@@ -1,6 +1,6 @@
 !!!5
 //- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
-- var usecdn = true
+- var usecdn = false
 - var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
 - var assets = "/assets"
 html
@@ -15,10 +15,19 @@ html
     script(type="text/javascript",src="coord.js")
     script(type="text/javascript",src="index.js")
   body(ng-app,ng-controller="mrtCtrl")
-    h2 台北捷運各站出站人數變化圖
-    h4 {{dates[dindex]}}
-    svg(width="900px",height="700px",viewBox="0 0 900 700",preserveAspectRatio="xMidYMid")
-      line(ng-repeat="x in links",ng-attr-x1="{{x.source.x}}",ng-attr-y1="{{x.source.y}}",ng-attr-x2="{{x.target.x}}",ng-attr-y2="{{x.target.y}}",stroke="#f00",ng-show="v2(x, dates[dindex])")
-      g(ng-repeat="x in siteHash", ng-attr-transform="translate({{x.x}},{{x.y}})",ng-show="v1(x[dates[dindex]])")
-        circle(ng-attr-r="{{x[dates[dindex]]}}",ng-attr-fill="{{coloring(x[dates[dindex]])}}")
-        text(dy="15") {{x.name}}
+    #content
+      h2 台北捷運各站出站人數變化圖
+      svg(width="1024px",height="500px",viewBox="0 0 1024 500",preserveAspectRatio="xMidYMid",ng-mousemove="setDate($event)")
+        line(ng-repeat="x in links",ng-attr-x1="{{x.source.x}}",ng-attr-y1="{{x.source.y}}",ng-attr-x2="{{x.target.x}}",ng-attr-y2="{{x.target.y}}",stroke="#f00",ng-show="v2(x, dates[dindex])",stroke="{{x.color}}",stroke-width="3px")
+        g(ng-repeat="x in siteHash", ng-attr-transform="translate({{x.x}},{{x.y}})",ng-show="v1(x[dates[dindex]])")
+          circle(ng-attr-r="{{x[dates[dindex]]}}",ng-attr-fill="{{coloring(x[dates[dindex]])}}")
+        g(ng-repeat="x in siteHash", ng-attr-transform="translate({{x.x}},{{x.y}})",ng-show="v1(x[dates[dindex]])")
+          text(dy="15",fill="#000") {{x.name}}
+        path.cursor(d="M10,60L10,480L15,480L15,60",fill="#999")
+        text(x="50px",ng-attr-y="{{dateHite}}px") {{dates[dindex]}}
+        path.cursor(ng-attr-d="M8,{{dateHite-1}}L17,{{dateHite-1}}L17,{{dateHite+1}}L8,{{dateHite+1}}",fill="#666")
+        path.cursor(d="M10,20L20,20L20,40L10,40L10,20M25,20L35,20L35,40L25,40L25,20",fill="#999",ng-show="play",ng-click="togglePlay()")
+        path.cursor(d="M20,20L25,20L25,40L20,40L20,20",fill="#fff",ng-show="play",ng-click="togglePlay()")
+        path.cursor(d="M10,30L35,20L35,40L10,30",fill="#999",ng-show="!play",ng-click="togglePlay()")
+      #footer
+        h5: a(href="http://dotstat.taipei.gov.tw/pxweb2007P/Dialog/statfile9.asp") 資料來源
