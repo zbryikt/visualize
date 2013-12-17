@@ -1,0 +1,36 @@
+!!!5
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = true
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: true, semantic: false }
+- var assets = "assets"
+html
+  head
+    title 
+    meta(charset="utf-8")
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="assets/bootstrap/3.0.2/theme/cerulean/bootstra.min.css")
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="index.js")
+  body(ng-app,ng-controller="mainCtrl")
+    #content
+      .navbar.navbar-default(role="navigation")
+        .navbar-header
+          a.navbar-brand(href="#")
+            .title Gallery of Visualization
+            .desc visualize topics related to government and web technology.
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav.navbar-right
+            li: a(href="http://g0v.tw") g0v.tw
+            li: a(href="http://github.com/zbryikt") github
+            li: a(href="http://tkirby.org/blog") blog
+      br(style="clear:both")
+      .item(ng-repeat="d in brief")
+        a(ng-attr-href="{{d.path}}/"): img.thumbnail(ng-attr-src="{{d.path}}/thumbnail.png")
+        a.title(ng-attr-href="{{d.path}}/") {{d.title}}
+        .desc {{d.desc}}
+      br(style="clear:both")
+      hr
+      br(style="clear:both")
+      
