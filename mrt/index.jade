@@ -18,7 +18,7 @@ html
     #content
       h2 台北捷運各站出站人數變化圖
       svg(width="1024px",height="500px",viewBox="0 0 1024 500",preserveAspectRatio="xMidYMid",ng-mousemove="setDate($event)")
-        line(ng-repeat="x in links",ng-attr-x1="{{x.source.x}}",ng-attr-y1="{{x.source.y}}",ng-attr-x2="{{x.target.x}}",ng-attr-y2="{{x.target.y}}",stroke="#f00",ng-show="v2(x, dates[dindex])",stroke="{{x.color}}",stroke-width="3px")
+        line(ng-repeat="x in links",ng-attr-x1="{{x.source.x}}",ng-attr-y1="{{x.source.y}}",ng-attr-x2="{{x.target.x}}",ng-attr-y2="{{x.target.y}}",stroke="#f00",ng-show="v2(x, dates[dindex])",ng-attr-stroke="{{x.color}}",stroke-width="3px")
         g(ng-repeat="x in siteHash", ng-attr-transform="translate({{x.x}},{{x.y}})",ng-show="v1(x[dates[dindex]])")
           circle(ng-attr-r="{{x[dates[dindex]]}}",ng-attr-fill="{{coloring(x[dates[dindex]])}}")
         g(ng-repeat="x in siteHash", ng-attr-transform="translate({{x.x}},{{x.y}})",ng-show="v1(x[dates[dindex]])")
