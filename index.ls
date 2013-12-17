@@ -21,7 +21,7 @@ mainCtrl = ($scope) ->
     * title: "Public Nuisance Query"
       desc: "Instant query of nearby public nuisance status. Use Google map API v3. Only available on local server."
       path: "home-env"
-    * title: "Connections between IRC Nicks"
+    * title: "IRC Nicks Connections"
       desc: "Visualize connections between different IRC nicknames. Use d3.layout.force."
       path: "ircstat"
     * title: "CSS3 Drawn Kirby"
