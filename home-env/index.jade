@@ -1,0 +1,24 @@
+!!!5
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = false
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
+- var assets = "/assets"
+html
+  head
+    title 
+    meta(charset="utf-8")
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places")
+    script(type="text/javascript",src="index.js")
+  body(ng-app,ng-controller="epaCtrl")
+    #map-node
+    h2 環境品質調查
+    .desc
+      | 資料來源: 
+      a(href="http://ww3.epa.gov.tw/gis/CaseHomeGis.aspx") 行政院環保署居家環境品質調查網站
+    #result {{name}}
+    #stats
+      span(ng-repeat="x in epas") {{x[0]}}有{{x[1]}}件
