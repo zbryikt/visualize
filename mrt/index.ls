@@ -1,5 +1,5 @@
 mrtCtrl = ($scope) ->
-  $scope.site-hash = {a: 1, b: 2}
+  $scope.site-hash = {}
   $scope.links = []
   $scope.dindex = 0
   $scope.date-hite = 60
@@ -54,7 +54,7 @@ mrtCtrl = ($scope) ->
           count += 1
           continue
         v = px.data[count]
-        $scope.site-hash[s][d] = if v=='"."' => 0 else Math.sqrt(~~v) / 100
+        $scope.site-hash[s][d] = if v=='"."' => 0 else (Math.sqrt(~~v) / 100 >? 2)
         count += 1
       $scope.$apply ->
         $scope.datebar = d3.scale.linear!domain [0 dates.length - 1] .range [60 480]
