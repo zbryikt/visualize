@@ -21,13 +21,14 @@ mrtCtrl = function($scope){
     return link.source[date] > 1 && link.target[date] > 1;
   };
   $scope.togglePlay = function(){
-    return $scope.play = !$scope.play;
+    $scope.play = !$scope.play;
+    return $scope.force.stop();
   };
   $scope.setDate = function(e){
     var offset, ref$, x, y, ref1$, ref2$;
     offset = $('#svg').offset();
     ref$ = [e.clientX - offset.left, e.clientY - offset.top], x = ref$[0], y = ref$[1];
-    if ($scope.dates && x < 40) {
+    if ($scope.dates && x < 40 && y >= 60) {
       $scope.dindex = parseInt($scope.dates.length * ((y - 60) / 420));
       $scope.dindex = (ref$ = (ref2$ = $scope.dindex) > 0 ? ref2$ : 0) < (ref1$ = $scope.dates.length) ? ref$ : ref1$;
       return $scope.dateHite = $scope.datebar($scope.dindex);
@@ -154,7 +155,7 @@ mrtCtrl = function($scope){
             } else {
               return $scope.force.stop();
             }
-          }, 200);
+          }, 400);
         });
       });
     });

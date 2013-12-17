@@ -12,11 +12,12 @@ mrtCtrl = ($scope) ->
   $scope.v2 = (link,date)-> link.source[date] > 1 and link.target[date] > 1
   $scope.toggle-play = ->
     $scope.play = !$scope.play
+    $scope.force.stop!
 
   $scope.set-date = (e) ->
     offset = $(\#svg)offset!
     [x,y] = [e.clientX - offset.left, e.clientY - offset.top]
-    if $scope.dates and x < 40 =>
+    if $scope.dates and x < 40 and y >= 60 =>
       $scope.dindex = parseInt($scope.dates.length * (( y - 60 ) / 420 ))
       $scope.dindex = $scope.dindex>?0<?$scope.dates.length
       $scope.date-hite = $scope.datebar $scope.dindex
@@ -82,4 +83,4 @@ mrtCtrl = ($scope) ->
           if !$scope.force.alpha! => $scope.force.start!
         else
           $scope.force.stop!
-      , 200
+      , 400
