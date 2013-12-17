@@ -50,7 +50,7 @@ mrtCtrl = function($scope){
     });
   });
   return d3.csv('latlng.utf-8.csv', function(rawSite){
-    var i$, len$, it, name;
+    var i$, len$, it, name, loadPx;
     for (i$ = 0, len$ = rawSite.length; i$ < len$; ++i$) {
       it = rawSite[i$];
       name = (replace$.call(it.NAME, /站.*$/, '')).trim();
@@ -63,6 +63,38 @@ mrtCtrl = function($scope){
         weight: 1
       }, coord.toGws84(it.X, it.Y));
     }
+    loadPx = function(flow){
+      var px, dates, inout, sites, count, i$, len$, d, j$, len1$, io, k$, len2$, s, v, ref$;
+      px = new Px(flow);
+      dates = px.metadata.VALUES.年月別;
+      inout = px.metadata.VALUES.入出站別;
+      sites = px.metadata.VALUES.項目;
+      count = 0;
+      for (i$ = 0, len$ = dates.length; i$ < len$; ++i$) {
+        d = dates[i$];
+        for (j$ = 0, len1$ = inout.length; j$ < len1$; ++j$) {
+          io = inout[j$];
+          for (k$ = 0, len2$ = sites.length; k$ < len2$; ++k$) {
+            s = sites[k$];
+            s = (replace$.call(s, /站.*$/, '')).trim();
+            s = s.replace(/臺/g, '台');
+            if (s === '台北') {
+              s = '台北車站';
+            }
+            if (!$scope.siteHash[s]) {
+              count += 1;
+              continue;
+            }
+            v = px.data[count];
+            $scope.siteHash[s][d] = v === '"."'
+              ? 0
+              : (ref$ = Math.sqrt(~~v) / 100) > 2 ? ref$ : 2;
+            count += 1;
+          }
+        }
+      }
+      return px;
+    };
     return $.ajax('pair.json').done(function(rawLinks){
       var links, i$, len$, path, j$, to$, i, src, des;
       if (typeof rawLinks === typeof "") {
@@ -86,67 +118,44 @@ mrtCtrl = function($scope){
         return $scope.links = links;
       });
       return $.ajax('flow.utf-8.px').done(function(flow){
-        var px, dates, inout, sites, count, i$, len$, d, j$, len1$, io, k$, len2$, s, v, ref$;
-        px = new Px(flow);
-        dates = px.metadata.VALUES.年月別;
-        inout = px.metadata.VALUES.入出站別;
-        sites = px.metadata.VALUES.項目;
-        count = 0;
-        for (i$ = 0, len$ = dates.length; i$ < len$; ++i$) {
-          d = dates[i$];
-          for (j$ = 0, len1$ = inout.length; j$ < len1$; ++j$) {
-            io = inout[j$];
-            for (k$ = 0, len2$ = sites.length; k$ < len2$; ++k$) {
-              s = sites[k$];
-              s = (replace$.call(s, /站.*$/, '')).trim();
-              s = s.replace(/臺/g, '台');
-              if (s === '台北') {
-                s = '台北車站';
-              }
-              if (!$scope.siteHash[s]) {
-                count += 1;
-                continue;
-              }
-              v = px.data[count];
-              $scope.siteHash[s][d] = v === '"."'
-                ? 0
-                : (ref$ = Math.sqrt(~~v) / 100) > 2 ? ref$ : 2;
-              count += 1;
+        return $.ajax('meow.utf-8.px').done(function(meow){
+          var px, dates;
+          px = loadPx(flow);
+          loadPx(meow);
+          dates = px.metadata.VALUES.年月別;
+          $scope.$apply(function(){
+            var k, v, ref$, x, y;
+            $scope.datebar = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);
+            for (k in $scope.siteHash) {
+              v = $scope.siteHash[k];
+              ref$ = $scope.prj([v.lng, v.lat]), x = ref$[0], y = ref$[1];
+              v.x = x;
+              v.y = y;
             }
-          }
-        }
-        $scope.$apply(function(){
-          var k, v, ref$, x, y;
-          $scope.datebar = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);
-          for (k in $scope.siteHash) {
-            v = $scope.siteHash[k];
-            ref$ = $scope.prj([v.lng, v.lat]), x = ref$[0], y = ref$[1];
-            v.x = x;
-            v.y = y;
-          }
-          $scope.dates = dates;
-          $scope.force.nodes((function(){
-            var results$ = [];
-            for (x in $scope.siteHash) {
-              results$.push($scope.siteHash[x]);
+            $scope.dates = dates;
+            $scope.force.nodes((function(){
+              var results$ = [];
+              for (x in $scope.siteHash) {
+                results$.push($scope.siteHash[x]);
+              }
+              return results$;
+            }())).links($scope.links).size([1024, 500]).start();
+            return $scope.siteHash = $scope.siteHash;
+          });
+          return setInterval(function(){
+            if ($scope.play) {
+              return $scope.$apply(function(){
+                $scope.dindex = ($scope.dindex + 1) % dates.length;
+                $scope.dateHite = $scope.datebar($scope.dindex);
+                if (!$scope.force.alpha()) {
+                  return $scope.force.start();
+                }
+              });
+            } else {
+              return $scope.force.stop();
             }
-            return results$;
-          }())).links($scope.links).size([1024, 500]).start();
-          return $scope.siteHash = $scope.siteHash;
+          }, 200);
         });
-        return setInterval(function(){
-          if ($scope.play) {
-            return $scope.$apply(function(){
-              $scope.dindex = ($scope.dindex + 1) % dates.length;
-              $scope.dateHite = $scope.datebar($scope.dindex);
-              if (!$scope.force.alpha()) {
-                return $scope.force.start();
-              }
-            });
-          } else {
-            return $scope.force.stop();
-          }
-        }, 200);
       });
     });
   });
