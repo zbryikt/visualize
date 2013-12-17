@@ -21,7 +21,7 @@ mrtCtrl = ($scope) ->
     $scope.site-hash[name] = {name,weight: 1} <<< coord.to-gws84 it.X, it.Y
 
   $.ajax \pair.json .done (raw-links) ->
-    raw-links = JSON.parse raw-links
+    if typeof raw-links == typeof "" => raw-links = JSON.parse raw-links
     links = []
     for path in raw-links
       for i from 1 til path.length

@@ -44,7 +44,9 @@ mrtCtrl = function($scope){
     }
     return $.ajax('pair.json').done(function(rawLinks){
       var links, i$, len$, path, j$, to$, i, src, des;
-      rawLinks = JSON.parse(rawLinks);
+      if (typeof rawLinks === typeof "") {
+        rawLinks = JSON.parse(rawLinks);
+      }
       links = [];
       for (i$ = 0, len$ = rawLinks.length; i$ < len$; ++i$) {
         path = rawLinks[i$];
