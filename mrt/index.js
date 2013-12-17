@@ -6,7 +6,10 @@ mrtCtrl = function($scope){
   $scope.dindex = 0;
   $scope.dateHite = 60;
   $scope.play = true;
-  $scope.color = d3.scale.linear().domain([0, 10]).range(['blue', 'red']);
+  $scope.legend = [100000, 500000, 900000, 1300000, 1700000, 2100000, 2500000, 2900000].map(function(it){
+    return [it / 1000 + "萬", Math.sqrt(it) / 100];
+  });
+  $scope.color = d3.scale.linear().domain([0, 15]).range(['blue', 'red']);
   $scope.prj = d3.geo.mercator().center([121.51833286913558, 25.09823258363324]).scale(120000);
   $scope.coloring = function(it){
     return $scope.color(it);

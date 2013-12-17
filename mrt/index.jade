@@ -29,5 +29,8 @@ html
         path.cursor(d="M10,20L20,20L20,40L10,40L10,20M25,20L35,20L35,40L25,40L25,20",fill="#999",ng-show="play",ng-click="togglePlay()")
         path.cursor(d="M20,20L25,20L25,40L20,40L20,20",fill="#fff",ng-show="play",ng-click="togglePlay()")
         path.cursor(d="M10,30L35,20L35,40L10,30",fill="#999",ng-show="!play",ng-click="togglePlay()")
+        g(ng-repeat="n in legend")
+          text(x="900px",ng-attr-y="{{$index * 55 + 50 + n.1}}") {{n.0}}
+          circle(ng-attr-r="{{n.1}}", ng-attr-cy="{{$index * 55 + 40}}",cx="900px",ng-attr-fill="{{coloring(n.1)}}")
       #footer
         h5: a(href="http://dotstat.taipei.gov.tw/pxweb2007P/Dialog/statfile9.asp") 資料來源
