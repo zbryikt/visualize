@@ -18,7 +18,7 @@ html
     h2 台北捷運各站出站人數變化圖
     h4 {{dates[dindex]}}
     svg(width="900px",height="700px",viewBox="0 0 900 700",preserveAspectRatio="xMidYMid")
-      line(ng-repeat="x in links",ng-attr-x1="{{x.source.x}}",ng-attr-y1="{{x.source.y}}",ng-attr-x2="{{x.target.x}}",ng-attr-y2="{{x.target.y}}",stroke="#f00")
-      g(ng-repeat="x in siteHash", ng-attr-transform="translate({{x.x}},{{x.y}})")
+      line(ng-repeat="x in links",ng-attr-x1="{{x.source.x}}",ng-attr-y1="{{x.source.y}}",ng-attr-x2="{{x.target.x}}",ng-attr-y2="{{x.target.y}}",stroke="#f00",ng-show="v2(x, dates[dindex])")
+      g(ng-repeat="x in siteHash", ng-attr-transform="translate({{x.x}},{{x.y}})",ng-show="v1(x[dates[dindex]])")
         circle(ng-attr-r="{{x[dates[dindex]]}}",ng-attr-fill="{{coloring(x[dates[dindex]])}}")
         text(dy="15") {{x.name}}

@@ -5,6 +5,8 @@ mrtCtrl = ($scope) ->
   $scope.color = d3.scale.linear!domain [0 10] .range <[blue red]>
   $scope.prj = d3.geo.mercator!center [121.51833286913558, 25.09823258363324] .scale 120000
   $scope.coloring = -> $scope.color it
+  $scope.v1 = -> it>1
+  $scope.v2 = (link,date)-> link.source[date] > 1 and link.target[date] > 1
   $scope.force = d3.layout.force!gravity 0.3
     .charge ->
       if not it.name => return -30

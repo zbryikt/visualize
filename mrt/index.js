@@ -12,6 +12,12 @@ mrtCtrl = function($scope){
   $scope.coloring = function(it){
     return $scope.color(it);
   };
+  $scope.v1 = function(it){
+    return it > 1;
+  };
+  $scope.v2 = function(link, date){
+    return link.source[date] > 1 && link.target[date] > 1;
+  };
   $scope.force = d3.layout.force().gravity(0.3).charge(function(it){
     if (!it.name) {
       return -30;
