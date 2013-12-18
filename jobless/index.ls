@@ -3,8 +3,19 @@ mainCtrl = ($scope) ->
   $scope <<<
     radiusFilter: -> it.value<12
     sizeFilter: -> it.dx<33 || it.dy<12
-    random-data: ->
+    random-date: ->
+      if $scope.serial-timer => clearInterval $scope.serial-timer
+      $scope.serial-timer = null
       $scope.current = $scope.data[parseInt(Math.random! * $scope.data.length)]
+    serial: -1
+    serial-timer: null
+    serial-date: ->
+      if $scope.serial-timer => return
+      $scope.serial-timer = setInterval ->
+        $scope.$apply ->
+          $scope.serial = ($scope.serial + 1) % ($scope.data.length)
+          $scope.current = $scope.data[$scope.serial]
+      ,500
     data: []
     type: []
     current: {}

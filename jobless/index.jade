@@ -16,7 +16,10 @@ html
     #content
       h2 It is all about comparison..
       h4 台灣失業人口各失業原因之數量比較 - 你覺得以比較大小來說，哪一種圖表最一目瞭然呢？
-      .ui.button(ng-click="randomData()") 隨機選擇時間
+      .ui.buttons
+        .ui.button(ng-click="randomDate()") 隨機選擇時間
+        .or
+        .ui.button(ng-click="serialDate()") 依序顯示資料
       h6 以下為 {{current["時間"]}} 時的資料
       .ui.divider
       .item

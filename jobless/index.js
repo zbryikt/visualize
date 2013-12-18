@@ -9,8 +9,25 @@ mainCtrl = function($scope){
   $scope.sizeFilter = function(it){
     return it.dx < 33 || it.dy < 12;
   };
-  $scope.randomData = function(){
+  $scope.randomDate = function(){
+    if ($scope.serialTimer) {
+      clearInterval($scope.serialTimer);
+    }
+    $scope.serialTimer = null;
     return $scope.current = $scope.data[parseInt(Math.random() * $scope.data.length)];
+  };
+  $scope.serial = -1;
+  $scope.serialTimer = null;
+  $scope.serialDate = function(){
+    if ($scope.serialTimer) {
+      return;
+    }
+    return $scope.serialTimer = setInterval(function(){
+      return $scope.$apply(function(){
+        $scope.serial = ($scope.serial + 1) % $scope.data.length;
+        return $scope.current = $scope.data[$scope.serial];
+      });
+    }, 500);
   };
   $scope.data = [];
   $scope.type = [];
