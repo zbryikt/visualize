@@ -16,7 +16,7 @@ mainCtrl = function($scope){
       path: "cloud"
     }, {
       title: "Interpellation Statistics",
-      desc: "Analyzing topics of interpellation from specific group of legislators. Use crossfilter.js, and twgeojson.",
+      desc: "Topics of interpellation from specific group of legislators. Use crossfilter.js, and twgeojson.",
       path: "crossfilter"
     }, {
       title: "Type of Families over Time",
@@ -28,7 +28,7 @@ mainCtrl = function($scope){
       path: "hiking"
     }, {
       title: "Public Nuisance Query",
-      desc: "Instant query of nearby public nuisance status. Use Google map API v3. Only available on local server.",
+      desc: "Nearby public nuisance status. Use Google map API v3. Only available on local server.",
       path: "home-env"
     }, {
       title: "IRC Nicks Connections",

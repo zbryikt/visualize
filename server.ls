@@ -219,6 +219,6 @@ watcher = chokidar.watch watch-path, ignored: /^\./, persistent: true
   .on \add, update-file
   .on \change, update-file
 
-http.createServer server .listen 9999, \localhost
+http.createServer server .listen 9999, \0.0.0.0
 
 console.log "running server on localhost:9999"
