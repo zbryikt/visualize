@@ -58,6 +58,10 @@ mainCtrl = function($scope){
       title: "Word Cloud Transition",
       desc: "Demo of word cloud transition using topic that legislators are interested in. Use d3.layout.cloud.",
       path: "tts"
+    }, {
+      title: "Reason of Unemployment",
+      desc: "Compare between methods for data comparison, using reason of unemployment as an example.",
+      path: "jobless"
     }
   ];
 };
