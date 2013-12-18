@@ -1,0 +1,76 @@
+!!!5
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = true
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
+- var assets = "assets"
+html
+  head
+    title 
+    meta(charset="utf-8")
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="index.js")
+  body(ng-app, ng-controller="mainCtrl")
+    #content
+      h2 It is all about comparison..
+      h4 台灣失業人口各失業原因之數量比較 - 你覺得以比較大小來說，哪一種圖表最一目瞭然呢？
+      .ui.button(ng-click="randomData()") 隨機選擇時間
+      h6 以下為 {{current["時間"]}} 時的資料
+      .ui.divider
+      .item
+        .title Pie Chart
+        svg#pie(width="400px",height="300px",viewBox="0 0 400 300",preserveAspectRatio="xMidYMid")
+          g(transform="translate(150 150)")
+            path.arc(ng-repeat="x in viz.pie",ng-attr-d="{{aux.arc(x)}}",ng-attr-fill="{{aux.color(x.data.name)}}")
+          g(ng-repeat="x in viz.pie")
+            rect(width="16px",height="11px",x="310px",ng-attr-y="{{$index*18+40}}px",ng-attr-fill="{{aux.color(x.data.name)}}")
+            text(x="330px",ng-attr-y="{{$index*18+45}}",dominant-baseline="central") {{x.data.name}}
+
+      .item
+        .title Bar Chart
+        svg#bar(width="400px",height="300px",viewBox="0 0 400 300",preserveAspectRatio="xMidYMid")
+          g(ng-repeat="x in viz.bar",ng-attr-transform="translate(20 {{$index * 29 + 20}})")
+            rect(ng-attr-width="{{x.value}}",height="22px",x="0",y="0",ng-attr-fill="{{aux.color(x.name)}}")
+            text(ng-attr-x="{{x.value + 10}}",y="10px") {{x.name}} ( {{x.value}} )
+
+      .item
+        .title Bubble Chart
+        svg#bubble(width="400px",height="300px",viewBox="0 0 400 300",preserveAspectRatio="xMidYMid")
+          g(transform="translate(40 0)")
+            g(ng-repeat="x in viz.bubble")
+              circle(ng-attr-cx="{{x.x || 0}}px",ng-attr-cy="{{x.y || 0}}px",ng-attr-r="{{x.r || 0}}",ng-attr-fill="{{aux.color(x.name)}}")
+            g(ng-repeat="x in viz.bubble")
+              text(ng-attr-x="{{x.x}}px",ng-attr-y="{{x.y}}px",text-anchor="middle",ng-show="x.r>=10") {{x.name}}
+          g(ng-repeat="x in viz.bubble|filter:radiusFilter")
+            rect(width="16px",height="11px",x="310px",ng-attr-y="{{$index*18+40}}px",ng-attr-fill="{{aux.color(x.name)}}")
+            text(x="330px",ng-attr-y="{{$index*18+45}}",dominant-baseline="central") {{x.name}}
+
+      .item
+        .title Treemap Chart
+        svg#treemap(width="400px",height="300px",viewBox="0 0 400 300",preserveAspectRatio="xMidYMid")
+          g(ng-repeat="x in viz.treemap")
+            rect(ng-attr-x="{{x.x}}px",ng-attr-y="{{x.y}}px",ng-attr-width="{{x.dx}}px",
+            ng-attr-height="{{x.dy}}px",ng-attr-fill="{{aux.color(x.name)}}")
+          g(ng-repeat="x in viz.treemap")
+            text(ng-attr-x="{{x.x + x.dx / 2}}px",ng-attr-y="{{x.y + x.dy / 2}}px",
+            text-anchor="middle",ng-show="x.dy>=13 && x.dx>=33") {{x.name}}
+          g(ng-repeat="x in viz.treemap|filter:sizeFilter")
+            rect(width="16px",height="11px",ng-attr-x="{{($index - $index%2)/2*150 + 10}}px",ng-attr-y="{{$index%2*18+260}}px",ng-attr-fill="{{aux.color(x.name)}}")
+            text(ng-attr-x="{{($index - $index%2)/2*150 + 30}}px",ng-attr-y="{{$index%2*18+265}}px",dominant-baseline="central") {{x.name}}
+
+      .item
+        .title Nightingale Chart
+        svg#nightingale(width="400px",height="300px",viewBox="0 0 400 300",preserveAspectRatio="xMidYMid")
+          g(transform="translate(200 150)")
+            g(ng-repeat="x in viz.bar",ng-attr-transform="rotate({{$index * 40}})")
+              rect(ng-attr-width="{{x.value / 2}}",height="22px",x="30px",y="-11px",ng-attr-fill="{{aux.color(x.name)}}")
+              text(ng-attr-x="{{x.value / 6 + 40}}",y="-1px",ng-attr-glyph-orientation-horizontal="0") {{x.name}} ( {{x.value}} )
+
+      .item
+        .title One-Dimensional Heatmap
+        svg#heatmap(width="400px",height="300px",viewBox="0 0 400 300",preserveAspectRatio="xMidYMid")
+          g(ng-repeat="x in viz.pie")
+            rect(width="36px",height="21px",x="160px",ng-attr-y="{{$index*28+10}}px",ng-attr-fill="rgba({{x.data.value*5}},0,0,1)")
+            text(x="200px",ng-attr-y="{{$index*28+19}}",dominant-baseline="central") {{x.data.name}}
