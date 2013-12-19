@@ -87,7 +87,7 @@ mainCtrl = function($scope){
   $scope.type = [];
   $scope.current = {};
   $scope.aux = {
-    pie: d3.layout.pie().sort(null).value(function(it){
+    pie: d3.layout.pie().value(function(it){
       return it.value;
     }),
     arc: d3.svg.arc().outerRadius(radius).innerRadius(0),

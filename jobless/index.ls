@@ -39,7 +39,7 @@ mainCtrl = ($scope) ->
     type: []
     current: {}
     aux:
-      pie: d3.layout.pie!sort null .value -> it.value
+      pie: d3.layout.pie!value -> it.value
       arc: d3.svg.arc!outerRadius radius .innerRadius 0
       color: d3.scale.category20!
       bubble: d3.layout.pack!sort null .size [radius * 2.2,radius * 2.2] .padding 1.5
