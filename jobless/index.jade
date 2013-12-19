@@ -27,6 +27,9 @@ html
         .ui.button(ng-click="randomDate()") 隨機選擇時間
         .or
         .ui.button(ng-click="serialDate()") 依序顯示資料
+        div(style="margin-left: 5px;display:inline-block")
+          .ui.button(ng-click="serialDate()",ng-show="!sorted",ng-click="sorted=!sorted") 請幫我排序
+          .ui.button(ng-click="serialDate()",ng-show="sorted",ng-click="sorted=!sorted") 請不要排序
       h6 以下為 {{current["時間"]}} 時的資料
       .ui.divider
       .item(ng-click="setFav('pie')",ng-class="isFav('pie')")
@@ -95,9 +98,9 @@ html
           | One-Dimensional Heatmap
           .order(ng-class="isFav('heatmap')") {{fav['heatmap']}}
         svg#heatmap(width="400px",height="300px",viewBox="0 0 400 300",preserveAspectRatio="xMidYMid")
-          g(ng-repeat="x in viz.pie")
-            rect(width="36px",height="21px",x="160px",ng-attr-y="{{$index*28+10}}px",ng-attr-fill="rgba({{x.data.value*5}},0,0,1)")
-            text(x="200px",ng-attr-y="{{$index*28+19}}",dominant-baseline="central") {{x.data.name}}
+          g(ng-repeat="x in viz.bar")
+            rect(width="36px",height="21px",x="160px",ng-attr-y="{{$index*28+10}}px",ng-attr-fill="rgba({{x.value*5}},0,0,1)")
+            text(x="200px",ng-attr-y="{{$index*28+19}}",dominant-baseline="central") {{x.name}}
       .ui.divider(style="clear:both")
       h2 來幫這六種圖排順序吧！
       p

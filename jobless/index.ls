@@ -1,6 +1,7 @@
 mainCtrl = ($scope) ->
   radius = 140
   $scope <<<
+    sorted: false
     stat: {}
     cookie: {}
     db-ref: new Firebase \https://jobless.firebaseIO.com/
@@ -60,13 +61,18 @@ mainCtrl = ($scope) ->
       $scope.stat[it] = ( $scope.stat[it] or 0 ) + 6 - i
     $scope.viz.stat = $scope.aux.bubble.nodes({children: [{name:k,value:~~$scope.stat[k]} for k of $scope.stat]})filter(->!it.children)
 
-  $scope.$watch 'current', ->
+  update-data = ->
     $scope.viz.pie = $scope.aux.pie [{name:k,value:~~$scope.current[k]} for k in $scope.type]
     $scope.viz.bar = [{name:k,value:~~$scope.current[k]} for k in $scope.type]
     $scope.viz.bubble = $scope.aux.bubble.nodes({children: [{name:k,value:~~$scope.current[k]} for k in $scope.type]})filter(->!it.children)
     $scope.viz.treemap = $scope.aux.treemap.nodes({children: [{name:k,value:~~$scope.current[k]} for k in $scope.type]})filter(->!it.children)
-  ,true
+    if $scope.sorted =>
+      $scope.viz.bar.sort (a,b)-> b.value - a.value
 
+  $scope.$watch 'current', update-data, true
+  $scope.$watch 'sorted', (v) ->
+    $scope.aux.pie.sort if v => ((a,b)-> b.value - a.value) else null
+    update-data!
   (data) <- d3.json \data.json
   data-list= []
   for d in data.1
