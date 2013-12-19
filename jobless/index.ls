@@ -52,7 +52,7 @@ mainCtrl = ($scope) ->
 
   document.cookie.split(\;)map ->
     it = it.split(\=)
-    $scope.cookie[it.0.trim!] = ~~it.1.trim!
+    $scope.cookie[it.0.trim!] = ~~(it.1 or "")trim!
   $scope.db-ref.on \child_added, (d) ->
     v = d.val!
     <- $scope.$apply

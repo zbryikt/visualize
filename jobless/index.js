@@ -103,7 +103,7 @@ mainCtrl = function($scope){
   };
   document.cookie.split(';').map(function(it){
     it = it.split('=');
-    return $scope.cookie[it[0].trim()] = ~~it[1].trim();
+    return $scope.cookie[it[0].trim()] = ~~(it[1] || "").trim();
   });
   $scope.dbRef.on('child_added', function(d){
     var v;
