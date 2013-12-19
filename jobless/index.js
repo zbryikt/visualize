@@ -113,7 +113,7 @@ mainCtrl = function($scope){
       for (i$ = 0, len$ = (ref$ = v).length; i$ < len$; ++i$) {
         i = i$;
         it = ref$[i$];
-        $scope.stat[it] = ($scope.stat[it] || 0) + v.length - i;
+        $scope.stat[it] = ($scope.stat[it] || 0) + 6 - i;
       }
       return $scope.viz.stat = $scope.aux.bubble.nodes({
         children: (function(){

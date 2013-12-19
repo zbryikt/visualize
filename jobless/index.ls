@@ -57,7 +57,7 @@ mainCtrl = ($scope) ->
     v = d.val!
     <- $scope.$apply
     for it,i in v =>
-      $scope.stat[it] = ( $scope.stat[it] or 0 ) + v.length - i
+      $scope.stat[it] = ( $scope.stat[it] or 0 ) + 6 - i
     $scope.viz.stat = $scope.aux.bubble.nodes({children: [{name:k,value:~~$scope.stat[k]} for k of $scope.stat]})filter(->!it.children)
 
   $scope.$watch 'current', ->
