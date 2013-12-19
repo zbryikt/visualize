@@ -13,6 +13,8 @@ html,body
 
 text
   font-size: 12px
+  user-select: none
+  -webkit-user-select: none
   dominant-baseline: central
 
 .item
@@ -20,10 +22,40 @@ text
   border-radius: 5px
   box-shadow: 0 0 2px rgba(0,0,0,0.4)
   margin: 0 20px 20px
+  user-select: none
+  -webkit-user-select: none
+  &.active
+    box-shadow: 0 0 8px 2px rgba(92,192,64,0.7)
   .title
     text-align: center
     font-weight: 900
     font-size: 19px
     margin: 10px
+    .order
+      visibility: hidden
+      &.active
+        visibility: visible
+      font-weight: 200
+      font-size: 12px
+      display: inline
+      &:before
+        content: "("
+        margin-left: 5px
+      &:after
+        content: ")"
   svg
     margin: 10px
+
+.choices
+  margin-bottom: 20px
+  .choice
+    display: inline-block
+    &:after
+      margin: 0 5px
+      content: "\00bb"
+    &:last-child:after
+      content: ""
+
+#footer
+  margin: 20px
+  padding: 20px

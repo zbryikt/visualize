@@ -1,8 +1,27 @@
 mainCtrl = ($scope) ->
   radius = 140
   $scope <<<
+    stat: {}
+    cookie: {}
+    db-ref: new Firebase \https://jobless.firebaseIO.com/
+    fav: {}
+    fav-count: 0
+    is-fav: -> if $scope.fav[it] => \active else ""
+    set-fav: ->
+      if !$scope.fav[it] => $scope.fav[it] = ++$scope.fav-count
+      else
+        [k for k of $scope.fav]map (k) -> if $scope.fav[k]>$scope.fav[it] => $scope.fav[k]--
+        delete $scope.fav[it]
+        $scope.fav-count--
+      $scope.choices = [k for k of $scope.fav]sort (a,b) -> $scope.fav[b] - $scope.fav[a]
+    send-fav: ->
+      if $scope.cookie[\jobless] == 1 or !$scope.choices.length => return
+      document.cookie = "jobless=1"
+      $scope.cookie[\jobless] = 1
+      setTimeout (-> $scope.db-ref.push $scope.choices), 0
     radiusFilter: -> it.value<12
     sizeFilter: -> it.dx<33 || it.dy<12
+    rotate: -> parseInt(((360 * (it / $scope.type.length)) + 90 ) / 180) * 180
     random-date: ->
       if $scope.serial-timer => clearInterval $scope.serial-timer
       $scope.serial-timer = null
@@ -30,6 +49,16 @@ mainCtrl = ($scope) ->
       bar: []
       bubble: []
       treemap: []
+
+  document.cookie.split(\;)map ->
+    it = it.split(\=)
+    $scope.cookie[it.0.trim!] = ~~it.1.trim!
+  $scope.db-ref.on \child_added, (d) ->
+    v = d.val!
+    <- $scope.$apply
+    for it,i in v =>
+      $scope.stat[it] = ( $scope.stat[it] or 0 ) + v.length - i
+    $scope.viz.stat = $scope.aux.bubble.nodes({children: [{name:k,value:~~$scope.stat[k]} for k of $scope.stat]})filter(->!it.children)
 
   $scope.$watch 'current', ->
     $scope.viz.pie = $scope.aux.pie [{name:k,value:~~$scope.current[k]} for k in $scope.type]

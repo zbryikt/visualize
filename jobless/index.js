@@ -3,11 +3,65 @@ var mainCtrl;
 mainCtrl = function($scope){
   var radius;
   radius = 140;
+  $scope.stat = {};
+  $scope.cookie = {};
+  $scope.dbRef = new Firebase('https://jobless.firebaseIO.com/');
+  $scope.fav = {};
+  $scope.favCount = 0;
+  $scope.isFav = function(it){
+    if ($scope.fav[it]) {
+      return 'active';
+    } else {
+      return "";
+    }
+  };
+  $scope.setFav = function(it){
+    var k;
+    if (!$scope.fav[it]) {
+      $scope.fav[it] = ++$scope.favCount;
+    } else {
+      (function(){
+        var results$ = [];
+        for (k in $scope.fav) {
+          results$.push(k);
+        }
+        return results$;
+      }()).map(function(k){
+        if ($scope.fav[k] > $scope.fav[it]) {
+          return $scope.fav[k]--;
+        }
+      });
+      delete $scope.fav[it];
+      $scope.favCount--;
+    }
+    return $scope.choices = (function(){
+      var results$ = [];
+      for (k in $scope.fav) {
+        results$.push(k);
+      }
+      return results$;
+    }()).sort(function(a, b){
+      return $scope.fav[b] - $scope.fav[a];
+    });
+  };
+  $scope.sendFav = function(){
+    if ($scope.cookie['jobless'] === 1 || !$scope.choices.length) {
+      return;
+    }
+    document.cookie = "jobless=1";
+    $scope.cookie['jobless'] = 1;
+    return setTimeout(function(){
+      return $scope.dbRef.push($scope.choices);
+    }, 0);
+  };
   $scope.radiusFilter = function(it){
     return it.value < 12;
   };
   $scope.sizeFilter = function(it){
     return it.dx < 33 || it.dy < 12;
+  };
+  $scope.rotate = function(it){
+    return parseInt((360 * (it / $scope.type.length) + 90) / 180) * 180;
   };
   $scope.randomDate = function(){
     if ($scope.serialTimer) {
@@ -47,6 +101,36 @@ mainCtrl = function($scope){
     bubble: [],
     treemap: []
   };
+  document.cookie.split(';').map(function(it){
+    it = it.split('=');
+    return $scope.cookie[it[0].trim()] = ~~it[1].trim();
+  });
+  $scope.dbRef.on('child_added', function(d){
+    var v;
+    v = d.val();
+    return $scope.$apply(function(it){
+      var i$, ref$, len$, i, k;
+      for (i$ = 0, len$ = (ref$ = v).length; i$ < len$; ++i$) {
+        i = i$;
+        it = ref$[i$];
+        $scope.stat[it] = ($scope.stat[it] || 0) + v.length - i;
+      }
+      return $scope.viz.stat = $scope.aux.bubble.nodes({
+        children: (function(){
+          var results$ = [];
+          for (k in $scope.stat) {
+            results$.push({
+              name: k,
+              value: ~~$scope.stat[k]
+            });
+          }
+          return results$;
+        }())
+      }).filter(function(it){
+        return !it.children;
+      });
+    });
+  });
   $scope.$watch('current', function(){
     var k;
     $scope.viz.pie = $scope.aux.pie((function(){

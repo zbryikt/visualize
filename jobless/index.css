@@ -13,17 +13,49 @@ html, body {
 
 text {
   font-size: 12px;
+  user-select: none;
+  -webkit-user-select: none;
   dominant-baseline: central; }
 
 .item {
   display: inline-block;
   border-radius: 5px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-  margin: 0 20px 20px; }
+  margin: 0 20px 20px;
+  user-select: none;
+  -webkit-user-select: none; }
+  .item.active {
+    box-shadow: 0 0 8px 2px rgba(92, 192, 64, 0.7); }
   .item .title {
     text-align: center;
     font-weight: 900;
     font-size: 19px;
     margin: 10px; }
+    .item .title .order {
+      visibility: hidden;
+      font-weight: 200;
+      font-size: 12px;
+      display: inline; }
+      .item .title .order.active {
+        visibility: visible; }
+      .item .title .order:before {
+        content: "(";
+        margin-left: 5px; }
+      .item .title .order:after {
+        content: ")"; }
   .item svg {
     margin: 10px; }
+
+.choices {
+  margin-bottom: 20px; }
+  .choices .choice {
+    display: inline-block; }
+    .choices .choice:after {
+      margin: 0 5px;
+      content: "\00bb"; }
+    .choices .choice:last-child:after {
+      content: ""; }
+
+#footer {
+  margin: 20px;
+  padding: 20px; }
