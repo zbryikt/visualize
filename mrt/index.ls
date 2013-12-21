@@ -12,7 +12,8 @@ mrtCtrl = ($scope) ->
   $scope.play = true
   $scope.legend =
     flow:  [100000 to 3000000 by 400000]map -> ["#{it/10000}萬", Math.sqrt(it) / 100 ]
-    price: [100000 to 4500000 by 500000]map -> ["#{it/10000}萬", Math.sqrt(it) / 100 ]
+    price: [100000 to 1000000 by 120000]map -> ["#{it/10000}萬", Math.sqrt(it) / 60 ]
+    #[4333800 110980]
   $scope.color = d3.scale.linear!domain [0 9 18] .range <[#0f0 #ff0 #f00]>
   $scope.prj = d3.geo.mercator!center [121.51833286913558, 25.09823258363324] .scale 120000
   $scope.coloring = -> $scope.color it
@@ -47,10 +48,10 @@ mrtCtrl = ($scope) ->
     if name=="台北車" => name = "台北車站"
     $scope.site-hash[name] = {name,weight: 1,flow:{},price:{}} <<< coord.to-gws84 it.X, it.Y
   load-price = (data) ->
-    dates = []
-    for k of data =>
-      dates.push k
-      for i,v of data[k] => $scope.site-hash[i]price[k] = ( Math.sqrt(~~v) / 100 >? 2 )
+    dates = [k for k of data]sort -> parseFloat($scope.date-format &0) - parseFloat($scope.date-format &1)
+    for k in dates =>
+      for i,v of data[k] =>
+        $scope.site-hash[i]price[k] = ( Math.sqrt(~~v) / 60 >? 2 <? 20)
     $scope.datebar.price = d3.scale.linear!domain [0 dates.length - 1] .range [60 480]
     $scope.dates.price = dates
   load-px = (flow) ->
@@ -106,4 +107,4 @@ mrtCtrl = ($scope) ->
           if !$scope.force.alpha! => $scope.force.start!
         else
           $scope.force.stop!
-      , 400
+      , 800

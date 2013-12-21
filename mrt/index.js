@@ -20,8 +20,8 @@ mrtCtrl = function($scope){
     flow: [100000, 500000, 900000, 1300000, 1700000, 2100000, 2500000, 2900000].map(function(it){
       return [it / 10000 + "萬", Math.sqrt(it) / 100];
     }),
-    price: [100000, 600000, 1100000, 1600000, 2100000, 2600000, 3100000, 3600000, 4100000].map(function(it){
-      return [it / 10000 + "萬", Math.sqrt(it) / 100];
+    price: [100000, 220000, 340000, 460000, 580000, 700000, 820000, 940000].map(function(it){
+      return [it / 10000 + "萬", Math.sqrt(it) / 60];
     })
   };
   $scope.color = d3.scale.linear().domain([0, 9, 18]).range(['#0f0', '#ff0', '#f00']);
@@ -85,13 +85,21 @@ mrtCtrl = function($scope){
       }, coord.toGws84(it.X, it.Y));
     }
     loadPrice = function(data){
-      var dates, k, i, ref$, v, ref1$;
-      dates = [];
-      for (k in data) {
-        dates.push(k);
+      var dates, k, i$, len$, i, ref$, v, ref1$, ref2$;
+      dates = (function(){
+        var results$ = [];
+        for (k in data) {
+          results$.push(k);
+        }
+        return results$;
+      }()).sort(function(){
+        return parseFloat($scope.dateFormat(arguments[0])) - parseFloat($scope.dateFormat(arguments[1]));
+      });
+      for (i$ = 0, len$ = dates.length; i$ < len$; ++i$) {
+        k = dates[i$];
         for (i in ref$ = data[k]) {
           v = ref$[i];
-          $scope.siteHash[i].price[k] = (ref1$ = Math.sqrt(~~v) / 100) > 2 ? ref1$ : 2;
+          $scope.siteHash[i].price[k] = (ref1$ = (ref2$ = Math.sqrt(~~v) / 60) > 2 ? ref2$ : 2) < 20 ? ref1$ : 20;
         }
       }
       $scope.datebar.price = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);
@@ -206,7 +214,7 @@ mrtCtrl = function($scope){
               } else {
                 return $scope.force.stop();
               }
-            }, 400);
+            }, 800);
           });
         });
       });
