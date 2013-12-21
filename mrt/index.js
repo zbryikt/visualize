@@ -2,14 +2,28 @@
 var mrtCtrl, replace$ = ''.replace;
 mrtCtrl = function($scope){
   $scope.siteHash = {};
+  $scope.dates = {
+    cur: ""
+  };
+  $scope.dim = 'flow';
   $scope.links = [];
   $scope.dindex = 0;
   $scope.dateHite = 60;
+  $scope.dateFormat = function(it){
+    var ret;
+    ret = /(\d+)年(\d+)月/.exec(it);
+    return ret[1] + "." + (~~ret[2] > 9 ? "" : '0') + ret[2];
+  };
   $scope.play = true;
-  $scope.legend = [100000, 500000, 900000, 1300000, 1700000, 2100000, 2500000, 2900000].map(function(it){
-    return [it / 10000 + "萬", Math.sqrt(it) / 100];
-  });
-  $scope.color = d3.scale.linear().domain([0, 15]).range(['blue', 'red']);
+  $scope.legend = {
+    flow: [100000, 500000, 900000, 1300000, 1700000, 2100000, 2500000, 2900000].map(function(it){
+      return [it / 10000 + "萬", Math.sqrt(it) / 100];
+    }),
+    price: [1000000, 8500000, 16000000, 23500000, 31000000, 38500000, 46000000, 53500000].map(function(it){
+      return [it / 10000 + "萬", Math.sqrt(it) / 400];
+    })
+  };
+  $scope.color = d3.scale.linear().domain([0, 9, 18]).range(['#0f0', '#ff0', '#f00']);
   $scope.prj = d3.geo.mercator().center([121.51833286913558, 25.09823258363324]).scale(120000);
   $scope.coloring = function(it){
     return $scope.color(it);
@@ -17,8 +31,10 @@ mrtCtrl = function($scope){
   $scope.v1 = function(it){
     return it > 1;
   };
-  $scope.v2 = function(link, date){
-    return link.source[date] > 1 && link.target[date] > 1;
+  $scope.v2 = function(link){
+    var date;
+    date = $scope.dates.cur;
+    return link.source[$scope.dim][date] > 1 && link.target[$scope.dim][date] > 1 && (link.readyTime === 0 || link.readyTime <= parseFloat(date));
   };
   $scope.togglePlay = function(){
     $scope.play = !$scope.play;
@@ -28,10 +44,11 @@ mrtCtrl = function($scope){
     var offset, ref$, x, y, ref1$, ref2$;
     offset = $('#svg').offset();
     ref$ = [e.clientX - offset.left, e.clientY - offset.top], x = ref$[0], y = ref$[1];
-    if ($scope.dates && x < 40 && y >= 60) {
-      $scope.dindex = parseInt($scope.dates.length * ((y - 60) / 420));
-      $scope.dindex = (ref$ = (ref2$ = $scope.dindex) > 0 ? ref2$ : 0) < (ref1$ = $scope.dates.length) ? ref$ : ref1$;
-      return $scope.dateHite = $scope.datebar($scope.dindex);
+    if ($scope.dates[$scope.dim] && x < 40 && y >= 60) {
+      $scope.dindex = parseInt($scope.dates[$scope.dim].length * ((y - 60) / 420));
+      $scope.dindex = (ref$ = (ref2$ = $scope.dindex) > 0 ? ref2$ : 0) < (ref1$ = $scope.dates[$scope.dim].length) ? ref$ : ref1$;
+      $scope.dateHite = $scope.datebar($scope.dindex);
+      return $scope.dates.cur = $scope.dates[$scope.dim][$scope.dindex];
     }
   };
   $scope.force = d3.layout.force().gravity(0.5).charge(function(it){
@@ -51,7 +68,7 @@ mrtCtrl = function($scope){
     });
   });
   return d3.csv('latlng.utf-8.csv', function(rawSite){
-    var i$, len$, it, name, loadPx;
+    var i$, len$, it, name, loadPrice, loadPx;
     for (i$ = 0, len$ = rawSite.length; i$ < len$; ++i$) {
       it = rawSite[i$];
       name = (replace$.call(it.NAME, /站.*$/, '')).trim();
@@ -61,13 +78,32 @@ mrtCtrl = function($scope){
       }
       $scope.siteHash[name] = import$({
         name: name,
-        weight: 1
+        weight: 1,
+        flow: {},
+        price: {}
       }, coord.toGws84(it.X, it.Y));
     }
+    loadPrice = function(data){
+      var sites, dates, k, i$, ref$, len$, i, v, ref1$;
+      sites = data[0];
+      data = data[1];
+      dates = [];
+      for (k in data) {
+        dates.push(k);
+        for (i$ = 0, len$ = (ref$ = data[k]).length; i$ < len$; ++i$) {
+          i = i$;
+          v = ref$[i$];
+          $scope.siteHash[sites[i]].price[k] = (ref1$ = Math.sqrt(~~v) / 400) > 2 ? ref1$ : 2;
+        }
+      }
+      return $scope.dates.price = dates;
+    };
     loadPx = function(flow){
       var px, dates, inout, sites, count, i$, len$, d, j$, len1$, io, k$, len2$, s, v, ref$;
       px = new Px(flow);
-      dates = px.metadata.VALUES.年月別;
+      dates = px.metadata.VALUES.年月別.map(function(it){
+        return $scope.dateFormat(it);
+      });
       inout = px.metadata.VALUES.入出站別;
       sites = px.metadata.VALUES.項目;
       count = 0;
@@ -87,7 +123,7 @@ mrtCtrl = function($scope){
               continue;
             }
             v = px.data[count];
-            $scope.siteHash[s][d] = v === '"."'
+            $scope.siteHash[s].flow[d] = v === '"."'
               ? 0
               : (ref$ = Math.sqrt(~~v) / 100) > 2 ? ref$ : 2;
             count += 1;
@@ -96,22 +132,31 @@ mrtCtrl = function($scope){
       }
       return px;
     };
-    return $.ajax('pair.json').done(function(rawLinks){
-      var links, i$, len$, path, j$, to$, i, src, des;
+    return $.ajax('pair.json', {
+      dataType: 'json'
+    }).done(function(rawLinks){
+      var links, readyTime, i$, ref$, len$, item, path, j$, to$, i, src, des, lnk;
       if (typeof rawLinks === typeof "") {
         rawLinks = JSON.parse(rawLinks);
       }
       links = [];
-      for (i$ = 0, len$ = rawLinks.length; i$ < len$; ++i$) {
-        path = rawLinks[i$];
+      readyTime = {};
+      for (i$ = 0, len$ = (ref$ = rawLinks[1]).length; i$ < len$; ++i$) {
+        item = ref$[i$];
+        readyTime[item[0] + "-" + item[1]] = $scope.dateFormat(item[2]);
+      }
+      for (i$ = 0, len$ = (ref$ = rawLinks[0]).length; i$ < len$; ++i$) {
+        path = ref$[i$];
         for (j$ = 2, to$ = path.length; j$ < to$; ++j$) {
           i = j$;
           src = $scope.siteHash[path[i - 1]];
           des = $scope.siteHash[path[i]];
+          lnk = src.name + "-" + des.name;
           links.push({
-            source: $scope.siteHash[path[i - 1]],
-            target: $scope.siteHash[path[i]],
-            color: path[0]
+            source: src,
+            target: des,
+            color: path[0],
+            readyTime: parseFloat(readyTime[lnk] || 0)
           });
         }
       }
@@ -119,43 +164,51 @@ mrtCtrl = function($scope){
         return $scope.links = links;
       });
       return $.ajax('flow.utf-8.px').done(function(flow){
-        return $.ajax('meow.utf-8.px').done(function(meow){
-          var px, dates;
-          px = loadPx(flow);
-          loadPx(meow);
-          dates = px.metadata.VALUES.年月別;
-          $scope.$apply(function(){
-            var k, v, ref$, x, y;
-            $scope.datebar = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);
-            for (k in $scope.siteHash) {
-              v = $scope.siteHash[k];
-              ref$ = $scope.prj([v.lng, v.lat]), x = ref$[0], y = ref$[1];
-              v.x = x;
-              v.y = y;
-            }
-            $scope.dates = dates;
-            $scope.force.nodes((function(){
-              var results$ = [];
-              for (x in $scope.siteHash) {
-                results$.push($scope.siteHash[x]);
+        return $.ajax('price.json', {
+          dataType: 'json'
+        }).done(function(price){
+          return $.ajax('meow.utf-8.px').done(function(meow){
+            var px, dates;
+            px = loadPx(flow);
+            loadPx(meow);
+            loadPrice(price);
+            dates = px.metadata.VALUES.年月別.map(function(it){
+              return $scope.dateFormat(it);
+            });
+            $scope.$apply(function(){
+              var k, v, ref$, x, y;
+              $scope.datebar = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);
+              for (k in $scope.siteHash) {
+                v = $scope.siteHash[k];
+                ref$ = $scope.prj([v.lng, v.lat]), x = ref$[0], y = ref$[1];
+                v.x = x;
+                v.y = y;
               }
-              return results$;
-            }())).links($scope.links).size([1024, 500]).start();
-            return $scope.siteHash = $scope.siteHash;
-          });
-          return setInterval(function(){
-            if ($scope.play) {
-              return $scope.$apply(function(){
-                $scope.dindex = ($scope.dindex + 1) % dates.length;
-                $scope.dateHite = $scope.datebar($scope.dindex);
-                if (!$scope.force.alpha()) {
-                  return $scope.force.start();
+              $scope.dates.flow = dates;
+              $scope.force.nodes((function(){
+                var results$ = [];
+                for (x in $scope.siteHash) {
+                  results$.push($scope.siteHash[x]);
                 }
-              });
-            } else {
-              return $scope.force.stop();
-            }
-          }, 400);
+                return results$;
+              }())).links($scope.links).size([1024, 500]).start();
+              return $scope.siteHash = $scope.siteHash;
+            });
+            return setInterval(function(){
+              if ($scope.play) {
+                return $scope.$apply(function(){
+                  $scope.dindex = ($scope.dindex + 1) % $scope.dates[$scope.dim].length;
+                  $scope.dateHite = $scope.datebar($scope.dindex);
+                  $scope.dates.cur = $scope.dates[$scope.dim][$scope.dindex];
+                  if (!$scope.force.alpha()) {
+                    return $scope.force.start();
+                  }
+                });
+              } else {
+                return $scope.force.stop();
+              }
+            }, 400);
+          });
         });
       });
     });
