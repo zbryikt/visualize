@@ -5,6 +5,7 @@ mrtCtrl = function($scope){
   $scope.dates = {
     cur: ""
   };
+  $scope.datebar = {};
   $scope.dim = 'flow';
   $scope.links = [];
   $scope.dindex = 0;
@@ -19,8 +20,8 @@ mrtCtrl = function($scope){
     flow: [100000, 500000, 900000, 1300000, 1700000, 2100000, 2500000, 2900000].map(function(it){
       return [it / 10000 + "萬", Math.sqrt(it) / 100];
     }),
-    price: [1000000, 8500000, 16000000, 23500000, 31000000, 38500000, 46000000, 53500000].map(function(it){
-      return [it / 10000 + "萬", Math.sqrt(it) / 400];
+    price: [100000, 600000, 1100000, 1600000, 2100000, 2600000, 3100000, 3600000, 4100000].map(function(it){
+      return [it / 10000 + "萬", Math.sqrt(it) / 100];
     })
   };
   $scope.color = d3.scale.linear().domain([0, 9, 18]).range(['#0f0', '#ff0', '#f00']);
@@ -34,7 +35,7 @@ mrtCtrl = function($scope){
   $scope.v2 = function(link){
     var date;
     date = $scope.dates.cur;
-    return link.source[$scope.dim][date] > 1 && link.target[$scope.dim][date] > 1 && (link.readyTime === 0 || link.readyTime <= parseFloat(date));
+    return $scope.dim === 'price' || (link.source[$scope.dim][date] > 1 && link.target[$scope.dim][date] > 1 && (link.readyTime === 0 || link.readyTime <= parseFloat(date)));
   };
   $scope.togglePlay = function(){
     $scope.play = !$scope.play;
@@ -47,7 +48,7 @@ mrtCtrl = function($scope){
     if ($scope.dates[$scope.dim] && x < 40 && y >= 60) {
       $scope.dindex = parseInt($scope.dates[$scope.dim].length * ((y - 60) / 420));
       $scope.dindex = (ref$ = (ref2$ = $scope.dindex) > 0 ? ref2$ : 0) < (ref1$ = $scope.dates[$scope.dim].length) ? ref$ : ref1$;
-      $scope.dateHite = $scope.datebar($scope.dindex);
+      $scope.dateHite = $scope.datebar[$scope.dim]($scope.dindex);
       return $scope.dates.cur = $scope.dates[$scope.dim][$scope.dindex];
     }
   };
@@ -84,18 +85,16 @@ mrtCtrl = function($scope){
       }, coord.toGws84(it.X, it.Y));
     }
     loadPrice = function(data){
-      var sites, dates, k, i$, ref$, len$, i, v, ref1$;
-      sites = data[0];
-      data = data[1];
+      var dates, k, i, ref$, v, ref1$;
       dates = [];
       for (k in data) {
         dates.push(k);
-        for (i$ = 0, len$ = (ref$ = data[k]).length; i$ < len$; ++i$) {
-          i = i$;
-          v = ref$[i$];
-          $scope.siteHash[sites[i]].price[k] = (ref1$ = Math.sqrt(~~v) / 400) > 2 ? ref1$ : 2;
+        for (i in ref$ = data[k]) {
+          v = ref$[i];
+          $scope.siteHash[i].price[k] = (ref1$ = Math.sqrt(~~v) / 100) > 2 ? ref1$ : 2;
         }
       }
+      $scope.datebar.price = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);
       return $scope.dates.price = dates;
     };
     loadPx = function(flow){
@@ -164,7 +163,7 @@ mrtCtrl = function($scope){
         return $scope.links = links;
       });
       return $.ajax('flow.utf-8.px').done(function(flow){
-        return $.ajax('price.json', {
+        return $.ajax('mrt_unitprice.json', {
           dataType: 'json'
         }).done(function(price){
           return $.ajax('meow.utf-8.px').done(function(meow){
@@ -177,7 +176,7 @@ mrtCtrl = function($scope){
             });
             $scope.$apply(function(){
               var k, v, ref$, x, y;
-              $scope.datebar = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);
+              $scope.datebar.flow = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);
               for (k in $scope.siteHash) {
                 v = $scope.siteHash[k];
                 ref$ = $scope.prj([v.lng, v.lat]), x = ref$[0], y = ref$[1];
@@ -198,7 +197,7 @@ mrtCtrl = function($scope){
               if ($scope.play) {
                 return $scope.$apply(function(){
                   $scope.dindex = ($scope.dindex + 1) % $scope.dates[$scope.dim].length;
-                  $scope.dateHite = $scope.datebar($scope.dindex);
+                  $scope.dateHite = $scope.datebar[$scope.dim]($scope.dindex);
                   $scope.dates.cur = $scope.dates[$scope.dim][$scope.dindex];
                   if (!$scope.force.alpha()) {
                     return $scope.force.start();

@@ -1,6 +1,7 @@
 mrtCtrl = ($scope) ->
   $scope.site-hash = {}
   $scope.dates = {cur: ""}
+  $scope.datebar = {}
   $scope.dim = \flow
   $scope.links = []
   $scope.dindex = 0
@@ -10,16 +11,16 @@ mrtCtrl = ($scope) ->
     "#{ret.1}.#{if ~~ret.2>9 => "" else \0}#{ret.2}"
   $scope.play = true
   $scope.legend =
-    flow:  [ 100000 to  3000000 by  400000]map -> ["#{it/10000}萬", Math.sqrt(it) / 100 ]
-    price: [1000000 to 60000000 by 7500000]map -> ["#{it/10000}萬", Math.sqrt(it) / 400 ]
+    flow:  [100000 to 3000000 by 400000]map -> ["#{it/10000}萬", Math.sqrt(it) / 100 ]
+    price: [100000 to 4500000 by 500000]map -> ["#{it/10000}萬", Math.sqrt(it) / 100 ]
   $scope.color = d3.scale.linear!domain [0 9 18] .range <[#0f0 #ff0 #f00]>
   $scope.prj = d3.geo.mercator!center [121.51833286913558, 25.09823258363324] .scale 120000
   $scope.coloring = -> $scope.color it
   $scope.v1 = -> it>1
   $scope.v2 = (link) ->
     date = $scope.dates.cur
-    link.source[$scope.dim][date] > 1 and link.target[$scope.dim][date] > 1 and
-    (link.ready-time==0 or link.ready-time <= parseFloat date)
+    $scope.dim==\price or (link.source[$scope.dim][date] > 1 and link.target[$scope.dim][date] > 1 and
+    (link.ready-time==0 or link.ready-time <= parseFloat date))
   $scope.toggle-play = ->
     $scope.play = !$scope.play
     $scope.force.stop!
@@ -30,7 +31,7 @@ mrtCtrl = ($scope) ->
     if $scope.dates[$scope.dim] and x < 40 and y >= 60 =>
       $scope.dindex = parseInt($scope.dates[$scope.dim]length * (( y - 60 ) / 420 ))
       $scope.dindex = $scope.dindex>?0<?$scope.dates[$scope.dim]length
-      $scope.date-hite = $scope.datebar $scope.dindex
+      $scope.date-hite = $scope.datebar[$scope.dim] $scope.dindex
       $scope.dates.cur = $scope.dates[$scope.dim][$scope.dindex]
   $scope.force = d3.layout.force!gravity 0.5
     .charge ->
@@ -46,12 +47,11 @@ mrtCtrl = ($scope) ->
     if name=="台北車" => name = "台北車站"
     $scope.site-hash[name] = {name,weight: 1,flow:{},price:{}} <<< coord.to-gws84 it.X, it.Y
   load-price = (data) ->
-    sites =data.0
-    data = data.1
     dates = []
     for k of data =>
       dates.push k
-      for v,i in data[k] => $scope.site-hash[sites[i]]price[k] = ( Math.sqrt(~~v) / 400 >? 2 )
+      for i,v of data[k] => $scope.site-hash[i]price[k] = ( Math.sqrt(~~v) / 100 >? 2 )
+    $scope.datebar.price = d3.scale.linear!domain [0 dates.length - 1] .range [60 480]
     $scope.dates.price = dates
   load-px = (flow) ->
     px = new Px flow
@@ -83,14 +83,14 @@ mrtCtrl = ($scope) ->
         links.push {source: src, target: des, color: path.0, ready-time: parseFloat(ready-time[lnk] or 0)}
     $scope.$apply -> $scope.links = links
     (flow) <- $.ajax \flow.utf-8.px .done
-    (price) <- $.ajax \price.json, {dataType: \json} .done
+    (price) <- $.ajax \mrt_unitprice.json, {dataType: \json} .done
     $.ajax \meow.utf-8.px .done (meow) ->
       px = load-px flow
       load-px meow
       load-price price
       dates = px.metadata.VALUES.年月別.map -> $scope.date-format it
       $scope.$apply ->
-        $scope.datebar = d3.scale.linear!domain [0 dates.length - 1] .range [60 480]
+        $scope.datebar.flow = d3.scale.linear!domain [0 dates.length - 1] .range [60 480]
         for k of $scope.site-hash
           v = $scope.site-hash[k]
           [x,y] = $scope.prj [v.lng, v.lat]
@@ -101,7 +101,7 @@ mrtCtrl = ($scope) ->
       setInterval ->
         if $scope.play => $scope.$apply ->
           $scope.dindex = ($scope.dindex + 1) % $scope.dates[$scope.dim]length
-          $scope.date-hite = $scope.datebar $scope.dindex
+          $scope.date-hite = $scope.datebar[$scope.dim] $scope.dindex
           $scope.dates.cur = $scope.dates[$scope.dim][$scope.dindex]
           if !$scope.force.alpha! => $scope.force.start!
         else
