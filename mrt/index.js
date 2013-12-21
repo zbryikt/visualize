@@ -20,8 +20,8 @@ mrtCtrl = function($scope){
     flow: [100000, 500000, 900000, 1300000, 1700000, 2100000, 2500000, 2900000].map(function(it){
       return [it / 10000 + "萬", Math.sqrt(it) / 100];
     }),
-    price: [100000, 220000, 340000, 460000, 580000, 700000, 820000, 940000].map(function(it){
-      return [it / 10000 + "萬", Math.sqrt(it) / 60];
+    price: [100000, 340000, 580000, 820000, 1060000, 1300000, 1540000, 1780000].map(function(it){
+      return [it / 10000 + "萬", Math.sqrt(it) / 80];
     })
   };
   $scope.color = d3.scale.linear().domain([0, 9, 18]).range(['#0f0', '#ff0', '#f00']);
@@ -99,7 +99,7 @@ mrtCtrl = function($scope){
         k = dates[i$];
         for (i in ref$ = data[k]) {
           v = ref$[i];
-          $scope.siteHash[i].price[k] = (ref1$ = (ref2$ = Math.sqrt(~~v) / 60) > 2 ? ref2$ : 2) < 20 ? ref1$ : 20;
+          $scope.siteHash[i].price[k] = (ref1$ = (ref2$ = Math.sqrt(~~v) / 80) > 2 ? ref2$ : 2) < 20 ? ref1$ : 20;
         }
       }
       $scope.datebar.price = d3.scale.linear().domain([0, dates.length - 1]).range([60, 480]);

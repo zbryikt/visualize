@@ -12,7 +12,7 @@ mrtCtrl = ($scope) ->
   $scope.play = true
   $scope.legend =
     flow:  [100000 to 3000000 by 400000]map -> ["#{it/10000}萬", Math.sqrt(it) / 100 ]
-    price: [100000 to 1000000 by 120000]map -> ["#{it/10000}萬", Math.sqrt(it) / 60 ]
+    price: [100000 to 2000000 by 240000]map -> ["#{it/10000}萬", Math.sqrt(it) / 80 ]
     #[4333800 110980]
   $scope.color = d3.scale.linear!domain [0 9 18] .range <[#0f0 #ff0 #f00]>
   $scope.prj = d3.geo.mercator!center [121.51833286913558, 25.09823258363324] .scale 120000
@@ -51,7 +51,7 @@ mrtCtrl = ($scope) ->
     dates = [k for k of data]sort -> parseFloat($scope.date-format &0) - parseFloat($scope.date-format &1)
     for k in dates =>
       for i,v of data[k] =>
-        $scope.site-hash[i]price[k] = ( Math.sqrt(~~v) / 60 >? 2 <? 20)
+        $scope.site-hash[i]price[k] = ( Math.sqrt(~~v) / 80 >? 2 <? 20)
     $scope.datebar.price = d3.scale.linear!domain [0 dates.length - 1] .range [60 480]
     $scope.dates.price = dates
   load-px = (flow) ->
