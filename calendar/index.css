@@ -1,0 +1,88 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; }
+
+.navbar .ib {
+  width: 1024px;
+  margin: 0 auto; }
+
+#content {
+  margin-top: 45px; }
+
+.navbar .ib .dropdown-menu {
+  padding: 10px 0; }
+  .navbar .ib .dropdown-menu a {
+    line-height: 15px;
+    padding: 7px 15px; }
+
+#irc circle:hover {
+  stroke: red;
+  stroke-width: 1px; }
+#irc text {
+  cursor: pointer;
+  user-select: none;
+  text-anchor: middle;
+  text-rendering: optimizeLegibility;
+  text-shadow: 0 0 3px black;
+  fill: white; }
+#irc text.title, #irc text.subtitle {
+  fill: black;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  font-size: 10px; }
+#irc text.subtitle {
+  font-size: 4px; }
+#irc g.hint text {
+  fill: black;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+  font-size: 6px; }
+#irc .irc-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: white;
+  font-family: "courier new"; }
+  #irc .irc-panel .status {
+    background: #008cba;
+    text-align: center;
+    padding: 5px 0; }
+  #irc .irc-panel .prompt {
+    background: black;
+    padding: 5px 2px; }
+#irc iframe {
+  background: white;
+  border: none;
+  -webkit-transform: scale(0.6);
+  position: absolute;
+  top: 100px;
+  left: 20px; }
+#irc .next:after, #irc .prev:after {
+  cursor: pointer;
+  content: "\00bb";
+  font-size: 128px;
+  position: absolute;
+  right: 10px;
+  top: 35%; }
+#irc .prev:after {
+  content: "\00ab";
+  left: 10px;
+  right: auto; }
+#irc .week .week-label, #irc .week .year-ptr text, #irc .week .month-ptr text {
+  font-size: 5px;
+  text-anchor: middle;
+  fill: black;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2); }
+#irc .week .year-ptr line, #irc .week .month-ptr line {
+  stroke-dasharray: 1 1;
+  stroke: #885544;
+  stroke-width: 0.5px; }
+#irc .week .heatblock:hover {
+  stroke: red; }
+#irc .week .left-align {
+  text-anchor: start; }
+#irc .week .hover text {
+  font-size: 3px;
+  fill: black;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.2); }

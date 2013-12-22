@@ -1,0 +1,37 @@
+!!!5
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = true
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: true, semantic: false }
+- var assets = "assets"
+html
+  head
+    title 
+    meta(charset="utf-8")
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="assets/moment/2.4.0/moment.min.js")
+    script(type="text/javascript",src="index.js")
+  body(ng-app, ng-controller="mainCtrl")
+    #content
+      #irc(ng-controller="ircCtrl")
+        .ib
+        .week.ib
+          svg(width="100%",height="100%",viewbox="0 0 300 200",preserveAspectRatio="xMidYMid")
+            g(transform="translate(30 20)")
+              text.title 聊天室每日概況
+              text.subtitle.left-align(x="40") 自 {{week.dayFrom}} 至 {{week.dayTil}}，按周分類的每天發言量
+            g(transform="translate(15 35)")
+              g: text.week-label(ng-attr-y="{{$index * 7 + 5}}",x="-4",ng-repeat="w in week.th") {{w}}
+              g(ng-repeat="d in date")
+                rect.heatblock(ng-attr-x="{{d.x}}",ng-attr-y="{{d.y}}",width="6px",height="6px",
+                ng-attr-fill="{{heatColor(d.v)}}",ng-mouseover="week.hover.set(d)",ng-mouseout="week.hover.set(null)")
+              g.year-ptr(ng-repeat="(k,v) in week.yHash")
+                text(ng-attr-x="{{v + 3}}",y="-2") {{k}}
+              g.month-ptr(ng-repeat="(k,v) in week.mHash")
+                text(ng-attr-x="{{v + 3}}",y="53") {{k}}
+              g.hover(ng-show="week.hover.cur.v")
+                line(ng-attr-x1="{{week.hover.cur.x + 3}}",ng-attr-y1="{{week.hover.cur.y + 5}}",
+                     ng-attr-x2="{{week.hover.cur.tx}}",y2="57",stroke="#666",stroke-width="0.5px",stroke-dasharray="2 2")
+                text(ng-attr-x="{{week.hover.cur.tx}}",y="60") {{week.hover.cur.d}} x {{week.hover.cur.v}}
