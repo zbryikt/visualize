@@ -45,4 +45,7 @@ mainCtrl = ($scope) ->
     * title: "Reason of Unemployment"
       desc: "Compare between methods for data comparison, using reason of unemployment as an example."
       path: "jobless"
+    * title: "IRC Activity by Weekday"
+      desc: "Visualize IRC Activity with heatmap, categorized by weekday. Used in G0VIS."
+      path: "calendar"
   ]
