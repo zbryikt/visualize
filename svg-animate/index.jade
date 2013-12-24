@@ -1,0 +1,27 @@
+!!!5
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = false
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
+- var assets = "assets"
+html
+  head
+    title 
+    meta(charset="utf-8")
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="index.js")
+  body(ng-app,ng-controller="main")
+    svg#svg(width="500",height="500",viewbox="0 0 500 500")
+      //-circle(cx="50",cy="50",ng-attr-r="{{x||0}}",fill="#f00")
+      //-circle(cx="50",cy="50",ng-attr-r="{{x||0}}",fill="#f00")
+        animate(ng-repeat="n in blah",attributeName="r",ng-attr-from="{{n[0]||0}}",ng-attr-to="{{n[1]||0}}",dur="1s")
+      //-circle(cx="50",cy="50",ng-attr-r="{{x||0}}",fill="#f00")
+        animate(attributeName="r",ng-attr-from="{{px||0}}",ng-attr-to="{{x||0}}",dur="1s")
+      //-circle(cx="150",cy="150",r="15",fill="#0f0")
+        animate(attributeName="r",from="10",to="20",dur="1s")
+      //-circle#c(cx="100",cy="100",r="20",fill="#f00")
+      //circle(cx="100",cy="100",r="20",fill="#f00")
+        animate(from="20",to="30",dur="1s",attributeName="r")
+    div(ng-attr-style="width:{{x}}px") blah {{x}}
