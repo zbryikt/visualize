@@ -13,15 +13,19 @@ html
     link(rel="stylesheet",type="text/css",href="index.css")
     script(type="text/javascript",src="index.js")
   body(ng-app,ng-controller="main")
+    h2 Animate SVG with Various Approaches
+    .ib
+      #bar(ng-attr-style="width:{{curR * 5}}px") {{verbose(animate.r)}}
     svg#svg(width="500",height="500",viewbox="0 0 500 500")
-      //-circle(cx="50",cy="50",ng-attr-r="{{x||0}}",fill="#f00")
-      //-circle(cx="50",cy="50",ng-attr-r="{{x||0}}",fill="#f00")
-        animate(ng-repeat="n in blah",attributeName="r",ng-attr-from="{{n[0]||0}}",ng-attr-to="{{n[1]||0}}",dur="1s")
-      //-circle(cx="50",cy="50",ng-attr-r="{{x||0}}",fill="#f00")
-        animate(attributeName="r",ng-attr-from="{{px||0}}",ng-attr-to="{{x||0}}",dur="1s")
-      //-circle(cx="150",cy="150",r="15",fill="#0f0")
-        animate(attributeName="r",from="10",to="20",dur="1s")
-      //-circle#c(cx="100",cy="100",r="20",fill="#f00")
-      //circle(cx="100",cy="100",r="20",fill="#f00")
-        animate(from="20",to="30",dur="1s",attributeName="r")
-    div(ng-attr-style="width:{{x}}px") blah {{x}}
+      circle#js-smil(cx="125",cy="125",r="10")
+      circle#d3-anim(cx="375",cy="125",r="10")
+      circle#ng-smil(cx="125",cy="375",ng-attr-r="{{curR}}")
+        animate(attributeName="r",ng-attr-from="{{oldR}}",ng-attr-to="{{curR}}",dur="1s",fill="freeze"
+          ,ng-attr-begin="{{animate.begin}}",ng-attr-end="{{animate.begin + 1}}"
+        )
+      circle#ng-anim(cx="375",cy="375",ng-attr-r="{{animate.r}}")
+
+      text(x="125",y="175") JS+SMIL
+      text(x="375",y="175") D3+ANIM
+      text(x="125",y="425") NG+SMIL
+      text(x="375",y="425") NG+ANIM

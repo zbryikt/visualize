@@ -14,9 +14,21 @@
     <script type="text/javascript" src="index.js"></script>
   </head>
   <body ng-app ng-controller="main">
-    <svg id="svg" width="500" height="500" viewbox="0 0 500 500"><!--circle(cx="100",cy="100",r="20",fill="#f00")
-      <animate from="20" to="30" dur="1s" attributeName="r"></animate>-->
+    <h2>Animate SVG with Various Approaches</h2>
+    <div class="ib">
+      <div id="bar" ng-attr-style="width:{{curR * 5}}px">{{verbose(animate.r)}}</div>
+    </div>
+    <svg id="svg" width="500" height="500" viewbox="0 0 500 500">
+      <circle id="js-smil" cx="125" cy="125" r="10"></circle>
+      <circle id="d3-anim" cx="375" cy="125" r="10"></circle>
+      <circle id="ng-smil" cx="125" cy="375" ng-attr-r="{{curR}}">
+        <animate attributeName="r" ng-attr-from="{{oldR}}" ng-attr-to="{{curR}}" dur="1s" fill="freeze" ng-attr-begin="{{animate.begin}}" ng-attr-end="{{animate.begin + 1}}"></animate>
+      </circle>
+      <circle id="ng-anim" cx="375" cy="375" ng-attr-r="{{animate.r}}"></circle>
+      <text x="125" y="175">JS+SMIL</text>
+      <text x="375" y="175">D3+ANIM</text>
+      <text x="125" y="425">NG+SMIL</text>
+      <text x="375" y="425">NG+ANIM</text>
     </svg>
-    <div ng-attr-style="width:{{x}}px">blah {{x}}</div>
   </body>
 </html>
