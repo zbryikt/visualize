@@ -66,6 +66,10 @@ mainCtrl = function($scope){
       title: "IRC Activity by Weekday",
       desc: "Visualize IRC Activity with heatmap, categorized by weekday. Used in G0VIS.",
       path: "calendar"
+    }, {
+      title: "SVG Animation",
+      desc: "Animate SVG with 4 approaches: JS+SMIL, AngujarJS+SMIL, D3js, Pure AngularJS.",
+      path: "svg-animate"
     }
   ];
 };
