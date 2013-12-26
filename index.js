@@ -70,6 +70,10 @@ mainCtrl = function($scope){
       title: "SVG Animation",
       desc: "Animate SVG with 4 approaches: JS+SMIL, AngujarJS+SMIL, D3js, Pure AngularJS.",
       path: "svg-animate"
+    }, {
+      title: "Put MRT Flow in 3D",
+      desc: "Render MRT Flow in 3D heatmap. Use javascript-surface-plot lib.",
+      path: "3dplot"
     }
   ];
 };
