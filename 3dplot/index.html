@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8">
+    <title>template</title>
+    <!-- libraries-->
+    <script type="text/javascript" src="assets/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/d3js/3.3.11/d3.v3.min.js"></script>
+    <script type="text/javascript" src="assets/angular/1.2.3/angular.min.js"></script>
+    <!-- custom files-->
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="assets/surface-plot/excanvas.js"></script>
+    <script type="text/javascript" src="assets/surface-plot/SurfacePlot.js"></script>
+    <script type="text/javascript" src="assets/surface-plot/ColourGradient.js"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="px.min.js"></script>
+    <script type="text/javascript" src="coord.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body ng-app ng-controller="mainCtrl">
+    <h2>捷運出站人數視覺化</h2>
+    <h4>{{dateString}}</h4>
+    <div id="content">
+      <div id="viewport"></div>
+    </div>
+  </body>
+</html>
