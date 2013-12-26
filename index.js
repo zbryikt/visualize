@@ -74,6 +74,10 @@ mainCtrl = function($scope){
       title: "Put MRT Flow in 3D",
       desc: "Render MRT Flow in 3D heatmap. Use javascript-surface-plot lib.",
       path: "3dplot"
+    }, {
+      title: "Surveillance Camera",
+      desc: "List locations of all surveillance Cameras. Data Credit: Mimi",
+      path: "monitor"
     }
   ];
 };
