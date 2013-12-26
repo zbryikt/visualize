@@ -27,8 +27,8 @@ mainCtrl = ($scope) ->
   colour5 = {red:255, green:0, blue:0}
   colours = [colour1, colour2, colour3, colour4, colour5]
 
-  xAxisHeader = "經度"
-  yAxisHeader = "緯度"
+  yAxisHeader = "經度"
+  xAxisHeader = "緯度"
   zAxisHeader = "人數"
 
   options = do

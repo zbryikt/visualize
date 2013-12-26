@@ -23,7 +23,7 @@ mainCtrl = function($scope){
     c: 60
   };
   return google.setOnLoadCallback(function(){
-    var data, i, d, plot, fillPly, colour1, colour2, colour3, colour4, colour5, colours, xAxisHeader, yAxisHeader, zAxisHeader, options;
+    var data, i, d, plot, fillPly, colour1, colour2, colour3, colour4, colour5, colours, yAxisHeader, xAxisHeader, zAxisHeader, options;
     data = new google.visualization.DataTable();
     (function(){
       var i$, to$, results$ = [];
@@ -65,8 +65,8 @@ mainCtrl = function($scope){
       blue: 0
     };
     colours = [colour1, colour2, colour3, colour4, colour5];
-    xAxisHeader = "經度";
-    yAxisHeader = "緯度";
+    yAxisHeader = "經度";
+    xAxisHeader = "緯度";
     zAxisHeader = "人數";
     options = {
       xPos: 0,
