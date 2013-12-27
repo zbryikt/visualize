@@ -13,10 +13,16 @@ mainCtrl = ($scope) ->
     minimum-cluster-size: 1
     zoom-on-click: true
 
+  count-camera = (m, num-styles) -> do
+    v = (m.reduce ((a,b) -> b.data.count + a), 0)
+    #return text: "#{v}", index: parseInt(v / 100)
+    return text: "#{v}", index: parseInt(v / 100)
+
   map = new google.maps.Map document.getElementById(\map-node), map-option
   google.maps.event.addListenerOnce map, \idle, -> google.maps.event.trigger map, \resize
   setTimeout (-> $ \#map-node .css \width \100%), 1000
   mc = new MarkerClusterer map, [], cluster-option
+    ..set-calculator count-camera
 
   $scope.poi = []
   $scope.poi-icon = do
@@ -42,6 +48,7 @@ mainCtrl = ($scope) ->
       position: new google.maps.LatLng item.lat, item.lng
       map: null
       icon: if item.count>1 => $scope.poi-more-icon else $scope.poi-icon
+    m.data = item
     $scope.poi.push m
   mc.addMarkers $scope.poi
   $scope.cluster-is-on = true
