@@ -1,7 +1,6 @@
 mainCtrl = ($scope) ->
   map-option = do
     center: new google.maps.LatLng 25.048281,121.5371
-    scrollwheel: false
     zoom: 16
     minZoom: 8
     maxZoom: 18
