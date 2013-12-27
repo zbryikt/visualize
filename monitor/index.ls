@@ -23,18 +23,25 @@ mainCtrl = ($scope) ->
     url: \poi.png
     size: new google.maps.Size(13,16)
     origin: new google.maps.Point(0, 0)
+  $scope.poi-more-icon = do
+    url: \poi-more.png
+    size: new google.maps.Size(13,16)
+    origin: new google.maps.Point(0, 0)
 
   (data) <- d3.csv \monitor.csv
 
   count = 0
+  hash = {}
   for item in data
-    if count> 10000 => break
-    count++
+    key = "#{item.lat}#{item.lng}"
+    if not (key of hash) => hash[key] = {count: 0} <<< item
+    hash[key]count += 1
+  for k,item of hash
     m = new google.maps.Marker do
       zIndex: 9900000
       position: new google.maps.LatLng item.lat, item.lng
       map: null
-      icon: $scope.poi-icon
+      icon: if item.count>1 => $scope.poi-more-icon else $scope.poi-icon
     $scope.poi.push m
   mc.addMarkers $scope.poi
   $scope.cluster-is-on = true

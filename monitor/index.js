@@ -30,20 +30,34 @@ mainCtrl = function($scope){
     size: new google.maps.Size(13, 16),
     origin: new google.maps.Point(0, 0)
   };
+  $scope.poiMoreIcon = {
+    url: 'poi-more.png',
+    size: new google.maps.Size(13, 16),
+    origin: new google.maps.Point(0, 0)
+  };
   return d3.csv('monitor.csv', function(data){
-    var count, i$, len$, item, m;
+    var count, hash, i$, len$, item, key, k, m;
     count = 0;
+    hash = {};
     for (i$ = 0, len$ = data.length; i$ < len$; ++i$) {
       item = data[i$];
-      if (count > 10000) {
-        break;
+      key = item.lat + "" + item.lng;
+      if (!(key in hash)) {
+        hash[key] = import$({
+          count: 0
+        }, item);
       }
-      count++;
+      hash[key].count += 1;
+    }
+    for (k in hash) {
+      item = hash[k];
       m = new google.maps.Marker({
         zIndex: 9900000,
         position: new google.maps.LatLng(item.lat, item.lng),
         map: null,
-        icon: $scope.poiIcon
+        icon: item.count > 1
+          ? $scope.poiMoreIcon
+          : $scope.poiIcon
       });
       $scope.poi.push(m);
     }
@@ -61,3 +75,8 @@ mainCtrl = function($scope){
     });
   });
 };
+function import$(obj, src){
+  var own = {}.hasOwnProperty;
+  for (var key in src) if (own.call(src, key)) obj[key] = src[key];
+  return obj;
+}
