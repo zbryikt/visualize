@@ -3,8 +3,8 @@ var mainCtrl;
 mainCtrl = function($scope){
   return $scope.brief = [
     {
-      title: "Hannah Scatter",
-      desc: "Use Hannah Fairfield scatter plot to show time series of corelated variables.",
+      title: "Connected Scatter Plot",
+      desc: "Use connected scatter plot to show time series of corelated variables.",
       path: "scatter"
     }, {
       title: "Angular + D3js",
