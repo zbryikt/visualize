@@ -1,6 +1,7 @@
-[w,h] = [600,600]
+[w,h] = [900,600]
 main = ($scope,$http) ->
-  $scope.force = d3.layout.force!gravity 0.05 .charge -> it.name.length * -20 - 20
+  $scope.xaxis = d3.scale.linear!domain [150, w - 150] .range [0 w]
+  $scope.force = d3.layout.force!gravity 0.09 .charge -> (it.name.length - 2) * -50 - 80
   $scope.start = null
   $scope.end = ""
   $scope.miles = 0
@@ -44,12 +45,12 @@ main = ($scope,$http) ->
 
     draw = ->
       d3.select \#svg .selectAll \g.link .select \line
-        .attr \x1 -> it.source.x
+        .attr \x1 -> $scope.xaxis it.source.x
         .attr \y1 -> it.source.y
-        .attr \x2 -> it.target.x
+        .attr \x2 -> $scope.xaxis it.target.x
         .attr \y2 -> it.target.y
       d3.select \#svg .selectAll \g.site
-        .attr \transform -> "translate(#{it.x} #{it.y})"
+        .attr \transform -> "translate(#{$scope.xaxis it.x} #{it.y})"
         .select \circle .attr \fill -> if it.selected => \#f0f else if it.passed => \#0f0 else \#fff
     d3.select \#svg 
       ..append \g
@@ -63,16 +64,16 @@ main = ($scope,$http) ->
           ..exit!remove!
           ..enter!append \g
             ..attr \class \site
-            ..attr \transform -> "translate(#{it.x} #{it.y})"
+            ..attr \transform -> "translate(#{$scope.xaxis it.x} #{it.y})"
             ..append \circle
               .attr \r \5px
             ..append \text
               .attr \class \text-bg
-              .attr \dy \15px
+              .attr \dy \18px
               .text -> it.name
             ..append \text
               .attr \class \text-fg
-              .attr \dy \15px
+              .attr \dy \18px
               .text -> it.name
             ..on \click -> 
               if $scope.choosed.length == 2 and !it.selected => $scope.choosed.0.selected = false
