@@ -13,8 +13,8 @@ main = ($scope,$http) ->
     nodes = for n,i in $scope.names => do
       weight: 1
       name: n
-      x: (w/2) + h * Math.cos(6.28 * i / count) / 2
-      y: (h/2) + h * Math.sin(6.28 * i / count) / 2
+      x: (w/2) + h * Math.cos(-1.57 + -6.28 * i / count) / 2
+      y: (h/2) + h * Math.sin(-1.57 + -6.28 * i / count) / 2
     links = for i from 1 til $scope.names.length => {source: nodes[i - 1], target: nodes[i] }
     $scope.force.nodes nodes  .links links .size [w,h] .start!
 

@@ -24,8 +24,8 @@ main = function($scope, $http){
       res$.push({
         weight: 1,
         name: n,
-        x: w / 2 + h * Math.cos(6.28 * i / count) / 2,
-        y: h / 2 + h * Math.sin(6.28 * i / count) / 2
+        x: w / 2 + h * Math.cos(-1.57 + -6.28 * i / count) / 2,
+        y: h / 2 + h * Math.sin(-1.57 + -6.28 * i / count) / 2
       });
     }
     nodes = res$;
