@@ -1,5 +1,8 @@
 mainCtrl = ($scope) ->
   $scope.brief = [
+    * title: "Highway ETC Fee"
+      desc: "Calculate highway ETC fee"
+      path: "highway"
     * title: "Connected Scatter Plot"
       desc: "Use connected scatter plot to show time series of corelated variables."
       path: "scatter"

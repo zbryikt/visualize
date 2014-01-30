@@ -1,0 +1,36 @@
+doctype html
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = false
+- var useog = true
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
+- var assets = "assets"
+- var thumbnail = "http://zbryikt.github.io/visualize/highway/thumbnail.png"
+html(lang="en")
+  head(prefix="og: http://ogp.me/ns#")
+    meta(charset="utf-8")
+    title template
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="index.js")
+  body(ng-app,ng-controller="main")
+    h2 國道一號電子收費價錢試算
+    h4(ng-show="start") {{start}} 到 {{end}} : {{miles}}公里 共計 {{price}} 元
+    h4(ng-show="!start") 點選你要上下的交流道名稱來試算過路費用吧！
+    svg#svg(width="600px",height="600px",viewBox="0 0 600 600",preserveAspectRatio="xMidYMid")
+    hr
+    h3 為什麼我算出來的跟遠通電收網站的不一樣？
+    .panel
+      | 遠通電收網站的試算程式會自動幫你在國道三號及一號間選擇最佳路徑，這裡只有幫你算走國道一號上的狀況。
+    br
+    h3 你做這個幹嘛？
+    .panel
+      | 遠通的試算程式不太好用，所以自己寫一個試試看。
+    br
+    h3 到底準不準啊？
+    .panel
+      | 你也看到遠通試算網頁怎麼寫了，讓我照抄一下：
+      blockquote
+        | 本試算網頁僅提供用路人試算通行金額，惟實際支付通行費金額，須視實際扣款情形及當時費率金額而定。若您對通行費扣款金額有疑問，請洽遠通公司(02-77161998)。
+    #footer
