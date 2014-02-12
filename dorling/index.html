@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8">
+    <title>template</title>
+    <!-- libraries-->
+    <script type="text/javascript" src="assets/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/d3js/3.0.8/d3.v3.min.js"></script>
+    <!-- custom files-->
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&amp;libraries=places"></script>
+    <script type="text/javascript" src="topojson.js"></script>
+    <script type="text/javascript" src="px.min.js"></script>
+    <script type="text/javascript" src="index2.js"></script>
+  </head>
+  <body ng-app ng-controller="main">
+    <div id="content">
+      <h1>D3js with Maps</h1>
+      <p>This is the live demo for the final result of <a href="http://blog.safaribooksonline.com/2014/02/11/d3-js-maps/">this guest post</a> in <a href="http://blog.safaribooksonline.com/">Safari Books Online Blog.</a>You can check the guest post to see how this demo is built.</p>
+      <p>
+        In the below chart, we use circles to visualize Taiwan Population data with political affiliation in County level.
+        There's one circle for every county; you can identify the corresponding circle of a county by matching its outline color with the county.
+      </p>
+      <p>Circle radius represents popluation in corresponding county.<br>Circle color represents the political affiliation in corresponding county.</p>
+      <div id="gmap" style="width:100%;height:400px;margin:0 auto"></div>
+    </div>
+  </body>
+</html>

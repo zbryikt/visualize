@@ -1,5 +1,8 @@
 mainCtrl = ($scope) ->
   $scope.brief = [
+    * title: "D3js with Maps"
+      desc: "Dorling cartogram and Google maps demonstration"
+      path: "dorling"
     * title: "Highway ETC Fee"
       desc: "Calculate highway ETC fee"
       path: "highway"
