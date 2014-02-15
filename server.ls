@@ -1,11 +1,21 @@
 require! <[chokidar http fs child_process path]>
 
+if process.argv.length<3 =>
+  console.log "usage: lsc server.ls [path-to-build]"
+  process.exit!
+path-to-build = process.argv.2
+
+RegExp.escape = -> it.replace /[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"
+
 ls   = if fs.existsSync v=\node_modules/.bin/livescript => v else \livescript
 jade = if fs.existsSync v=\node_modules/.bin/jade => v else \jade
 sass = if fs.existsSync v=\node_modules/.bin/sass => v else \sass
 cwd = path.resolve process.cwd!
+cwd-re = new RegExp RegExp.escape "#cwd#{if cwd[* - 1]=='/' => "" else \/}"
+if process.env.OS=="Windows_NT" => [jade,sass,ls] = [jade,sass,ls]map -> it.replace /\//g,\\\
 
-ignore-list = [path.resolve cwd,\server.ls]
+ignore-list = [/^server.ls$/, /^library.jade$/, /^\.[^/]+/, /^node_modules\//,/^assets\//]
+ignore-func = (f) -> ignore-list.filter(-> it.exec f.replace(cwd-re, "")replace(/^\.\/+/, ""))length
 
 type-table =
   "3gp":"video/3gpp",
@@ -200,25 +210,28 @@ server = (req, res) ->
   console.log "[ GET ] #{file-path} (#{ctype file-path})"
 
   buf = fs.readFileSync file-path
-  res.writeHead 200, ctype file-path
+  res.writeHead 200, do
+    "Content-Length": buf.length
+    "Content-Type": ctype file-path
   res.end buf
 
 log = (error, stdout, stderr) -> if "#{stdout}\n#{stderr}".trim! => console.log that
 update-file = ->
-  if it in ignore-list => return
   [type,cmd] = [ftype(it), ""]
+  ret = (it.indexOf(path-to-build) == 0 and /^[^/]+\/index\./.exec(it)) or /^index\.[^/]+$/.exec(it)
+  if not ret => return
   if type == \other => return
   if type == \ls => cmd = "#{ls} -cb #{it}"
   if type == \sass => cmd = "#{sass} #{it} #{it.replace /\.sass$/, \.css}"
-  if type == \jade => cmd = "#{jade} #{it}"
+  if type == \jade => cmd = "#{jade} -P #{it}"
   if cmd =>
     console.log "[BUILD] #{cmd}"
     child_process.exec cmd, log
 
-watcher = chokidar.watch watch-path, ignored: /^\./, persistent: true
+watcher = chokidar.watch watch-path, ignored: ignore-func, persistent: true
   .on \add, update-file
   .on \change, update-file
 
 http.createServer server .listen 9999, \0.0.0.0
 
-console.log "running server on localhost:9999"
+console.log "running server on 0.0.0.0:9999"

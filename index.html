@@ -1,1 +1,37 @@
-<!DOCTYPE html><html><head><title> </title><meta charset="utf-8"><!-- libraries--><script type="text/javascript" src="//codeorigin.jquery.com/jquery-1.10.2.min.js"></script><script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script><script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script><link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"><script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script><!-- custom files--><link rel="stylesheet" type="text/css" href="assets/bootstrap/3.0.2/theme/cerulean/bootstrap.min.css"><link rel="stylesheet" type="text/css" href="index.css"><script type="text/javascript" src="index.js"></script></head><body ng-app ng-controller="mainCtrl"><div id="content"><div role="navigation" class="navbar navbar-default"><div class="navbar-header"><a href="#" class="navbar-brand"><div class="title">Gallery of Visualization</div><div class="desc">visualize topics related to government and web technology.</div></a></div><div class="collapse navbar-collapse"><ul class="nav navbar-nav navbar-right"><li><a href="http://g0v.tw">g0v.tw</a></li><li><a href="http://github.com/zbryikt">github</a></li><li><a href="http://tkirby.org/blog">blog</a></li></ul></div></div><br style="clear:both"><div ng-repeat="d in brief" class="item"><a ng-attr-href="{{d.path}}/"><img ng-attr-src="{{d.path}}/thumbnail.png" class="thumbnail"></a><a ng-attr-href="{{d.path}}/" class="title">{{d.title}}</a><div class="desc">{{d.desc}}</div></div><br style="clear:both"><hr><br style="clear:both"></div></body></html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    <!-- libraries-->
+    <script type="text/javascript" src="//codeorigin.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <!-- custom files-->
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/3.0.2/theme/cerulean/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body ng-app ng-controller="mainCtrl">
+    <div id="content">
+      <div role="navigation" class="navbar navbar-default">
+        <div class="navbar-header"><a href="#" class="navbar-brand">
+            <div class="title">Gallery of Visualization</div>
+            <div class="desc">visualize topics related to government and web technology.</div></a></div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://g0v.tw">g0v.tw</a></li>
+            <li><a href="http://github.com/zbryikt">github</a></li>
+            <li><a href="http://tkirby.org/blog">blog</a></li>
+          </ul>
+        </div>
+      </div><br style="clear:both">
+      <div ng-repeat="d in brief" class="item"><a ng-attr-href="{{d.path}}/"><img ng-attr-src="{{d.path}}/thumbnail.png" class="thumbnail"></a><a ng-attr-href="{{d.path}}/" class="title">{{d.title}}</a>
+        <div class="desc">{{d.desc}}</div>
+      </div><br style="clear:both">
+      <hr><br style="clear:both">
+    </div>
+  </body>
+</html>

@@ -3,6 +3,10 @@ var mainCtrl;
 mainCtrl = function($scope){
   return $scope.brief = [
     {
+      title: "NSC Project Allowance 2",
+      desc: "Visualization of NSC Allowance that showing their change over time",
+      path: "nsc-2"
+    }, {
       title: "D3js with Maps",
       desc: "Dorling cartogram and Google maps demonstration",
       path: "dorling"
