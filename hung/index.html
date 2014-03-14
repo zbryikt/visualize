@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:xlink="http://www.w3.org/1999/xlink/namespace">
+  <head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8">
+    <title>template</title>
+    <!-- libraries-->
+    <script type="text/javascript" src="assets/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/d3js/3.3.11/d3.v3.min.js"></script>
+    <script type="text/javascript" src="assets/angular/1.2.3/angular.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/3.0.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="assets/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <!-- custom files-->
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body ng-app ng-controller="main">
+    <svg style="position:absolute;border:none">
+      <defs>
+        <pattern id="sergeant1" patternUnits="userSpaceOnUse" width="90" height="90">
+          <image xlink:href="sergeant1.svg" x="0" y="0" width="90" height="90"></image>
+        </pattern>
+      </defs>
+    </svg>
+    <div class="content">
+      <h2>洪仲丘案宣判結果</h2>
+      <div id="container"></div>
+    </div>
+    <div class="ctrl">
+      <button ng-click="sort([6,0])" class="btn btn-default">按徒刑長度排序</button>
+      <button ng-click="sort([0,6])" class="btn btn-default">按職級排序</button>
+      <button ng-click="sort([2,6])" class="btn btn-default">按單位排序</button>
+      <button ng-click="sort([7,6])" class="btn btn-default">按有無易科罰金排序</button>
+    </div>
+  </body>
+</html>

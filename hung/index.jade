@@ -1,0 +1,29 @@
+doctype html
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = false
+- var useog = false
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: true, semantic: false }
+- var assets = "assets"
+- var thumbnail = "http://dummy.thumbnail"
+html(lang="en",xmlns:xlink="http://www.w3.org/1999/xlink/namespace")
+  head(prefix="og: http://ogp.me/ns#")
+    meta(charset="utf-8")
+    title template
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="index.js")
+  body(ng-app,ng-controller="main")
+    svg(style="position:absolute;border:none")
+      defs
+        pattern#sergeant1(patternUnits="userSpaceOnUse",width="90",height="90")
+          image(xlink:href="sergeant1.svg",x="0",y="0",width="90",height="90")
+    .content
+      h2 洪仲丘案宣判結果
+      #container
+    .ctrl
+      button.btn.btn-default(ng-click="sort([6,0])") 按徒刑長度排序
+      button.btn.btn-default(ng-click="sort([0,6])") 按職級排序
+      button.btn.btn-default(ng-click="sort([2,6])") 按單位排序
+      button.btn.btn-default(ng-click="sort([7,6])") 按有無易科罰金排序
