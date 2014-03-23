@@ -3,6 +3,10 @@ var mainCtrl;
 mainCtrl = function($scope){
   return $scope.brief = [
     {
+      title: "PTT User Analysis",
+      desc: "Find out users that always stand against other people",
+      path: "ptt-user"
+    }, {
       title: "NSC Project Allowance 2",
       desc: "Visualization of NSC Allowance that showing their change over time",
       path: "nsc-2"

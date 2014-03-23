@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8">
+    <title>template</title>
+    <!-- libraries-->
+    <script type="text/javascript" src="assets/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/d3js/3.3.11/d3.v3.min.js"></script>
+    <script type="text/javascript" src="assets/angular/1.2.3/angular.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/3.0.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="assets/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <!-- custom files-->
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body ng-app ng-controller="main">
+    <div class="content">
+      <div id="postcontent" tabindex="-1" role="dialog" aria-labelledby="postcontentLabel" aria-hidden="true" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+              <h4 id="postcontentLabel" class="modal-title">文章內容</h4>
+            </div>
+            <div class="modal-body">
+              <iframe ng-src="{{iframehref}}"></iframe>
+            </div>
+            <div class="modal-footer">
+              <button type="button" data-dismiss="modal" class="btn btn-default">關閉</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2>批踢踢八卦版與主流民眾意見相左的使用者情況分析</h2>
+      <p>〖說明〗發文得到 25 噓以上，或是在25 推以上的文章中噓文者，每一次計一分。這裡列出 100 分以上的所有使用者。</p>
+      <div class="all">
+        <div class="row">
+          <div class="col-md-3">
+            <h4>這邊是意見相左的使用者</h4>
+          </div>
+          <div ng-show="target" class="col-md-9">
+            <h4>{{target}} 與大眾意見相左的文章如下:</h4>
+          </div>
+        </div>
+        <div class="row main">
+          <div class="col-md-3 list scroll">
+            <table>
+              <tr>
+                <th class="score">得分</th>
+                <th>帳號</th>
+              </tr>
+              <tr ng-repeat="s in suspect" ng-click="click(s[0])">
+                <td class="score">{{s[1]}}</td>
+                <td>{{s[0]}}</td>
+              </tr>
+            </table>
+          </div>
+          <div ng-show="!target" class="col-md-9">
+            <h4><i class="glyphicon glyphicon-arrow-left"></i> 
+               請點選左邊的帳號來看細節
+            </h4>
+          </div>
+          <div ng-show="target" class="col-md-9 detail scroll">
+            <table>
+              <tr>
+                <th class="score">推文數</th>
+                <th>發文者</th>
+                <th>標題</th>
+              </tr>
+              <tr ng-repeat="n in post">
+                <td ng-class="{true:'red'}[n[1]&lt;0]" class="score">{{n[1]}}</td>
+                <td ng-class="{true:'bold red'}[n[2]==target]">{{n[2]}}</td>
+                <td><a href="#" ng-click="open(n[3])">{{n[0]}}</a></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

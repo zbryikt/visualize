@@ -1,0 +1,54 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; }
+
+.content {
+  margin: 20px 40px; }
+
+.all {
+  padding: 10px;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4); }
+
+.col-md-3 {
+  border-right: 1px solid #999999; }
+  .col-md-3 h4 {
+    text-align: center; }
+
+.list {
+  height: 100%; }
+  .list table {
+    width: 100%; }
+  .list tr {
+    cursor: pointer; }
+  .list tr:hover {
+    background: #eeeeee;
+    color: red; }
+
+th.score, td.score {
+  text-align: right;
+  padding-right: 10px; }
+
+.name, .count {
+  display: inline-block; }
+
+.main {
+  height: 500px; }
+  .main .scroll {
+    height: 490px;
+    overflow: scroll; }
+
+.red {
+  color: red; }
+
+.bold {
+  font-weight: 900; }
+
+#postcontent {
+  width: 100%; }
+  #postcontent .modal-dialog {
+    width: 100%; }
+  #postcontent iframe {
+    width: 100%;
+    height: 400px; }

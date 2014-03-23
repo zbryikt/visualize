@@ -1,0 +1,63 @@
+doctype html
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = false
+- var useog = false
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: true, semantic: false }
+- var assets = "assets"
+- var thumbnail = "http://zbryikt.github.io/visualize/ptt-user/thumbnail.png"
+html(lang="en")
+  head(prefix="og: http://ogp.me/ns#")
+    meta(charset="utf-8")
+    title template
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="index.js")
+  body(ng-app,ng-controller="main")
+    .content
+      .modal.fade#postcontent(tabindex="-1",role="dialog",aria-labelledby="postcontentLabel",aria-hidden="true")
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type="button",data-dismiss="modal",aria-hidden="true") &times;
+              h4.modal-title#postcontentLabel 文章內容
+            .modal-body
+              iframe(ng-src="{{iframehref}}")
+            .modal-footer
+              button.btn.btn-default(type="button",data-dismiss="modal") 關閉
+
+      h2 批踢踢八卦版與主流民眾意見相左的使用者情況分析
+      p
+        | 〖說明〗發文得到 25 噓以上，或是在25 推以上的文章中噓文者，每一次計一分。這裡列出 100 分以上的所有使用者。
+      .all
+        .row
+          .col-md-3
+            h4 這邊是意見相左的使用者
+          .col-md-9(ng-show="target")
+            h4 {{target}} 與大眾意見相左的文章如下:
+        .row.main
+          .col-md-3.list.scroll
+            table
+              tr
+                th.score 得分
+                th 帳號
+              tr(ng-repeat="s in suspect",ng-click="click(s[0])")
+                td.score {{s[1]}}
+                td {{s[0]}}
+          .col-md-9(ng-show="!target")
+            h4
+              i.glyphicon.glyphicon-arrow-left
+              | 
+              |  請點選左邊的帳號來看細節
+          .col-md-9.detail.scroll(ng-show="target")
+            table
+              tr
+                th.score 推文數
+                th 發文者
+                th 標題
+              tr(ng-repeat="n in post")
+                td.score(ng-class="{true:'red'}[n[1]<0]") {{n[1]}}
+                td(ng-class="{true:'bold red'}[n[2]==target]") {{n[2]}}
+                td: a(href="#",ng-click="open(n[3])") {{n[0]}}
+                //-td: a(ng-href="http://ptt.cc/bbs/Gossiping/{{n[3]}}.html") {{n[0]}}
