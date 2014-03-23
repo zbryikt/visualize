@@ -30,6 +30,7 @@ body {
     top: -10px; }
   #content .item {
     width: 210px;
+    height: 280px;
     padding: 5px;
     margin: 15px;
     float: left; }
