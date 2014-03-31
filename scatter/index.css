@@ -29,3 +29,8 @@ svg {
 
 .link line {
   stroke-width: 1.2px; }
+
+form.panel select.form-control {
+  display: inline-block;
+  margin-right: 10px;
+  width: auto; }

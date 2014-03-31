@@ -2,7 +2,7 @@ doctype html
 //- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
 - var usecdn = false
 - var useog = true
-- var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: true, semantic: false }
 - var assets = "assets"
 - var thumbnail = "http://zbryikt.github.io/visualize/scatter/thumbnail.png"
 html(lang="en")
@@ -13,10 +13,40 @@ html(lang="en")
     include library.jade
     // custom files
     link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="stat-idx.js")
+    script(type="text/javascript",src="stat-cat.js")
+    script(type="text/javascript",src="stat-area.js")
     script(type="text/javascript",src="index.js")
     script(type="text/javascript",src="px.min.js")
-  body
+  body(ng-app,ng-controller="main")
     h2 Connected Scatter Plot - 台灣縣市統計指標為例
+    form.panel.form-group
+      | 選擇指標
+      br
+      label Y 軸
+      select.form-control(ng-model="cat.y")
+        option(value="0") 指標類別
+        option(ng-repeat="(v,c) in statCat",value="{{v}}") {{c}}
+      select.form-control(ng-model="idx.y")
+        option(value="0") 指標
+        option(ng-repeat="(v,c) in statIdx[cat.y]",value="{{v}}") {{c}}
+      select.form-control(ng-model="area.y")
+        option(value="0") 區域
+        option(ng-repeat="(v,c) in statArea",value="{{v}}") {{c}}
+      br
+      label X 軸
+      select.form-control(ng-model="cat.x")
+        option(value="0") 指標類別
+        option(ng-repeat="(v,c) in statCat",value="{{v}}") {{c}}
+      select.form-control(ng-model="idx.x")
+        option(value="0") 指標
+        option(ng-repeat="(v,c) in statIdx[cat.x]",value="{{v}}") {{c}}
+      select.form-control(ng-model="area.x")
+        option(value="0") 區域
+        option(ng-repeat="(v,c) in statArea",value="{{v}}") {{c}}
+      br
+      .btn.btn-default(ng-click="gotolink()") 產生
+
     svg(width="900px",height="600px",viewBox="0 0 900 600",preserveAspectRatio="xMidYMid")
       g#label
       g#chart

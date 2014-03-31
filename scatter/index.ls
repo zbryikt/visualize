@@ -3,6 +3,20 @@ mi = [10 10 20 20]
 
 [w,h] = [900 600]
 
+
+main = ($scope) ->
+  $scope.cat = x: 1, y: 1
+  $scope.idx = x: 1, y: 1
+  $scope.area = x: 1, y: 1
+  $scope.stat-cat = stat-cat
+  $scope.stat-idx = stat-idx
+  $scope.stat-area = stat-area
+  $scope.gotolink = ->
+    s = $scope
+    p = window.location.pathname
+    window.location.href = "#p?#{parse-int(Math.random!*10000)}\##{s.cat.x}.#{s.idx.x}.#{s.area.x}.#{s.cat.y}.#{s.idx.y}.#{s.area.y}"
+
+
 hannah = (d1, d2) ->
   nodes = for r,i in d1.range => {x: d1.data[i], y: d2.data[i], v: ~~r}
   links = for i from 1 til nodes.length =>
