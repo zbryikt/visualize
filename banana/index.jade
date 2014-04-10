@@ -1,0 +1,42 @@
+doctype html
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = false
+- var useog = false
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
+- var assets = "assets"
+- var thumbnail = "http://dummy.thumbnail"
+html(lang="en")
+  head(prefix="og: http://ogp.me/ns#")
+    meta(charset="utf-8")
+    title template
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="x3dom.css")
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="x3dom.js")
+    script(type="text/javascript",src="index.js")
+  body
+    a(href="banana.html") banana
+    x3d(xmlns='http://www.x3dom.org/x3dom', showstat='false', showlog='false', x='0px', y='0px', width='250px', height='250px', altimg='helloX3D-alt.png')
+      scene(render='true', bboxcenter='0,0,0', bboxsize='-1,-1,-1', pickmode='idBuf', dopickpass='true')
+        viewpoint(position='0 0 10', fieldofview='0.785398', orientation='0,0,0,0', centerofrotation='0,0,0', znear='-1', zfar='-1')
+        shape(render='true', bboxcenter='0,0,0', bboxsize='-1,-1,-1', ispickable='true')
+          appearance(sorttype='auto')
+            material(diffusecolor='0.903 0.894 0.909', ambientintensity='0.2', emissivecolor='0,0,0', shininess='0.2', specularcolor='1,1,0')
+          box(def='box', solid='true', ccw='true', usegeocache='true', lit='true', size='2,2,2')
+
+    x3d(xmlns='http://www.x3dom.org/x3dom', showstat='false', showlog='false', x='0px', y='0px', width='250px', height='250px', altimg='helloX3D-alt.png')
+      scene(render='true', bboxcenter='0,0,0', bboxsize='-1,-1,-1', pickmode='idBuf', dopickpass='true')
+        viewpoint(position='0 2 10', fieldofview='0.785398', orientation='0,0,0,0', centerofrotation='0,0,10', znear='-1', zfar='-1')
+        shape(render='true', bboxcenter='0,0,0', bboxsize='-1,-1,-1', ispickable='true')
+          appearance(sorttype='auto')
+            material(diffusecolor='0.903 0.894 0.909', ambientintensity='0.2', emissivecolor='0,0,0', shininess='0.2', specularcolor='1,1,0')
+          box(def='box', solid='true', ccw='true', usegeocache='true', lit='true', size='2,2,4')
+    x3d(xmlns='http://www.x3dom.org/x3dom', showstat='false', showlog='false', x='0px', y='0px', width='250px', height='250px', altimg='helloX3D-alt.png')
+      scene(render='true', bboxcenter='0,0,0', bboxsize='-1,-1,-1', pickmode='idBuf', dopickpass='true')
+        viewpoint(position='0 0 10', fieldofview='0.785398', orientation='0,0,0,0', centerofrotation='0,0,0', znear='-1', zfar='-1')
+        shape(render='true', bboxcenter='0,0,0', bboxsize='-1,-1,-1', ispickable='true')
+          appearance(sorttype='auto')
+            material(diffusecolor='0.903 0.894 0.909', ambientintensity='0.2', emissivecolor='0,0,0', shininess='0.2', specularcolor='1,1,0')
+          box(def='box', solid='true', ccw='true', usegeocache='true', lit='true', size='2,2,2')
