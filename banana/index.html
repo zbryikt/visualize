@@ -13,41 +13,31 @@
     <link rel="stylesheet" type="text/css" href="x3dom.css">
     <link rel="stylesheet" type="text/css" href="index.css">
     <script type="text/javascript" src="x3dom.js"></script>
+    <script type="text/javascript" src="fisheye.js"></script>
+    <script type="text/javascript" src="banana.js"></script>
     <script type="text/javascript" src="index.js"></script>
   </head>
-  <body><a href="banana.html">banana</a>
-    <x3d xmlns="http://www.x3dom.org/x3dom" showstat="false" showlog="false" x="0px" y="0px" width="250px" height="250px" altimg="helloX3D-alt.png">
-      <scene render="true" bboxcenter="0,0,0" bboxsize="-1,-1,-1" pickmode="idBuf" dopickpass="true">
-        <viewpoint position="0 0 10" fieldofview="0.785398" orientation="0,0,0,0" centerofrotation="0,0,0" znear="-1" zfar="-1"></viewpoint>
-        <shape render="true" bboxcenter="0,0,0" bboxsize="-1,-1,-1" ispickable="true">
+  <body ng-app ng-controller="main">
+    <h2>Banana 3D - Angularjs + D3js fisheye plugin + X3Dom</h2>
+    <x3d profile="Immersive" version="3.1" xsd:noNamespaceSchemaLocation="http://www.web3d.org/specifications/x3d-3.1.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance" onmousemove="movehandle(event)">
+      <head>
+        <meta content="banana.x3d" name="title">
+        <meta content="Generated from Meshlab X3D Exported" name="description">
+        <meta content="11 4月 2014" name="created">
+        <meta content="Meshlab X3D Exported, http://meshlab.sourceforge.net" name="generator">
+      </head>
+      <Scene>
+        <viewpoint position="-70 -70 400" fieldofview="0.785398" orientation="0,0,0,0" centerofrotation="-70,-70,0" znear="-1" zfar="-1"></viewpoint>
+        <Shape>
           <appearance sorttype="auto">
-            <material diffusecolor="0.903 0.894 0.909" ambientintensity="0.2" emissivecolor="0,0,0" shininess="0.2" specularcolor="1,1,0"></material>
+            <material diffusecolor="0.903 0.994 0.309" ambientintensity="0.2" emissivecolor="0,0,0" shininess="0.9" specularcolor="1,1,0"></material>
           </appearance>
-          <box def="box" solid="true" ccw="true" usegeocache="true" lit="true" size="2,2,2"></box>
-        </shape>
-      </scene>
-    </x3d>
-    <x3d xmlns="http://www.x3dom.org/x3dom" showstat="false" showlog="false" x="0px" y="0px" width="250px" height="250px" altimg="helloX3D-alt.png">
-      <scene render="true" bboxcenter="0,0,0" bboxsize="-1,-1,-1" pickmode="idBuf" dopickpass="true">
-        <viewpoint position="0 2 10" fieldofview="0.785398" orientation="0,0,0,0" centerofrotation="0,0,10" znear="-1" zfar="-1"></viewpoint>
-        <shape render="true" bboxcenter="0,0,0" bboxsize="-1,-1,-1" ispickable="true">
-          <appearance sorttype="auto">
-            <material diffusecolor="0.903 0.894 0.909" ambientintensity="0.2" emissivecolor="0,0,0" shininess="0.2" specularcolor="1,1,0"></material>
-          </appearance>
-          <box def="box" solid="true" ccw="true" usegeocache="true" lit="true" size="2,2,4"></box>
-        </shape>
-      </scene>
-    </x3d>
-    <x3d xmlns="http://www.x3dom.org/x3dom" showstat="false" showlog="false" x="0px" y="0px" width="250px" height="250px" altimg="helloX3D-alt.png">
-      <scene render="true" bboxcenter="0,0,0" bboxsize="-1,-1,-1" pickmode="idBuf" dopickpass="true">
-        <viewpoint position="0 0 10" fieldofview="0.785398" orientation="0,0,0,0" centerofrotation="0,0,0" znear="-1" zfar="-1"></viewpoint>
-        <shape render="true" bboxcenter="0,0,0" bboxsize="-1,-1,-1" ispickable="true">
-          <appearance sorttype="auto">
-            <material diffusecolor="0.903 0.894 0.909" ambientintensity="0.2" emissivecolor="0,0,0" shininess="0.2" specularcolor="1,1,0"></material>
-          </appearance>
-          <box def="box" solid="true" ccw="true" usegeocache="true" lit="true" size="2,2,2"></box>
-        </shape>
-      </scene>
+          <IndexedFaceSet ng-attr-coordIndex="{{coordindex}}" solid="false" normalPerVertex="false">
+            <Coordinate ng-attr-point="{{point}}"></Coordinate>
+            <!--Normal(ng-attr-vector="{{vector}}")-->
+          </IndexedFaceSet>
+        </Shape>
+      </Scene>
     </x3d>
   </body>
 </html>

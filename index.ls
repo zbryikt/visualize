@@ -1,5 +1,8 @@
 mainCtrl = ($scope) ->
   $scope.brief = [
+    * title: "X3Dom with D3js"
+      desc: "3D Banana with D3js fisheye plugin and Angularjs"
+      path: "banana"
     * title: "PTT User Analysis"
       desc: "Find out users that always stand against other people"
       path: "ptt-user"
