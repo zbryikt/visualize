@@ -11,7 +11,7 @@ x$.controller('main', function($scope){
     var i;
     return $scope.nodes = (function(){
       var i$, to$, results$ = [];
-      for (i$ = 0, to$ = 5 + parseInt(Math.random() * 5); i$ <= to$; ++i$) {
+      for (i$ = 0, to$ = 10 + parseInt(Math.random() * 7); i$ <= to$; ++i$) {
         i = i$;
         results$.push({
           w: $scope.randomWidth ? Math.random() * 230 + 30 : 100,

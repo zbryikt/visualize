@@ -3,6 +3,10 @@ var mainCtrl;
 mainCtrl = function($scope){
   return $scope.brief = [
     {
+      title: "CSS Flexbox Playgroud",
+      desc: "Play with CSS flex layout various configuration",
+      path: "flex"
+    }, {
       title: "X3Dom with D3js",
       desc: "3D Banana with D3js fisheye plugin and Angularjs",
       path: "banana"
