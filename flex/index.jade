@@ -1,0 +1,67 @@
+doctype html
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = false
+- var useog = false
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: true, semantic: false }
+- var assets = "assets"
+- var thumbnail = "http://dummy.thumbnail"
+html(lang="en")
+  head(prefix="og: http://ogp.me/ns#")
+    meta(charset="utf-8")
+    title template
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="ui-choices.js")
+    script(type="text/javascript",src="index.js")
+  body(ng-app="main",ng-controller="main")
+    form#ctrlpanel.form-inline
+      .form-group
+        label width & height
+        br
+        toggle.btn.btn-default(ng-model="randomHeight",active) 隨機高度
+        toggle.btn.btn-default(ng-model="randomWidth",active) 隨機寬度
+        toggle.btn.btn-default(ng-model="invisibleItem",active) 最後元素
+      .form-group
+        label main direction
+        br
+        choices(ng-model="direction",data-type="array")
+          choice(value="row",fallback,active) 順向列
+          choice(value="row-reverse") 反向列
+          choice(value="column") 順向行
+          choice(value="column-reverse") 反向行
+      .form-group
+        label main align
+        br
+        choices(ng-model="justify",data-type="array")
+          choice(value="flex-start",active,fallback) 對齊頭
+          choice(value="flex-end") 對齊尾
+          choice(value="center") 置中
+          choice(value="space-between") 中間空格
+          choice(value="space-around") 周圍空格
+      .form-group
+        label cross align
+        br
+        choices(ng-model="align",data-type="array")
+          choice(value="auto") 自動
+          choice(value="flex-start",active,fallback) 對齊頭
+          choice(value="flex-end") 對齊尾
+          choice(value="center") 置中
+          choice(value="baseline") 基線
+          choice(value="stretch") 延伸
+      .form-group
+        label multi-align
+        br
+        choices(ng-model="multialign",data-type="array")
+          choice(value="flex-start",active,fallback) 對齊頭
+          choice(value="flex-end") 對齊尾
+          choice(value="center") 置中
+          choice(value="space-between") 中間空格
+          choice(value="space-around") 周圍空格
+          choice(value="stretch") 延伸
+
+    #container(style="flex-direction:{{direction[0]}};justify-content:{{justify[0]}};align-items:{{align[0]}};align-content:{{multialign[0]}}")
+      .item(ng-repeat="n in nodes",style="flex: 1 1 {{n.w}}px")
+        .ib(ng-attr-style="width:{{n.w}}px;height:{{n.h}}px")
+      .item.phantom(ng-show="invisibleItem",style="flex: 999 999 auto")

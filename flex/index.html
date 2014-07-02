@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8">
+    <title>template</title>
+    <!-- libraries-->
+    <script type="text/javascript" src="assets/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/d3js/3.3.11/d3.v3.min.js"></script>
+    <script type="text/javascript" src="assets/angular/1.2.3/angular.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/3.0.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="assets/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <!-- custom files-->
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="ui-choices.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+  </head>
+  <body ng-app="main" ng-controller="main">
+    <form id="ctrlpanel" class="form-inline">
+      <div class="form-group">
+        <label>width & height</label><br>
+        <toggle ng-model="randomHeight" active class="btn btn-default">隨機高度</toggle>
+        <toggle ng-model="randomWidth" active class="btn btn-default">隨機寬度</toggle>
+        <toggle ng-model="invisibleItem" active class="btn btn-default">最後元素</toggle>
+      </div>
+      <div class="form-group">
+        <label>main direction</label><br>
+        <choices ng-model="direction" data-type="array">
+          <choice value="row" fallback active>順向列</choice>
+          <choice value="row-reverse">反向列</choice>
+          <choice value="column">順向行</choice>
+          <choice value="column-reverse">反向行</choice>
+        </choices>
+      </div>
+      <div class="form-group">
+        <label>main align</label><br>
+        <choices ng-model="justify" data-type="array">
+          <choice value="flex-start" active fallback>對齊頭</choice>
+          <choice value="flex-end">對齊尾</choice>
+          <choice value="center">置中</choice>
+          <choice value="space-between">中間空格</choice>
+          <choice value="space-around">周圍空格</choice>
+        </choices>
+      </div>
+      <div class="form-group">
+        <label>cross align</label><br>
+        <choices ng-model="align" data-type="array">
+          <choice value="auto">自動</choice>
+          <choice value="flex-start" active fallback>對齊頭</choice>
+          <choice value="flex-end">對齊尾</choice>
+          <choice value="center">置中</choice>
+          <choice value="baseline">基線</choice>
+          <choice value="stretch">延伸</choice>
+        </choices>
+      </div>
+      <div class="form-group">
+        <label>multi-align</label><br>
+        <choices ng-model="multialign" data-type="array">
+          <choice value="flex-start" active fallback>對齊頭</choice>
+          <choice value="flex-end">對齊尾</choice>
+          <choice value="center">置中</choice>
+          <choice value="space-between">中間空格</choice>
+          <choice value="space-around">周圍空格</choice>
+          <choice value="stretch">延伸</choice>
+        </choices>
+      </div>
+    </form>
+    <div id="container" style="flex-direction:{{direction[0]}};justify-content:{{justify[0]}};align-items:{{align[0]}};align-content:{{multialign[0]}}">
+      <div ng-repeat="n in nodes" style="flex: 1 1 {{n.w}}px" class="item">
+        <div ng-attr-style="width:{{n.w}}px;height:{{n.h}}px" class="ib"></div>
+      </div>
+      <div ng-show="invisibleItem" style="flex: 999 999 auto" class="item phantom"></div>
+    </div>
+  </body>
+</html>
