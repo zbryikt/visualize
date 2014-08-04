@@ -1,6 +1,6 @@
 mainCtrl = ($scope) ->
   $scope.brief = [
-    * title: "Kaohsiung Underground Pipeline Map"
+    * title: "Kaohsiung Pipeline Map"
       desc: "In memorial of the Deadly Gas-Pipeline Explosion in Kaohsiung"
       path: "kh-pipe"
     * title: "CSS Flexbox Playgroud"

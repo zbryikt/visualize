@@ -3,7 +3,7 @@ var mainCtrl;
 mainCtrl = function($scope){
   return $scope.brief = [
     {
-      title: "Kaohsiung Underground Pipeline Map",
+      title: "Kaohsiung Pipeline Map",
       desc: "In memorial of the Deadly Gas-Pipeline Explosion in Kaohsiung",
       path: "kh-pipe"
     }, {
