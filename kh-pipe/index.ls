@@ -5,6 +5,10 @@ main = ($scope) ->
     minZoom: 8
     maxZoom: 18
     mapTypeId: google.maps.MapTypeId.ROADMAP
+    panControlOptions: position: google.maps.ControlPosition.LEFT_CENTER
+    zoomControlOptions: position: google.maps.ControlPosition.LEFT_CENTER
+    mapTypeControlOptions: position: google.maps.ControlPosition.LEFT_CENTER
+
   map-style = [
     {
       "featureType": "road",
