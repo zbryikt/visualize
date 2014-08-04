@@ -3,7 +3,7 @@ var main;
 main = function($scope){
   var mapOption, mapStyle, map, overlay;
   mapOption = {
-    center: new google.maps.LatLng(22.703476, 120.361547),
+    center: new google.maps.LatLng(22.624146, 120.320623),
     zoom: 13,
     minZoom: 8,
     maxZoom: 18,
@@ -50,7 +50,7 @@ main = function($scope){
         y$ = x$.enter().append('path');
         y$.attr({
           d: this$.info.path,
-          stroke: 'rgba(255,0,0,0.5)',
+          stroke: 'rgba(255,0,0,0.7)',
           "stroke-width": 2,
           "stroke-linejoin": 'round',
           fill: 'none'
