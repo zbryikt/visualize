@@ -1,0 +1,33 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; }
+
+#content {
+  width: 100%;
+  height: 100%;
+  padding: 10px; }
+
+#mainmap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #eeeeee;
+  z-index: 1; }
+
+#heading {
+  position: absolute;
+  top: 5px;
+  width: 100%;
+  left: 0;
+  text-align: center;
+  z-index: 2;
+  text-shadow: 0 0 10px black;
+  padding: 0 0 20px 0;
+  background: rgba(0, 0, 0, 0.5) url(logo.gif) 95% center no-repeat;
+  color: white; }
+  #heading a {
+    color: yellow; }

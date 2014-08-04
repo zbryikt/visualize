@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head prefix="og: http://ogp.me/ns#">
+    <meta charset="utf-8">
+    <title>template</title>
+    <!-- libraries-->
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:image" content="http://zbryikt.github.io/visualize/kh-pipe/thumbnail.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="410">
+    <meta property="og:image:height" content="410">
+    <meta property="og:url" content="http://zbryikt.github.io/visualize/kh-pipe/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="高雄地下管線地圖">
+    <meta property="og:description" content="高雄地下管線圖，將 https://github.com/mutolisp/kh_pplines 的資料套疊到 Google Maps 上">
+    <script type="text/javascript" src="assets/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/d3js/3.3.11/d3.v3.min.js"></script>
+    <script type="text/javascript" src="assets/angular/1.2.3/angular.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/3.0.2/css/bootstrap.min.css">
+    <script type="text/javascript" src="assets/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <!-- custom files-->
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="index.js"></script>
+    <script src="//maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&amp;libraries=places"></script>
+  </head>
+  <body ng-app ng-controller="main">
+    <div id="content">
+      <div id="heading">
+        <h2>高雄地下管線圖</h2>
+        <div class="desc">資料來源: <a href="https://github.com/mutolisp/kh_pplines">https://github.com/mutolisp/kh_pplines</a></div>
+      </div>
+      <div id="mainmap"></div>
+      <svg id="svg" width="100%" height="500px" viewbox="0 0 800 500" preserveAspectRatio="xMidYMid"></svg>
+    </div>
+  </body>
+</html>
