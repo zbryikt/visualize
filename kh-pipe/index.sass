@@ -1,4 +1,5 @@
-$order: mainmap, heading
+@import basic
+$order: mainmap, footer, heading, ctrlpanel, g0v
 
 html,body
   margin: 0
@@ -28,8 +29,56 @@ html,body
   text-align: center
   z-index: index($order, heading)
   text-shadow: 0 0 10px rgba(0,0,0,1.0)
-  padding: 0 0 20px 0
-  background: rgba(0,0,0,0.5) url(logo.gif) 95% center no-repeat
+  padding: 0 0 10px 0
+  background: rgba(0,0,0,0.6)
   color: #fff
+  h2
+    margin: 10px 0 5px
   a
     color: #ff0
+
+#footer
+  position: absolute
+  z-index: index($order, footer)
+  bottom: 5px
+  left: 0
+  width: 100%
+  background: rgba(0,0,0,0.7)
+  color: #fff
+  text-align: center
+  padding: 5px
+  a
+    color: #ff0
+
+#g0v
+  position: absolute
+  bottom: 40px
+  right: 5px
+  width: 48px
+  height: 48px
+  z-index: index($order, g0v)
+  background: url(logo.gif) center center no-repeat
+
+#ctrlpanel
+  position: absolute
+  bottom: 40px
+  width: 100%
+  text-align: center
+  z-index: index($order, ctrlpanel)
+
+.btn.all i.glyphicon-minus
+  color: #00f
+.btn.petro i.glyphicon-minus
+  color: #f00
+
+.btn i.glyphicon-ok
+  opacity: 0
+  @include transition(all 0.5s)
+  color: #090
+
+.btn.active i.glyphicon-ok
+  opacity: 1
+
+svg g.all, svg g.petro
+  @include transition(all 0.5s)
+  opacity: 0

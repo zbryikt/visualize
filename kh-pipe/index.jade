@@ -20,17 +20,29 @@ html(lang="en")
       #heading
         h2 高雄地下管線圖
         .fb-like(style="position:absolute;top:20px;right:20px;",data-href="http://zbryikt.github.io/visualize/kh-pipe/",data-layout="button_count",data-action="like",data-show-faces="true",data-share="true")
-        .desc 
-          | 資料來源: 
-          a(href="https://github.com/mutolisp/kh_pplines") https://github.com/mutolisp/kh_pplines
-          |  /  
-          a(href="https://www.facebook.com/billypan102/photos/a.431566178638.206452.116441588638/10152225816643639/?type=1") Facebook Post of BillyPan
+        .desc
+          | 包含中石化、中油、福聚、欣高等石油、天然氣管線，詳情請參考上列網址。
           br
-          | 管線資料包含中石化、中油、福聚、欣高等石油、天然氣等等管線。詳情請參考上列網址
-          br
-          | 資料非直接官方釋出或有誤差，管線與氣爆事件也可能並非直接相關，因此此地圖僅供參考。
+          | 資料非官方釋出故有不全及誤差，與氣爆事件也可能並非直接相關，因此僅供參考。
+
       #mainmap
       svg#svg(width="100%",height="500px",viewbox="0 0 800 500",preserveAspectRatio="xMidYMid")
+
+    #ctrlpanel
+      .btn.btn-default.all(ng-class="{'active':showmode==1}",ng-click="showmode=1")
+        i.glyphicon.glyphicon-minus
+        |  同時顯示天然氣與石油管線 
+        i.glyphicon.glyphicon-ok
+      .btn.btn-default.petro(ng-class="{'active':showmode==2}",ng-click="showmode=2")
+        i.glyphicon.glyphicon-minus
+        |  只顯示石油管線 
+        i.glyphicon.glyphicon-ok
+    #g0v
+    #footer
+      | 資料來源: 
+      a(href="https://github.com/mutolisp/kh_pplines") https://github.com/mutolisp/kh_pplines
+      |  /  
+      a(href="https://www.facebook.com/billypan102/photos/a.431566178638.206452.116441588638/10152225816643639/?type=1") Facebook Post of BillyPan
 
     #fb-root
     script.

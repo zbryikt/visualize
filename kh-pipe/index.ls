@@ -41,14 +41,30 @@ main = ($scope) ->
         "viewBox": "0 0 1000 1200"
       @svg.style do
         position: "absolute"
+      @svg.append \g .attr(\class, \all).style(\opacity, -> if $scope.showmode == 1 => 1 else 0)
+      @svg.append \g .attr(\class, \petro).style(\opacity, -> if $scope.showmode == 2 => 1 else 0)
       @info.prj = d3.geo.mercator!center [120.3202, 22.7199] .scale 335000
       @info.path = d3.geo.path!projection @info.prj
       d3.json \kh_pipelines.geojson, (json) ~>
-        @svg.selectAll \path .data json.features
+        @svg.select \g.all .selectAll \path.all .data json.features
           ..enter!append \path
             ..attr do
+              class: \all
               d: @info.path
-              stroke: 'rgba(255,0,0,0.7)'
+              stroke: \#00f
+              opacity: 0.7
+              "stroke-width": 2
+              "stroke-linejoin": \round
+              fill: \none
+        @info.nodes = @svg.selectAll \path
+      d3.json \kh_petrolines.geojson, (json) ~>
+        @svg.select \g.petro .selectAll \path.petro .data json.features
+          ..enter!append \path
+            ..attr do
+              class: \petro
+              d: @info.path
+              stroke: \#f00
+              opacity: 0.7
               "stroke-width": 2
               "stroke-linejoin": \round
               fill: \none
@@ -82,12 +98,12 @@ main = ($scope) ->
         width: "#{b2.x - b1.x}px"
         height: "#{b2.y - b1.y}px"
       @svg.selectAll \path .attr do
-        "stroke": ~>
+        "opacity": ~>
           z = map.getZoom!
-          if z >= 16 => return "rgba(255,0,0,0.3)"
-          if z >= 14 => return "rgba(255,0,0,0.5)"
-          if z >= 12 => return "rgba(255,0,0,0.7)"
-          if z < 11 => return "rgba(255,0,0,1)"
+          if z >= 16 => return 0.3
+          if z >= 14 => return 0.5
+          if z >= 12 => return 0.7
+          if z < 11 => return 1
         "stroke-width": ~>
           z = map.getZoom!
           if z >= 16 => return "1"
@@ -98,3 +114,7 @@ main = ($scope) ->
       console.log w,h
 
   overlay.setMap map
+  $scope.showmode = 2
+  $scope.$watch 'showmode', (v) -> if overlay.svg and v=>
+    overlay.svg.select \g.all .style \opacity, -> if v==1 => 1 else 0
+    overlay.svg.select \g.petro .style \opacity, -> if v==2 => 1 else 0

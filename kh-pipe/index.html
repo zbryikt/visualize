@@ -28,11 +28,17 @@
       <div id="heading">
         <h2>高雄地下管線圖</h2>
         <div style="position:absolute;top:20px;right:20px;" data-href="http://zbryikt.github.io/visualize/kh-pipe/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true" class="fb-like"></div>
-        <div class="desc">資料來源: <a href="https://github.com/mutolisp/kh_pplines">https://github.com/mutolisp/kh_pplines</a> /  <a href="https://www.facebook.com/billypan102/photos/a.431566178638.206452.116441588638/10152225816643639/?type=1">Facebook Post of BillyPan</a><br>管線資料包含中石化、中油、福聚、欣高等石油、天然氣等等管線。詳情請參考上列網址<br>資料非直接官方釋出或有誤差，管線與氣爆事件也可能並非直接相關，因此此地圖僅供參考。</div>
+        <div class="desc">包含中石化、中油、福聚、欣高等石油、天然氣管線，詳情請參考上列網址。<br>資料非官方釋出故有不全及誤差，與氣爆事件也可能並非直接相關，因此僅供參考。</div>
       </div>
       <div id="mainmap"></div>
       <svg id="svg" width="100%" height="500px" viewbox="0 0 800 500" preserveAspectRatio="xMidYMid"></svg>
     </div>
+    <div id="ctrlpanel">
+      <div ng-class="{'active':showmode==1}" ng-click="showmode=1" class="btn btn-default all"><i class="glyphicon glyphicon-minus"></i> 同時顯示天然氣與石油管線 <i class="glyphicon glyphicon-ok"></i></div>
+      <div ng-class="{'active':showmode==2}" ng-click="showmode=2" class="btn btn-default petro"><i class="glyphicon glyphicon-minus"></i> 只顯示石油管線 <i class="glyphicon glyphicon-ok"></i></div>
+    </div>
+    <div id="g0v"></div>
+    <div id="footer">資料來源: <a href="https://github.com/mutolisp/kh_pplines">https://github.com/mutolisp/kh_pplines</a> /  <a href="https://www.facebook.com/billypan102/photos/a.431566178638.206452.116441588638/10152225816643639/?type=1">Facebook Post of BillyPan</a></div>
     <div id="fb-root"></div>
     <script>
       (function(d, s, id) {

@@ -1,3 +1,6 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important; }
+
 html, body {
   margin: 0;
   padding: 0;
@@ -24,10 +27,67 @@ html, body {
   width: 100%;
   left: 0;
   text-align: center;
-  z-index: 2;
+  z-index: 3;
   text-shadow: 0 0 10px black;
-  padding: 0 0 20px 0;
-  background: rgba(0, 0, 0, 0.5) url(logo.gif) 95% center no-repeat;
+  padding: 0 0 10px 0;
+  background: rgba(0, 0, 0, 0.6);
   color: white; }
+  #heading h2 {
+    margin: 10px 0 5px; }
   #heading a {
     color: yellow; }
+
+#footer {
+  position: absolute;
+  z-index: 2;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  padding: 5px; }
+  #footer a {
+    color: yellow; }
+
+#g0v {
+  position: absolute;
+  bottom: 40px;
+  right: 5px;
+  width: 48px;
+  height: 48px;
+  z-index: 5;
+  background: url(logo.gif) center center no-repeat; }
+
+#ctrlpanel {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+  z-index: 4; }
+
+.btn.all i.glyphicon-minus {
+  color: blue; }
+
+.btn.petro i.glyphicon-minus {
+  color: red; }
+
+.btn i.glyphicon-ok {
+  opacity: 0;
+  -ms-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  color: #009900; }
+
+.btn.active i.glyphicon-ok {
+  opacity: 1; }
+
+svg g.all, svg g.petro {
+  -ms-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  opacity: 0; }

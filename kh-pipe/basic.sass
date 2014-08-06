@@ -1,0 +1,33 @@
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
+=transition($args...)
+  -ms-transition: $args
+  -moz-transition: $args
+  -webkit-transition: $args
+  -o-transition: $args
+  transition: $args
+
+=animation($arg)
+  -ms-animation: $arg
+  -moz-animation: $arg
+  -webkit-animation: $arg
+  -o-animation: $arg
+  animation: $arg
+
+=animation-delay($arg)
+  -ms-animation-delay: $arg
+  -moz-animation-delay: $arg
+  -webkit-animation-delay: $arg
+  -o-animation-delay: $arg
+  animation-delay: $arg
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
+  display: none !important

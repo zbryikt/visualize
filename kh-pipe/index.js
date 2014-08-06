@@ -51,15 +51,46 @@ main = function($scope){
       this.svg.style({
         position: "absolute"
       });
+      this.svg.append('g').attr('class', 'all').style('opacity', function(){
+        if ($scope.showmode === 1) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      this.svg.append('g').attr('class', 'petro').style('opacity', function(){
+        if ($scope.showmode === 2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
       this.info.prj = d3.geo.mercator().center([120.3202, 22.7199]).scale(335000);
       this.info.path = d3.geo.path().projection(this.info.prj);
-      return d3.json('kh_pipelines.geojson', function(json){
+      d3.json('kh_pipelines.geojson', function(json){
         var x$, y$;
-        x$ = this$.svg.selectAll('path').data(json.features);
+        x$ = this$.svg.select('g.all').selectAll('path.all').data(json.features);
         y$ = x$.enter().append('path');
         y$.attr({
+          'class': 'all',
           d: this$.info.path,
-          stroke: 'rgba(255,0,0,0.7)',
+          stroke: '#00f',
+          opacity: 0.7,
+          "stroke-width": 2,
+          "stroke-linejoin": 'round',
+          fill: 'none'
+        });
+        return this$.info.nodes = this$.svg.selectAll('path');
+      });
+      return d3.json('kh_petrolines.geojson', function(json){
+        var x$, y$;
+        x$ = this$.svg.select('g.petro').selectAll('path.petro').data(json.features);
+        y$ = x$.enter().append('path');
+        y$.attr({
+          'class': 'petro',
+          d: this$.info.path,
+          stroke: '#f00',
+          opacity: 0.7,
           "stroke-width": 2,
           "stroke-linejoin": 'round',
           fill: 'none'
@@ -98,20 +129,20 @@ main = function($scope){
         height: (b2.y - b1.y) + "px"
       });
       this.svg.selectAll('path').attr({
-        "stroke": function(){
+        "opacity": function(){
           var z;
           z = map.getZoom();
           if (z >= 16) {
-            return "rgba(255,0,0,0.3)";
+            return 0.3;
           }
           if (z >= 14) {
-            return "rgba(255,0,0,0.5)";
+            return 0.5;
           }
           if (z >= 12) {
-            return "rgba(255,0,0,0.7)";
+            return 0.7;
           }
           if (z < 11) {
-            return "rgba(255,0,0,1)";
+            return 1;
           }
         },
         "stroke-width": function(){
@@ -135,7 +166,26 @@ main = function($scope){
       return console.log(w, h);
     }
   });
-  return overlay.setMap(map);
+  overlay.setMap(map);
+  $scope.showmode = 2;
+  return $scope.$watch('showmode', function(v){
+    if (overlay.svg && v) {
+      overlay.svg.select('g.all').style('opacity', function(){
+        if (v === 1) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+      return overlay.svg.select('g.petro').style('opacity', function(){
+        if (v === 2) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
+  });
 };
 function import$(obj, src){
   var own = {}.hasOwnProperty;
