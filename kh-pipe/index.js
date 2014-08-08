@@ -51,51 +51,78 @@ main = function($scope){
       this.svg.style({
         position: "absolute"
       });
-      this.svg.append('g').attr('class', 'all').style('opacity', function(){
-        if ($scope.showmode === 1) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-      this.svg.append('g').attr('class', 'petro').style('opacity', function(){
-        if ($scope.showmode === 2) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
       this.info.prj = d3.geo.mercator().center([120.3202, 22.7199]).scale(335000);
       this.info.path = d3.geo.path().projection(this.info.prj);
-      d3.json('kh_pipelines.geojson', function(json){
-        var x$, y$;
-        x$ = this$.svg.select('g.all').selectAll('path.all').data(json.features);
-        y$ = x$.enter().append('path');
-        y$.attr({
-          'class': 'all',
-          d: this$.info.path,
-          stroke: '#00f',
-          opacity: 0.7,
-          "stroke-width": 2,
-          "stroke-linejoin": 'round',
-          fill: 'none'
+      this.color = ['#f90', '#f00', '#0f0', '#09f', '#00f', '#f0f', '#f00'];
+      this.opacity = function(){
+        var z;
+        z = map.getZoom();
+        if (z >= 16) {
+          return 0.3;
+        }
+        if (z >= 14) {
+          return 0.5;
+        }
+        if (z >= 12) {
+          return 0.7;
+        }
+        if (z <= 11) {
+          return 1;
+        }
+      };
+      this.strokeWidth = function(){
+        var z;
+        z = map.getZoom();
+        if (z >= 16) {
+          return "5";
+        }
+        if (z >= 14) {
+          return "7";
+        }
+        if (z >= 12) {
+          return "9";
+        }
+        if (z <= 11) {
+          return "11";
+        }
+      };
+      return d3.json('json/index.json', function(list){
+        var _, i$, len$, i, ref$, k, n, results$ = [];
+        $scope.$apply(function(){
+          return $scope.maplist = (list.concat([['all', '全部']])).map(function(d, i){
+            return d.concat([this$.color[i]]);
+          });
         });
-        return this$.info.nodes = this$.svg.selectAll('path');
-      });
-      return d3.json('kh_petrolines.geojson', function(json){
-        var x$, y$;
-        x$ = this$.svg.select('g.petro').selectAll('path.petro').data(json.features);
-        y$ = x$.enter().append('path');
-        y$.attr({
-          'class': 'petro',
-          d: this$.info.path,
-          stroke: '#f00',
-          opacity: 0.7,
-          "stroke-width": 2,
-          "stroke-linejoin": 'round',
-          fill: 'none'
-        });
-        return this$.info.nodes = this$.svg.selectAll('path');
+        _ = function(k, n, i){
+          return d3.json("json/" + k + ".geojson", function(json){
+            var x$, y$;
+            this$.svg.append('g').attr('class', k).style('opacity', function(){
+              if ($scope.showmode === k || $scope.showmode === 'all') {
+                return 1;
+              } else {
+                return 0;
+              }
+            });
+            x$ = this$.svg.select("g." + k).selectAll("path." + k).data(json.features);
+            y$ = x$.enter().append('path');
+            y$.attr({
+              'class': k,
+              d: this$.info.path,
+              stroke: this$.color[i],
+              opacity: this$.opacity,
+              "stroke-width": this$.strokeWidth,
+              "stroke-linejoin": 'round',
+              fill: 'none'
+            });
+            return this$.info.nodes = this$.svg.selectAll('path');
+          });
+        };
+        for (i$ = 0, len$ = list.length; i$ < len$; ++i$) {
+          i = i$;
+          ref$ = list[i$], k = ref$[0], n = ref$[1];
+          results$.push(_(k, n, i));
+        }
+        return results$;
       });
     },
     ll2p: function(lat, lng, prj){
@@ -114,7 +141,7 @@ main = function($scope){
       return [p1, p2];
     },
     draw: function(){
-      var prj, ref$, p1, p2, w, h, b1, b2, this$ = this;
+      var prj, ref$, p1, p2, w, h, b1, b2;
       prj = this.getProjection();
       ref$ = this.bound2p(map.getBounds()), p1 = ref$[0], p2 = ref$[1];
       ref$ = [p2.x - p1.x, p2.y - p1.y], w = ref$[0], h = ref$[1];
@@ -128,62 +155,30 @@ main = function($scope){
         width: (b2.x - b1.x) + "px",
         height: (b2.y - b1.y) + "px"
       });
-      this.svg.selectAll('path').attr({
-        "opacity": function(){
-          var z;
-          z = map.getZoom();
-          if (z >= 16) {
-            return 0.3;
-          }
-          if (z >= 14) {
-            return 0.5;
-          }
-          if (z >= 12) {
-            return 0.7;
-          }
-          if (z < 11) {
-            return 1;
-          }
-        },
-        "stroke-width": function(){
-          var z;
-          z = map.getZoom();
-          if (z >= 16) {
-            return "1";
-          }
-          if (z >= 14) {
-            return "2";
-          }
-          if (z >= 12) {
-            return "5";
-          }
-          if (z < 11) {
-            return "7";
-          }
-        }
+      return this.svg.selectAll('path').attr({
+        "opacity": this.opacity,
+        "stroke-width": this.strokeWidth
       });
-      console.log(map.getZoom());
-      return console.log(w, h);
     }
   });
   overlay.setMap(map);
-  $scope.showmode = 2;
+  $scope.showmode = 'all';
   return $scope.$watch('showmode', function(v){
+    var i$, ref$, len$, ref1$, k, n, results$ = [];
     if (overlay.svg && v) {
-      overlay.svg.select('g.all').style('opacity', function(){
-        if (v === 1) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-      return overlay.svg.select('g.petro').style('opacity', function(){
-        if (v === 2) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      console.log($scope.showmode, v);
+      for (i$ = 0, len$ = (ref$ = $scope.maplist).length; i$ < len$; ++i$) {
+        ref1$ = ref$[i$], k = ref1$[0], n = ref1$[1];
+        results$.push(overlay.svg.select("g." + k).style('opacity', fn$));
+      }
+      return results$;
+    }
+    function fn$(){
+      if (v === k || v === 'all') {
+        return 1;
+      } else {
+        return 0;
+      }
     }
   });
 };

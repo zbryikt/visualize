@@ -41,34 +41,45 @@ main = ($scope) ->
         "viewBox": "0 0 1000 1200"
       @svg.style do
         position: "absolute"
-      @svg.append \g .attr(\class, \all).style(\opacity, -> if $scope.showmode == 1 => 1 else 0)
-      @svg.append \g .attr(\class, \petro).style(\opacity, -> if $scope.showmode == 2 => 1 else 0)
+      #@svg.append \g .attr(\class, \all).style(\opacity, -> if $scope.showmode == 1 => 1 else 0)
+      #@svg.append \g .attr(\class, \petro).style(\opacity, -> if $scope.showmode == 2 => 1 else 0)
       @info.prj = d3.geo.mercator!center [120.3202, 22.7199] .scale 335000
       @info.path = d3.geo.path!projection @info.prj
-      d3.json \kh_pipelines.geojson, (json) ~>
-        @svg.select \g.all .selectAll \path.all .data json.features
-          ..enter!append \path
-            ..attr do
-              class: \all
-              d: @info.path
-              stroke: \#00f
-              opacity: 0.7
-              "stroke-width": 2
-              "stroke-linejoin": \round
-              fill: \none
-        @info.nodes = @svg.selectAll \path
-      d3.json \kh_petrolines.geojson, (json) ~>
-        @svg.select \g.petro .selectAll \path.petro .data json.features
-          ..enter!append \path
-            ..attr do
-              class: \petro
-              d: @info.path
-              stroke: \#f00
-              opacity: 0.7
-              "stroke-width": 2
-              "stroke-linejoin": \round
-              fill: \none
-        @info.nodes = @svg.selectAll \path
+      @color = <[#f90 #f00 #0f0 #09f #00f #f0f #f00]>
+      @opacity = ->
+        z = map.getZoom!
+        if z >= 16 => return 0.3
+        if z >= 14 => return 0.5
+        if z >= 12 => return 0.7
+        if z <= 11 => return 1
+      @strokeWidth = ->
+        z = map.getZoom!
+        if z >= 16 => return "5"
+        if z >= 14 => return "7"
+        if z >= 12 => return "9"
+        if z <=11 => return "11"
+
+      d3.json \json/index.json, (list) ~>
+        $scope.$apply ~> $scope.maplist = (list ++ [<[all 全部]>])map((d,i) ~> d ++ [@color[i]])
+        #$scope.$apply ~> $scope.maplist = list.map((d,i) ~> d ++ [@color[i]])
+
+        _ = (k,n,i) ~> 
+          d3.json "json/#k.geojson", (json) ~>
+            @svg.append \g .attr(\class, k).style(\opacity, -> if $scope.showmode == k or $scope.showmode == 'all' => 1 else 0)
+            @svg.select "g.#k" .selectAll "path.#k" .data json.features
+              ..enter!append \path
+                ..attr do
+                  class: k
+                  d: @info.path
+                  stroke: @color[i]
+                  opacity: @opacity
+                  "stroke-width": @strokeWidth
+                  "stroke-linejoin": \round
+                  fill: \none
+            @info.nodes = @svg.selectAll \path
+
+        for [k,n],i in list => _ k,n,i
+
 
     ll2p: (lat, lng, prj) ->
       ret = prj.fromLatLngToDivPixel(new google.maps.LatLng lat, lng)
@@ -98,23 +109,16 @@ main = ($scope) ->
         width: "#{b2.x - b1.x}px"
         height: "#{b2.y - b1.y}px"
       @svg.selectAll \path .attr do
-        "opacity": ~>
-          z = map.getZoom!
-          if z >= 16 => return 0.3
-          if z >= 14 => return 0.5
-          if z >= 12 => return 0.7
-          if z < 11 => return 1
-        "stroke-width": ~>
-          z = map.getZoom!
-          if z >= 16 => return "1"
-          if z >= 14 => return "2"
-          if z >= 12 => return "5"
-          if z <11 => return "7"
-      console.log map.getZoom!
-      console.log w,h
+        "opacity": @opacity
+        "stroke-width": @strokeWidth
+      #console.log map.getZoom!
+      #console.log w,h
 
   overlay.setMap map
-  $scope.showmode = 2
-  $scope.$watch 'showmode', (v) -> if overlay.svg and v=>
-    overlay.svg.select \g.all .style \opacity, -> if v==1 => 1 else 0
-    overlay.svg.select \g.petro .style \opacity, -> if v==2 => 1 else 0
+  $scope.showmode = 'all'
+  $scope.$watch 'showmode', (v) -> if overlay.svg and v =>
+    console.log $scope.showmode, v
+    for [k,n] in $scope.maplist =>
+      overlay.svg.select "g.#k" .style \opacity, -> if v==k or v=='all' => 1 else 0
+    #overlay.svg.select \g.all .style \opacity, -> if v==1 => 1 else 0
+    #overlay.svg.select \g.petro .style \opacity, -> if v==2 => 1 else 0
