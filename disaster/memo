@@ -7,3 +7,24 @@ http://bbs.591.com.tw/f?action=replay&tid=18233&firstRow=10&
 內政部消防署民國七十八年消防大事記
 
 台中縣外埔鄉鐵山村長生路243之5號
+
+possible implementation
+1. clean design, for flexibility cross different websites
+
+timeline (vertical)
+https://dribbble.com/shots/1718042-Weather-App?list=searches&tag=timeline&offset=12
+
+semi-opacity people dropdown
+
+https://dribbble.com/shots/344377-Jobs-Timeline-WIP-v2
+https://dribbble.com/shots/771086-Project-Timeline-Status-Elements
+
+popover when on the event
+https://dribbble.com/shots/626761-Timeline
+
+3 predefined sets of colors
+
+left timeline / top timeline
+small timeline, 軸上圈大小表示嚴重度 (分成約三級, 也許加上空/實心與框)
+重大事件彈出對話框
+事件名顯示於下方

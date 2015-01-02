@@ -12,7 +12,7 @@
     <script type="text/javascript" src="assets/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="assets/d3js/3.3.11/d3.v3.min.js"></script>
     <script type="text/javascript" src="assets/angular/1.2.3/angular.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="assets/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/flatly/css/bootstrap.min.css">
     <script type="text/javascript" src="assets/bootstrap/3.0.2/js/bootstrap.min.js"></script>
     <!-- custom files-->
     <link rel="stylesheet" type="text/css" href="index.css">
@@ -21,7 +21,21 @@
   </head>
   <body ng-app ng-controller="main">
     <div id="content">
-      <div id="mainmap"></div>
+      <div id="layout">
+        <div id="color" class="form-group"><span class="pull-right">
+            <div class="btn btn-primary btn-sm">預設</div>
+            <div class="btn btn-default btn-sm">亮灰</div>
+            <div class="btn btn-success btn-sm">淺綠</div></span>
+          <div class="btn-sm pull-left"><strong>事件數據視覺化</strong></div>
+          <div class="clearfix"></div>
+        </div>
+        <div id="main">
+          <div id="mainmap"></div>
+          <div id="subtitle">{{name}}
+            <div class="pull-right"><i class="glyphicon glyphicon-share"></i> &nbsp; </div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

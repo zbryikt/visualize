@@ -17,4 +17,20 @@ html(lang="en")
     script(src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places")
   body(ng-app,ng-controller="main")
     #content
-      #mainmap
+      #layout
+        #color.form-group
+          span.pull-right
+            .btn.btn-primary.btn-sm 預設
+            .btn.btn-default.btn-sm 亮灰
+            .btn.btn-success.btn-sm 淺綠
+          .btn-sm.pull-left: strong 事件數據視覺化
+
+          .clearfix
+        #main
+          #mainmap
+          #subtitle
+            | {{name}}
+            //-| 1911/02/28 二二八事件 5000死 12500傷
+            .pull-right
+              i.glyphicon.glyphicon-share
+              |  &nbsp; 
