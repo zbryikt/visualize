@@ -1,6 +1,6 @@
 angular.module \0media.events
   ..factory \0media.events.map, <[]> ++ -> do
-    init: (resize, overlay) ->
+    init: (node, resize, overlay) ->
       map-option = do
         center: new google.maps.LatLng 23.624146, 120.320623
         zoom: 9
@@ -11,8 +11,8 @@ angular.module \0media.events
         scaleControl: false
         mapTypeControl: false
         streetviewControl: false
-        #panControlOptions: position: google.maps.ControlPosition.LEFT_CENTER
         zoomControlOptions: position: google.maps.ControlPosition.RIGHT_CENTER
+        #panControlOptions: position: google.maps.ControlPosition.LEFT_CENTER
         #mapTypeControlOptions: position: google.maps.ControlPosition.LEFT_CENTER
 
       map-bound = new google.maps.LatLngBounds!
@@ -20,57 +20,16 @@ angular.module \0media.events
       bound-ptrs.map(-> new google.maps.LatLng it.0, it.1)map(->map-bound.extend it)
       simdate = (date) -> date.getYear! + 1900
 
-      map-style = [
-        {
-          "featureType": "water",
-          "stylers": [
-            { "hue": '#1900ff' },
-            { "lightness": -86 },
-            { "saturation": -80 }
-          ]
-        },{
-          "featureType": "landscape",
-          "stylers": [
-            { "lightness": -47 },
-            { "hue": '#dd3d00' },
-            { "saturation": -80 }
-          ]
-        },{
-          "featureType": "poi",
-          "stylers": [
-            { "saturation": -100 },
-            { "lightness": -30 }
-          ]
-        },{
-          "featureType": "road",
-          "stylers": [
-            { "weight": 0.3 },
-            { "saturation": -48 },
-            { "lightness": -0 },
-            { "hue": '#dd4400' }
-          ]
-        }
-      ]
 
-
-      map = new google.maps.Map document.getElementById(\mainmap), map-option
-      map.set \styles, map-style
+      map = new google.maps.Map node, map-option
       map.fitBounds map-bound
 
       google.maps.event.addDomListener window, 'resize', ->
-        [w,h] = [$('#mainmap').width!, $('#mainmap').height!]
+        [w,h] = [$(node).width!, $(node).height!]
         map.fitBounds map-bound
         b = map.getBounds!
         [lat1,lng1] = [b.getNorthEast!.lat!, b.getSouthWest!.lng!]
         [lat2,lng2] = [b.getSouthWest!.lat!, b.getNorthEast!.lng!]
-        #prj = overlay.getProjection!
-        #if !prj => return
-        #b1 = overlay.ll2p lat1, lng1, prj
-        #b2 = overlay.ll2p lat2, lng2, prj
-        #w = b2.x - b1.x
-        #h = b2.y - b1.y
-        #resize!
-        #resize [lat1, lng2], [lat2, lng1]
 
       _overlay = new google.maps.OverlayView! <<< do
         ll2p: (lat, lng)->

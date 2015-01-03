@@ -1,13 +1,15 @@
 angular.module \0media.events, <[]>
-  ..controller \0media.events.main, <[$scope $interval $timeout $http 0media.events.map]> ++ ($scope,$interval,$timeout,$http,map) ->
+  ..controller \0media.events.main, <[$scope $interval $timeout $http 0media.events.map 0media.events.map-style]> ++ ($scope,$interval,$timeout,$http,map, map-style) ->
+    $scope.style = \default
+    mapnode = $('#zm-event .eventmap')
     resize = (p1,p2) -> $scope.$apply ->
-      [w,h] = [$('#mainmap').width!, $('#mainmap').height!]
+      [w,h] = [mapnode.width!, mapnoe.height!]
       $scope.events.map (event,i) ->
         event.y = parseInt(( event.lat - p1.0 ) / (p2.0 - p1.0) * h)
         event.x = parseInt(( event.lng - p1.1 ) / (p2.1 - p1.1) * w)
     overlay-adapter = do
       onAdd: (overlay, root) ->
-        bubbles = document.getElementById('bubbles')
+        bubbles = $('#zm-event .bubbles')0
         bubbles.parentNode.removeChild(bubbles)
         root.appendChild(bubbles)
 
@@ -21,6 +23,9 @@ angular.module \0media.events, <[]>
       it <<< {fadeout: 1, opacity: 1, top: 65,size: 0, circle_opacity: 0, bubble: {}, first: false}
       it.top = i * 50 + 65
       it
+    $scope.set-style = (style) ->
+      $scope.style = style
+      $scope.map.set \styles, map-style[style]
     $scope.play = -> $scope.state = 1
     $scope.pause = -> $scope.state = 0
     $scope.speeding = -> $scope.speed = ($scope.speed % 3) + 1
@@ -87,5 +92,6 @@ angular.module \0media.events, <[]>
         $timeout step, 30
         $scope.events = data
         $scope.reset!
-        map.init resize, overlay-adapter
+        $scope.map = map.init mapnode.0, resize, overlay-adapter
+        $scope.set-style \green
     $scope.initData!

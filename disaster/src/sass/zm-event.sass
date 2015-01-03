@@ -1,0 +1,189 @@
+@import basic
+@import vars
+
+#zm-event
+  width: 100%
+  height: 100%
+  font-family: 'Open Sans', sans-serif
+
+#zm-event
+  .eventmap
+    width: 100%
+    height: 100%
+    z-index: index($order, eventmap)
+
+
+  .timeline
+    position: absolute
+    top: 20px
+    left: 20px
+    border-radius: 5px
+    z-index: index($order, timeline)
+    height: 80%
+    width: 200px
+    overflow: hidden
+    @media (min-width: 481px)
+      box-shadow: 0 2px 1px rgba(0,0,0,0.5)
+    @media (max-width: 480px)
+      margin-left: -20px
+      width: 40px
+
+    .header
+      position: absolute
+      z-index: index($order, timeline-title)
+      top: 0
+      left: 0
+      width: 100%
+      height: 60px
+      text-align: center
+      @include no-selection
+      .name
+        font-size: 1.1em
+        padding: 10px 10px 0
+        width: 100%
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+      .casualty
+        font-size: 0.8em
+      @media (max-width: 480px)
+        display: none
+
+    .background
+      position: absolute
+      top: 0
+      left: 0
+      z-index: index($order, timeline-bk)
+      width: 100%
+      height: 100%
+      @media (max-width: 480px)
+        display: none
+
+    .line
+      border-radius: 5px
+      position: absolute
+      height: 75%
+      width: 4px
+      top: 72px
+      left: 15px
+      z-index: index($order, timeline-line)
+
+    .event
+      position: absolute
+      top: 65px
+      width: 100%
+      z-index: index($order, timeline-event)
+      font-size: 12px
+      @include no-selection
+      .desc
+        @media (max-width: 480px)
+          display: none
+        position: absolute
+        letter-spacing: 1px
+        left: 0
+        width: 100%
+        padding: 0 10px 0 30px
+        .name
+          white-space: nowrap
+          overflow: hidden
+          text-overflow: ellipsis
+    .circle
+      z-index: index($order, timeline-circle)
+      position: absolute
+      top: 4px
+      left: 17px
+      width: 8px
+      height: 8px
+      border-radius: 50%
+      margin-left: -4px
+      @include transition(box-shadow 0.1s linear, border 0.5s linear)
+      &.top
+        border: 1px solid #fff
+      &.lg
+        width: 12px
+        height: 12px
+        margin-left: -6px
+        top: 1px
+      &.xl
+        width: 16px
+        height: 16px
+        margin-left: -8px
+        top: 1px
+
+  .ctrlpanel
+    position: absolute
+    z-index: index($order, ctrlpanel)
+    width: 200px
+    height: 30px
+    top: 80%
+    left: 20px
+    padding: 0 5px
+    margin-top: -10px
+    border-bottom-left-radius: 5px
+    border-bottom-right-radius: 5px
+    @include no-selection
+    @media (max-width: 480px)
+      display: none
+    i.glyphicon
+      margin: 3px 4px
+      padding: 4px
+      display: inline-block
+      cursor: pointer
+      @include no-selection
+    .speed
+      vertical-align: top
+      font-family: arial
+      font-size: 12px
+      font-weight: 900
+      line-height: 18px
+
+  .infopanel
+    z-index: index($order, subtitle)
+    width: 100%
+    height: 40px
+    text-align: center
+    font-size: 16px
+    letter-spacing: 1.5px
+    line-height: 40px
+    text-shadow: 0 2px 2px rgba(0,0,0,0.4)
+    padding: 0 10px
+    @include ellipsis
+    @include no-selection
+
+  .infopanel
+    .date, .title, .casualty, .c-hurt, .c-die
+      display: inline-block
+    .casualty
+      margin-right: 10px
+    .c-hurt, .c-die
+      font-size: 0.8em
+      min-width: 60px
+      text-align: right
+    @media (max-width: 480px)
+      .casualty, .date
+        position: absolute
+        z-index: index($order, infotext)
+        top: 0
+      .casualty
+        right: 5px
+      .date
+        left: 5px
+
+  .bubble
+    width: 0
+    height: 0
+    border: 4px solid #fff
+    position: absolute
+    top: 0px
+    left: 0px
+    @include transform(translate(-50%,-50%))
+    z-index: index($order, bubble)
+    border-radius: 50%
+    &.prepare
+      opacity: 1
+      width: 0
+      height: 0
+    &.fire
+      @include transition(width 1s ease-out, height 1s ease-out, opacity 2s ease-out)
+
+@import style/index

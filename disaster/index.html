@@ -22,42 +22,44 @@
     <div id="content">
       <div id="layout" ng-app="0media.events" ng-controller="0media.events.main">
         <div id="color" class="form-group"><span class="pull-right">
-            <div class="btn btn-primary btn-sm">預設</div>
-            <div class="btn btn-default btn-sm">亮灰</div>
-            <div class="btn btn-success btn-sm">淺綠</div></span>
+            <div ng-click="setStyle('default')" class="btn btn-primary btn-sm">預設</div>
+            <div ng-click="setStyle('gray')" class="btn btn-default btn-sm">亮灰</div>
+            <div ng-click="setStyle('green')" class="btn btn-success btn-sm">淺綠</div></span>
           <div class="btn-sm pull-left"><strong>事件數據視覺化</strong></div>
           <div class="clearfix"></div>
         </div>
         <div id="main">
-          <div id="timeline">
-            <div class="title">
-              <div class="name">{{current.name}}</div>
-              <div class="casualty">{{current.casualty.die}}死 {{current.casualty.hurt}}傷</div>
-            </div>
-            <div class="bk"></div>
-            <div class="line"></div>
-            <div class="ctrlpanel"><i ng-click="reset()" class="glyphicon glyphicon-fast-backward"></i><i ng-click="play()" ng-class="{'active':state==1}" class="glyphicon glyphicon-play"></i><i ng-click="pause()" ng-class="{'active':state==0}" class="glyphicon glyphicon-pause"></i><i ng-click="speeding()" class="glyphicon speed">{{speed}}X</i>
-              <div class="pull-right"><i ng-click="step(-1)" class="glyphicon glyphicon-chevron-up"></i><i ng-click="step(1)" class="glyphicon glyphicon-chevron-down"></i></div>
-            </div>
-            <div ng-repeat="event in events" ng-attr-style="top:{{event.top}}px;opacity:{{event.fadeout}}" class="event">
-              <div ng-class="{'xl':event.casualty.total&gt;2000,'lg':event.casualty.total&lt;2000 &amp;&amp; event.casualty.total&gt;500,'top':event.first}" class="circle"></div>
-              <div class="desc">
-                <div class="data">{{event.date}}</div>
-                <div ng-attr-style="opacity:{{event.opacity}}" class="name">{{event.name}}</div>
+          <div id="zm-event" ng-class="style">
+            <div class="timeline">
+              <div class="header">
+                <div class="name">{{current.name}}</div>
+                <div class="casualty">{{current.casualty.die}}死 {{current.casualty.hurt}}傷</div>
+              </div>
+              <div class="background"></div>
+              <div class="line"></div>
+              <div ng-repeat="event in events" ng-attr-style="top:{{event.top}}px;opacity:{{event.fadeout}}" class="event">
+                <div ng-class="{'xl':event.casualty.total&gt;2000,'lg':event.casualty.total&lt;2000 &amp;&amp; event.casualty.total&gt;500,'top':event.first}" class="circle"></div>
+                <div class="desc">
+                  <div class="data">{{event.date}}</div>
+                  <div ng-attr-style="opacity:{{event.opacity}}" class="name">{{event.name}}</div>
+                </div>
               </div>
             </div>
-          </div>
-          <div id="mainmap"></div>
-          <div id="bubbles">
-            <div ng-repeat="event in events" ng-attr-style="top:{{event.y}}px;left:{{event.x}}px;width:{{event.size}}px;height:{{event.size}}px;opacity:{{event.circle_opacity}}" ng-class="{'prepare':event.bubble.state==1,'fire':event.bubble.state==2}" class="bubble"></div>
-          </div>
-          <div id="subtitle">
-            <div class="pull-right"><i class="glyphicon glyphicon-share"></i></div>
-            <div id="sbt-date" ng-cloak>{{current.date}}</div>
-            <div id="sbt-title" ng-cloak>{{current.name}}</div>
-            <div id="sbt-casualty">
-              <div id="sbt-c-die" ng-cloak>{{current.casualty.die}}<small>死</small></div>
-              <div id="sbt-c-hurt" ng-cloak>{{current.casualty.hurt}}<small>傷</small></div>
+            <div class="ctrlpanel"><i ng-click="reset()" class="glyphicon glyphicon-fast-backward"></i><i ng-click="play()" ng-show="state!=1" class="glyphicon glyphicon-play"></i><i ng-click="pause()" ng-show="state!=0" class="glyphicon glyphicon-pause"></i><i ng-click="speeding()" class="glyphicon speed">{{speed}}X</i>
+              <div class="pull-right"><i ng-click="step(-1)" class="glyphicon glyphicon-chevron-up"></i><i ng-click="step(1)" class="glyphicon glyphicon-chevron-down"></i></div>
+            </div>
+            <div class="eventmap"></div>
+            <div class="bubbles">
+              <div ng-repeat="event in events" ng-attr-style="top:{{event.y}}px;left:{{event.x}}px;width:{{event.size}}px;height:{{event.size}}px;opacity:{{event.circle_opacity}}" ng-class="{'prepare':event.bubble.state==1,'fire':event.bubble.state==2}" class="bubble"></div>
+            </div>
+            <div class="infopanel">
+              <div class="pull-right"><i class="glyphicon glyphicon-share"></i></div>
+              <div ng-cloak class="date pull-left">{{current.date}}</div>
+              <div ng-cloak class="title">{{current.name}}</div>
+              <div class="casualty pull-right">
+                <div ng-cloak class="c-die">{{current.casualty.die}}<small>死</small></div>
+                <div ng-cloak class="c-hurt">{{current.casualty.hurt}}<small>傷</small></div>
+              </div>
             </div>
           </div>
         </div>
