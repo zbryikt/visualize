@@ -1,4 +1,5 @@
 require! <[chokidar http fs child_process path]>
+require! 'uglify-js': uglify, LiveScript: lsc
 
 RegExp.escape = -> it.replace /[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"
 
@@ -10,7 +11,7 @@ cwd-re = new RegExp RegExp.escape "#cwd#{if cwd[* - 1]=='/' => "" else \/}"
 if process.env.OS=="Windows_NT" => [jade,sass,ls] = [jade,sass,ls]map -> it.replace /\//g,\\\
 
 ignore-list = [/^server.ls$/, /^library.jade$/, /^\.[^/]+/, /^node_modules\//,/^assets\//]
-ignore-func = (f) -> ignore-list.filter(-> it.exec f.replace(cwd-re, "")replace(/^\.\/+/, ""))length
+ignore-func = (f) -> if f => ignore-list.filter(-> it.exec f.replace(cwd-re, "")replace(/^\.\/+/, ""))length
 
 type-table =
   "3gp":"video/3gpp",
@@ -157,6 +158,30 @@ type-table =
 
 watch-path = \.
 
+mkdir-recurse = (f) ->
+  if fs.exists-sync f => return
+  parent = path.dirname(f)
+  if !fs.exists-sync parent => mkdir-recurse parent
+  fs.mkdir-sync f
+
+sass-tree = do
+  down-hash: {}
+  up-hash: {}
+  parse: (filename) ->
+    dir = path.dirname(filename)
+    ret = fs.read-file-sync filename .toString!split \\n .map(-> /^ *@import (.+)/.exec it)filter(->it)map(->it.1)
+    ret = ret.map -> path.join(dir, it.replace(/(\.sass)?$/, ".sass"))
+    @down-hash[filename] = ret
+    for it in ret => if not (filename in @up-hash.[][it]) => @up-hash.[][it].push filename
+  find-root: (filename) ->
+    work = [filename]
+    ret = []
+    while work.length > 0
+      f = work.pop!
+      if @up-hash.[][f].length == 0 => ret.push f
+      else work ++= @up-hash[f]
+    ret
+
 ctype = (name=null) ->
   ret = /\.([^.]+)$/.exec name
   return \application/octet-stream if not ret or not ret.1 or not type-table[ret.1]
@@ -211,15 +236,44 @@ server = (req, res) ->
   res.end buf
 
 log = (error, stdout, stderr) -> if "#{stdout}\n#{stderr}".trim! => console.log that
+filecache = {}
 update-file = ->
-  [type,cmd] = [ftype(it), ""]
+  if !it => return
+  if /node_modules/.exec it => return
+  if /\.swp$/.exec it => return
+  src = if it.0 != \/ => path.join(cwd,it) else it
+  src = src.replace path.join(cwd,\/), ""
+  [type,cmd,dess,des] = [ftype(src), "",[],""]
+
   if type == \other => return
-  if type == \ls => cmd = "#{ls} -cb #{it}"
-  if type == \sass => cmd = "#{sass} #{it} #{it.replace /\.sass$/, \.css}"
-  if type == \jade => cmd = "#{jade} -P #{it}"
-  if cmd =>
-    console.log "[BUILD] #{cmd}"
-    child_process.exec cmd, log
+  if type == \ls =>
+    files = fs.readdir-sync \src/ls/ .map -> "src/ls/#it"
+    files = files.filter -> (/\/\./.exec it) == null
+    result = [uglify.minify(lsc.compile(fs.read-file-sync file .toString!),{fromString:true}).code for file in files].join("")
+    fs.write-file-sync "index.js", result
+    console.log "[BUILD] #src --> index.js"
+  if type == \sass => 
+    sass-tree.parse src
+    srcs = sass-tree.find-root src
+    cmd = srcs.map (src) ->
+      des = src.replace \src/sass, \./
+      des = des.replace /\.sass/, ".css"
+      dess.push des
+      "#sass --sourcemap=none #src #des"
+    cmd = cmd.join \;
+
+  if type == \jade => cmd = "#{jade} -P src/jade/index.jade -o ./"
+  if !cmd => return
+  console.log cmd, des
+  if filecache[des] => clearTimeout filecache[des]
+  filecache[des] = setTimeout (-> build-file cmd, des, dess), 200
+
+build-file = (cmd, des, dess) ->
+  filecache[des] = null
+  if dess.length => for dir in dess.map(->path.dirname it) =>
+    if !fs.exists-sync dir => mkdir-recurse dir
+  console.log "[BUILD] #cmd"
+  child_process.exec cmd, log
 
 watcher = chokidar.watch watch-path, ignored: ignore-func, persistent: true
   .on \add, update-file

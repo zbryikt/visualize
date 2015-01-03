@@ -29,5 +29,20 @@
   -o-animation-delay: $arg
   animation-delay: $arg
 
+=transform($arg...)
+  -ms-transform: $arg
+  -moz-transform: $arg
+  -webkit-transform: $arg
+  -o-transform: $arg
+  transform: $arg
+
+=no-selection
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
   display: none !important

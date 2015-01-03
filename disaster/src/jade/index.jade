@@ -1,0 +1,63 @@
+doctype html
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
+- var usecdn = false
+- var useog = true
+- var lib = { jquery: true, d3js: false, angular: true, bootstrap: true, semantic: false }
+- var assets = "assets"
+- var thumbnail = "http://dummy.thumbnail"
+html(lang="en")
+  head(prefix="og: http://ogp.me/ns#")
+    meta(charset="utf-8")
+    title template
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="index.css")
+    script(type="text/javascript",src="index.js")
+    script(src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places")
+  body
+    #content
+      #layout(ng-app="0media.events",ng-controller="0media.events.main")
+        #color.form-group
+          span.pull-right
+            .btn.btn-primary.btn-sm 預設
+            .btn.btn-default.btn-sm 亮灰
+            .btn.btn-success.btn-sm 淺綠
+          .btn-sm.pull-left: strong 事件數據視覺化
+
+          .clearfix
+        #main
+          #timeline
+            .title
+              .name {{current.name}}
+              .casualty {{current.casualty.die}}死 {{current.casualty.hurt}}傷
+            .bk
+            .line
+            .ctrlpanel
+              i.glyphicon.glyphicon-fast-backward(ng-click="reset()")
+              i.glyphicon.glyphicon-play(ng-click="play()",ng-class="{'active':state==1}")
+              i.glyphicon.glyphicon-pause(ng-click="pause()",ng-class="{'active':state==0}")
+              i.glyphicon.speed(ng-click="speeding()") {{speed}}X
+              .pull-right
+                i.glyphicon.glyphicon-chevron-up(ng-click="step(-1)")
+                i.glyphicon.glyphicon-chevron-down(ng-click="step(1)")
+            .event(ng-repeat="event in events",ng-attr-style="top:{{event.top}}px;opacity:{{event.fadeout}}")
+              .circle(ng-class="{'xl':event.casualty.total>2000,'lg':event.casualty.total<2000 && event.casualty.total>500,'top':event.first}")
+              .desc
+                .data {{event.date}}
+                .name(ng-attr-style="opacity:{{event.opacity}}") {{event.name}}
+
+          #mainmap
+          #bubbles
+            .bubble(ng-repeat="event in events",ng-attr-style="top:{{event.y}}px;left:{{event.x}}px;width:{{event.size}}px;height:{{event.size}}px;opacity:{{event.circle_opacity}}",ng-class="{'prepare':event.bubble.state==1,'fire':event.bubble.state==2}")
+          #subtitle
+            .pull-right: i.glyphicon.glyphicon-share
+            #sbt-date(ng-cloak) {{current.date}}
+            #sbt-title(ng-cloak) {{current.name}}
+            #sbt-casualty
+              #sbt-c-die(ng-cloak)
+                | {{current.casualty.die}}
+                small 死
+              #sbt-c-hurt(ng-cloak)
+                | {{current.casualty.hurt}}
+                small 傷
