@@ -18,7 +18,7 @@ angular.module \0media.events, <[]>
           event.rate = z
 
     $scope.reset = -> $scope.events.map (it, i) -> 
-      it <<< {fadeout: 1, opacity: 1, top: 65,size: 0, circle_opacity: 0, bubble: {}}
+      it <<< {fadeout: 1, opacity: 1, top: 65,size: 0, circle_opacity: 0, bubble: {}, first: false}
       it.top = i * 50 + 65
       it
     $scope.play = -> $scope.state = 1
@@ -46,10 +46,8 @@ angular.module \0media.events, <[]>
           name = (it['gsx$短名']$t or it['gsx$事件']$t)trim!
           loc = new google.maps.LatLng(lat, lng)
           ret = {name, dateFull, casualty, lat, lng, loc, date}
-          ret <<< {fadeout: 1, opacity: 1, top: 65,size: 0, circle_opacity: 0, bubble: {}}
           ret
         data = data.filter -> it.lat and it.lng and it.casualty.total
-        data.map (it, i) -> it.top = i * 50 + 65
         step = ->
           hit = 0
           chosen = false
@@ -88,5 +86,6 @@ angular.module \0media.events, <[]>
           else $timeout step, 40 - ($scope.speed * 10)
         $timeout step, 30
         $scope.events = data
+        $scope.reset!
         map.init resize, overlay-adapter
     $scope.initData!
