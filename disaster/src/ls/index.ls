@@ -19,9 +19,9 @@ angular.module \0media.events, <[]>
           event <<< overlay.ll2p(event.lat, event.lng){x,y}
           event.rate = z
 
-    $scope.reset = -> $scope.events.map (it, i) -> 
-      it <<< {fadeout: 1, opacity: 1, top: 65,size: 0, circle_opacity: 0, bubble: {}, first: false}
-      it.top = i * 50 + 65
+    $scope.reset = (partial=false) -> $scope.events.map (it, i) -> 
+      it <<< {fadeout: 1, opacity: 1, size: 0, circle_opacity: 0, bubble: {}, first: false}
+      if !partial => it.top = i * 50 + 65
       it
     $scope.set-style = (style) ->
       $scope.style = style
@@ -29,8 +29,13 @@ angular.module \0media.events, <[]>
     $scope.play = -> $scope.state = 1
     $scope.pause = -> $scope.state = 0
     $scope.speeding = -> $scope.speed = ($scope.speed % 3) + 1
+    $scope.step = (dir) -> 
+      $scope.dir = dir
+      $scope.reset true
+      $scope.play!
     $scope.state = 1
     $scope.speed = 3
+    $scope.dir = 1
     $scope.initData = ->
       $http do
         url: \https://spreadsheets.google.com/feeds/list/1p0DNKBt4oNfDBgHv4ZXH-vu0bJ_PtxFFXCL7o4O_Cxo/1/public/values?alt=json
@@ -56,9 +61,9 @@ angular.module \0media.events, <[]>
         step = ->
           hit = 0
           chosen = false
-          if data[* - 1].top <= 67 => $scope.state = 0
+          if (data[* - 1].top <= 67 and $scope.dir==1) or (data[0].top >=65 and $scope.dir==-1) => $scope.state = 0
           data.map (it, i) -> 
-            if $scope.state == 1 => it.top = it.top - 4
+            if $scope.state == 1 => it.top = it.top - 4 * $scope.dir
             if it.top <= 67 and it.top >= 64 => hit := 1
             if it.top < 65 =>
               it.fadeout = 1 - (65 - it.top) / 20
@@ -67,7 +72,7 @@ angular.module \0media.events, <[]>
               it.fadeout = 1 - ((it.top - 300) / 100)
             it.opacity = ( 400 - it.top ) / 400
             it.opacity <?1 >?0
-            if it.top < -200 =>
+            if it.top < -200 or it.top > 300 =>
               it.bubble.state = 0
               it.circle_opacity = 0
               it.size = 0
