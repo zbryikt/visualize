@@ -28,7 +28,6 @@ html, body {
   position: relative;
   z-index: 2;
   border-radius: 5px;
-  padding-bottom: 40px;
   overflow: hidden;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5); }
 
@@ -41,7 +40,11 @@ html, body {
 #zm-event {
   width: 100%;
   height: 100%;
+  padding-bottom: 40px;
   font-family: "Open Sans", sans-serif; }
+  @media (max-width: 768px) {
+    #zm-event {
+      padding-bottom: 70px; } }
 
 #zm-event .eventmap {
   width: 100%;
@@ -56,12 +59,16 @@ html, body {
   height: 80%;
   width: 200px;
   overflow: hidden; }
-  @media (min-width: 481px) {
+  @media (min-width: 992px) {
     #zm-event .timeline {
       box-shadow: 0 2px 1px rgba(0, 0, 0, 0.5); } }
-  @media (max-width: 480px) {
+  @media (max-width: 991px) {
     #zm-event .timeline {
+      width: 100px;
       margin-left: -20px;
+      overflow: visible; } }
+  @media (max-width: 768px) {
+    #zm-event .timeline {
       width: 40px; } }
   #zm-event .timeline .header {
     position: absolute;
@@ -86,7 +93,7 @@ html, body {
       text-overflow: ellipsis; }
     #zm-event .timeline .header .casualty {
       font-size: 0.8em; }
-    @media (max-width: 480px) {
+    @media (max-width: 991px) {
       #zm-event .timeline .header {
         display: none; } }
   #zm-event .timeline .background {
@@ -99,6 +106,9 @@ html, body {
     @media (max-width: 480px) {
       #zm-event .timeline .background {
         display: none; } }
+    @media (max-width: 991px) {
+      #zm-event .timeline .background {
+        display: none; } }
   #zm-event .timeline .line {
     border-radius: 5px;
     position: absolute;
@@ -107,6 +117,18 @@ html, body {
     top: 72px;
     left: 15px;
     z-index: 7; }
+    @media (max-height: 550px) {
+      #zm-event .timeline .line {
+        top: 20px;
+        height: 200px; } }
+  #zm-event .timeline .events {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; }
+    @media (max-height: 550px) {
+      #zm-event .timeline .events {
+        top: -52px; } }
   #zm-event .timeline .event {
     position: absolute;
     top: 65px;
@@ -125,13 +147,18 @@ html, body {
       left: 0;
       width: 100%;
       padding: 0 10px 0 30px; }
-      @media (max-width: 480px) {
+      @media (max-width: 768px) {
         #zm-event .timeline .event .desc {
           display: none; } }
       #zm-event .timeline .event .desc .name {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis; }
+    @media (max-width: 991px) {
+      #zm-event .timeline .event .desc .name {
+        display: none; }
+      #zm-event .timeline .event.top .name {
+        display: inline-block; } }
   #zm-event .timeline .circle {
     z-index: 9;
     position: absolute;
@@ -146,8 +173,6 @@ html, body {
     -webkit-transition: box-shadow 0.1s linear, border 0.5s linear;
     -o-transition: box-shadow 0.1s linear, border 0.5s linear;
     transition: box-shadow 0.1s linear, border 0.5s linear; }
-    #zm-event .timeline .circle.top {
-      border: 1px solid #fff; }
     #zm-event .timeline .circle.lg {
       width: 12px;
       height: 12px;
@@ -158,6 +183,8 @@ html, body {
       height: 16px;
       margin-left: -8px;
       top: 1px; }
+  #zm-event .timeline .event.top .circle {
+    border: 1px solid #fff; }
 #zm-event .ctrlpanel {
   position: absolute;
   z-index: 11;
@@ -175,9 +202,21 @@ html, body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-  @media (max-width: 480px) {
+  @media (max-width: 991px) {
     #zm-event .ctrlpanel {
-      display: none; } }
+      border-radius: 5px;
+      top: initial;
+      bottom: 80px;
+      width: 170px;
+      left: 10px; } }
+  @media (max-width: 768px) {
+    #zm-event .ctrlpanel {
+      width: 100%;
+      margin: 0;
+      left: 0;
+      bottom: 40px;
+      top: initial;
+      border-radius: 0; } }
   #zm-event .ctrlpanel i.glyphicon {
     margin: 3px 4px;
     padding: 4px;
@@ -214,6 +253,9 @@ html, body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
+  @media (max-width: 768px) {
+    #zm-event .infopanel {
+      margin-top: 30px; } }
 #zm-event .infopanel .date, #zm-event .infopanel .title, #zm-event .infopanel .casualty, #zm-event .infopanel .c-hurt, #zm-event .infopanel .c-die {
   display: inline-block; }
 #zm-event .infopanel .casualty {
@@ -222,7 +264,7 @@ html, body {
   font-size: 0.8em;
   min-width: 60px;
   text-align: right; }
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   #zm-event .infopanel .casualty, #zm-event .infopanel .date {
     position: absolute;
     z-index: 10;
@@ -265,6 +307,9 @@ html, body {
 #zm-event.default .ctrlpanel {
   background: rgba(255, 255, 255, 0.1);
   color: #fff; }
+  @media (max-width: 768px) {
+    #zm-event.default .ctrlpanel {
+      background: #4B4F59; } }
 #zm-event.default .timeline .header {
   color: #fff;
   background: rgba(0, 0, 0, 0.7); }
@@ -285,13 +330,13 @@ html, body {
   color: #fff; }
 #zm-event.default .timeline .circle {
   background: #fff; }
-  #zm-event.default .timeline .circle.top {
-    box-shadow: 0 0 10px white;
-    border: 1px solid #ff0; }
   #zm-event.default .timeline .circle.lg {
     background: #fff; }
   #zm-event.default .timeline .circle.xl {
     background: #f99; }
+#zm-event.default .timeline .event.top .circle {
+  box-shadow: 0 0 10px white;
+  border: 1px solid #ff0; }
 
 #zm-event.gray .bubble {
   background: rgba(255, 128, 64, 0.4);
@@ -303,6 +348,10 @@ html, body {
 #zm-event.gray .ctrlpanel {
   background: rgba(255, 255, 255, 0.9);
   color: #444; }
+  @media (max-width: 768px) {
+    #zm-event.gray .ctrlpanel {
+      border-bottom: 1px solid #eee;
+      background: #f9f9f9; } }
 #zm-event.gray .timeline .header {
   color: #222;
   background: rgba(255, 255, 255, 0.9); }
@@ -323,13 +372,13 @@ html, body {
   color: #444; }
 #zm-event.gray .timeline .circle {
   background: #fff; }
-  #zm-event.gray .timeline .circle.top {
-    box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
-    border: 1px solid #ff0; }
   #zm-event.gray .timeline .circle.lg {
     background: #fb5; }
   #zm-event.gray .timeline .circle.xl {
     background: #f55; }
+#zm-event.gray .timeline .event.top .circle {
+  box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+  border: 1px solid #ff0; }
 
 #zm-event.green .bubble {
   background: rgba(255, 192, 64, 0.3);
@@ -344,18 +393,25 @@ html, body {
   color: #fff;
   background: rgba(14, 166, 136, 0.7); }
 #zm-event.green .timeline .background {
-  opacity: 0.5;
-  background: #fff; }
+  opacity: 1;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwLjkiLz4KICAgIDxzdG9wIG9mZnNldD0iMzAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjAuODUiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.85) 30%, rgba(255, 255, 255, 0) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.9)), color-stop(30%, rgba(255, 255, 255, 0.85)), color-stop(100%, rgba(255, 255, 255, 0)));
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.85) 30%, rgba(255, 255, 255, 0) 100%);
+  background: -o-linear-gradient(top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.85) 30%, rgba(255, 255, 255, 0) 100%);
+  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.85) 30%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.85) 30%, rgba(255, 255, 255, 0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6ffffff', endColorstr='#00ffffff',GradientType=0 ); }
 #zm-event.green .timeline .line {
   background: rgba(24, 188, 156, 0.8); }
 #zm-event.green .timeline .event {
   color: #245b3a; }
 #zm-event.green .timeline .circle {
   background: #1bd152; }
-  #zm-event.green .timeline .circle.top {
-    box-shadow: 0 0 10px white;
-    border: 1px solid #a2eab3; }
   #zm-event.green .timeline .circle.lg {
     background: #a1d81c; }
   #zm-event.green .timeline .circle.xl {
     background: #da951c; }
+#zm-event.green .timeline .event.top .circle {
+  box-shadow: 0 0 10px white;
+  border: 1px solid #a2eab3; }
