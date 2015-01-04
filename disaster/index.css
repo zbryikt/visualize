@@ -297,6 +297,32 @@ html, body {
     -webkit-transition: width 1s ease-out, height 1s ease-out, opacity 2s ease-out;
     -o-transition: width 1s ease-out, height 1s ease-out, opacity 2s ease-out;
     transition: width 1s ease-out, height 1s ease-out, opacity 2s ease-out; }
+#zm-event .dimmer {
+  display: none;
+  background: gray url(img/blurmap.jpg) center center no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100%;
+  color: #123; }
+  #zm-event .dimmer:before {
+    content: " ";
+    display: inline-block;
+    height: 50%;
+    width: 0; }
+
+#zm-event.loading {
+  padding-bottom: 0; }
+  #zm-event.loading .timeline {
+    display: none; }
+  #zm-event.loading .infopanel {
+    display: none; }
+  #zm-event.loading .ctrlpanel {
+    display: none; }
+  #zm-event.loading .dimmer {
+    display: block; }
 
 #zm-event.default .bubble {
   background: rgba(255, 128, 64, 0.3);

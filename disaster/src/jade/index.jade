@@ -8,6 +8,7 @@ doctype html
 html(lang="en")
   head(prefix="og: http://ogp.me/ns#")
     meta(charset="utf-8")
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
     title template
     // libraries
     include library.jade
@@ -26,7 +27,12 @@ html(lang="en")
           .btn-sm.pull-left: strong 事件數據視覺化
 
           .clearfix
-        #main: #zm-event(ng-class="style")
+        #main: #zm-event(ng-class="[style,loaded]")
+          .dimmer
+            img(src="img/spin.gif")
+            br
+            br
+            | 準備時間軸
           .timeline
             .header
               .name {{current.name}}

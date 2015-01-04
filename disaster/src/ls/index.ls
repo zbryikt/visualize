@@ -36,6 +36,7 @@ angular.module \0media.events, <[]>
     $scope.state = 1
     $scope.speed = 3
     $scope.dir = 1
+    $scope.loaded = 'loading'
     $scope.initData = ->
       $http do
         url: \https://spreadsheets.google.com/feeds/list/1p0DNKBt4oNfDBgHv4ZXH-vu0bJ_PtxFFXCL7o4O_Cxo/1/public/values?alt=json
@@ -99,4 +100,5 @@ angular.module \0media.events, <[]>
         $scope.reset!
         $scope.map = map.init mapnode.0, resize, overlay-adapter
         $scope.set-style \green
+        $scope.loaded = ''
     $scope.initData!
