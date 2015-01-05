@@ -116,7 +116,7 @@ angular.module \0media.events, <[]>
         $scope.events = data
         $scope.reset!
         $scope.map = map.init mapnode.0, [lats.0, lats[* - 1]], [lngs.0, lngs[* - 1]], resize, overlay-adapter
-        $scope.set-style \green
+        $scope.set-style \default
         $scope.loaded = ''
         setTimeout resize, 0
     $scope.initData!
