@@ -20,6 +20,13 @@ html, body {
   width: 60%;
   margin: 4% 0;
   height: 68%; }
+  @media (max-width: 480px) {
+    #layout {
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding-bottom: 30px; } }
 
 #main {
   background: #eee;
@@ -547,3 +554,6 @@ html, body {
 
 #zm-event.green.w-mc .timeline {
   background: none; }
+#zm-event.green.w-mc .infopanel .casualty, #zm-event.green.w-mc .infopanel .date {
+  color: #0c5c4e;
+  text-shadow: none; }
