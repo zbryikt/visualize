@@ -44,3 +44,10 @@
     .event.top .circle
       box-shadow: 0 0 10px rgba(255,255,255,1)
       border: 1px solid #a2eab3
+
+@include dim-max(w,xs,'#zm-event.green')
+  .timeline
+    background: rgba(255,255,255,0.8)
+@include dim-max(w,mc,'#zm-event.green')
+  .timeline
+    background: none

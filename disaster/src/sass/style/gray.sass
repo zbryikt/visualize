@@ -46,7 +46,15 @@
       box-shadow: 0 0 10px rgba(255,255,0,0.5)
       border: 1px solid #ff0
 
-@include dim-max(w,sm,#zm-event)
+@include dim-max(w,xs,'#zm-event.gray')
+  .timeline
+    background: rgba(0,0,0,0.4)
+  .event
+    color: #fff
+@include dim-max(w,mc,'#zm-event.gray')
+  .timeline
+    background: none
+@include dim-max(w,sm,'#zm-event.gray')
   .ctrlpanel
     border-bottom: 1px solid #eee
     background: #f9f9f9
