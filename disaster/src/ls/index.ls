@@ -5,7 +5,6 @@ angular.module \0media.events, <[]>
     $scope.dim = {width: 0, height: 0, wtype: 'w-md', htype: 'h-md', timeline-height: 300}
     resize = -> $scope.$apply ->
       [w,h] = [mapnode.width!, mapnode.height!]
-      console.log \okok, w
       $scope.dim <<< {width: w,height: h}
       $scope.dim.wtype = if w <= 480 => 'w-mc'
         else if w <= 768 => 'w-xs'
@@ -32,7 +31,7 @@ angular.module \0media.events, <[]>
           event.rate = z
 
     $scope.reset = (partial=false) -> $scope.events.map (it, i) -> 
-      it <<< {fadeout: 1, opacity: 1, size: 0, circle_opacity: 0, bubble: {}, first: false}
+      it <<< {fadeout: 1, opacity: 0, size: 0, circle_opacity: 0, bubble: {}, first: false}
       if !partial => it.top = i * 50 + 65
       it
     $scope.set-style = (style) ->
@@ -75,7 +74,6 @@ angular.module \0media.events, <[]>
           hit = 0
           chosen = false
           line-h = $scope.dim.timeline-height
-          console.log line-h
           line-h3 = line-h / 3
           line-h133 = line-h * 1.33
           if (data[* - 1].top <= 67 and $scope.dir==1) or (data[0].top >=65 and $scope.dir==-1) => $scope.state = 0

@@ -11,9 +11,6 @@
   .ctrlpanel
     background: rgba(255,255,255,0.9)
     color: #444
-    @media ($sm)
-      border-bottom: 1px solid #eee
-      background: #f9f9f9
 
   .timeline
     .header
@@ -48,3 +45,8 @@
     .event.top .circle
       box-shadow: 0 0 10px rgba(255,255,0,0.5)
       border: 1px solid #ff0
+
+@include dim-max(w,sm,#zm-event)
+  .ctrlpanel
+    border-bottom: 1px solid #eee
+    background: #f9f9f9

@@ -198,163 +198,54 @@
   .dimmer
     display: block
 
-@include dim-max(w,xs,#zm-event)
-  padding-bottom: 70px
-
-@include dim-max(w,xs,#zm-event)
-  .timeline
-    box-shadow: none
-@include dim-max(h,xs,#zm-event)
-  .timeline
-    box-shadow: none
-@include dim-max(w,mc,#zm-event)
-  .timeline
-    width: 100px
-    margin-left: -20px
-    overflow: visible
-@include dim-max(w,mc,#zm-event)
-  .timeline
-    width: 40px
-@include dim-max(h,mc,#zm-event)
-  .timeline
-    display: none
-
-//-#zm-event .timeline
-  @media ($sm)
-    width: 40px
-  @media ($mc-h)
-    display: none
-
-@include dim-max(w,xs,#zm-event)
-  .timeline .background
-    display: none
-@include dim-max(h,xs,#zm-event)
-  .timeline .background
-    display: none
-
-//-#zm-event .timeline  .background
-  @media ($xs), ($sm), ($md), ($sm-h)
-    display: none
-
-@include dim-max(w,xs,#zm-event)
-  .timeline .header
-    display: none
-@include dim-max(h,xs,#zm-event)
-  .timeline .header
-    display: none
-//-#zm-event .timeline .header
-  @media ($md), ($sm-h)
-    display: none
-
 @include dim-max(h,sm,#zm-event)
   .timeline .line
     height: 200px
 @include dim-max(h,xs,#zm-event)
-  .timeline .line
-    top: 20px
-    height: 140px
-@include dim-max(h,mc,#zm-event)
-  .timeline .line
-    height: 120px
-
-
-//-#zm-event .timeline .line
-  @media ($md-h)
-    height: 200px
-  @media ($sm-h)
-    top: 20px
-    height: 140px
-  @media ($xs-h)
-    top: 20px
-    height: 120px
-
-//-#zm-event .timeline .events
-  @media ($xs-h)
-    top: -52px
-
-@include dim-max(h,mc,#zm-event)
-  .timeline .events
-    top: -52px
-
-@include dim-max(w,mc,#zm-event)
-  .timeline .events .event .desc
-    display: none
-
-//-#zm-event .timeline .events .event .desc
-  @media ($sm)
-    display: none
+  .ctrlpanel
+    border-radius: 5px
+    top: initial
+    bottom: 50px
+    width: 170px
+    left: 10px
+  .timeline
+    box-shadow: none
+    .background
+      display: none
+    .header
+      display: none
+    .line
+      top: 20px
+      height: 140px
+    .events
+      top: -52px
 
 @include dim-max(w,xs,#zm-event)
-  .timeline .events .event
+  .ctrlpanel
+    border-radius: 5px
+    top: initial
+    bottom: 50px
+    width: 170px
+    left: 10px
+  .timeline
+    box-shadow: none
+    width: 100px
+    overflow: visible
+    .background
+      display: none
+    .header
+      display: none
+  .events .event
     .desc .name
       display: none
     &.top .name
       display: inline-block
-//-#zm-event .timeline .events .event
-  @media ($md)
-    .desc .name
-      display: none
-    &.top .name
-      display: inline-block
-
-@include dim-max(w,xs,#zm-event)
-  .ctrlpanel
-    border-radius: 5px
-    top: initial
-    bottom: 50px
-    width: 170px
-    left: 10px
-
-    width: 100%
-    margin: 0
-    left: 0
-    bottom: 40px
-    top: initial
-    border-radius: 0
-
-@include dim-max(h,xs,#zm-event)
-  .ctrlpanel
-    border-radius: 5px
-    top: initial
-    bottom: 50px
-    width: 170px
-    left: 10px
+      font-weight: 900
 
 @include dim-max(w,mc,#zm-event)
-  .ctrlpanel
-    display: none
-//#zm-event .ctrlpanel
-  //-@media ($md),($sm-h)
-    border-radius: 5px
-    top: initial
-    bottom: 50px
-    width: 170px
-    left: 10px
-  //-@media ($sm)
-    width: 100%
-    margin: 0
-    left: 0
-    bottom: 40px
-    top: initial
-    border-radius: 0
-  @media ($xs-h)
-    display: none
-
-@include dim-max(w,xs,#zm-event)
+  padding-bottom: 70px
   .infopanel
     margin-top: 30px
-  .casualty, .date
-    position: absolute
-    z-index: index($order, infotext)
-    top: 0
-  .casualty
-    right: 5px
-  .date
-    left: 5px
-//-#zm-event .infopanel
-  @media ($sm)
-    margin-top: 30px
-  @media ($sm)
     .casualty, .date
       position: absolute
       z-index: index($order, infotext)
@@ -363,5 +254,27 @@
       right: 5px
     .date
       left: 5px
+  .ctrlpanel
+    border-radius: 5px
+    top: initial
+    bottom: 50px
+    width: 170px
+    left: 10px
+    width: 100%
+    margin: 0
+    left: 0
+    bottom: 40px
+    top: initial
+    border-radius: 0
+  .timeline
+    width: 40px
+    margin-left: -20px
+    overflow: visible
+    .events .desc
+      display: none
+
+@include dim-max(h,mc,#zm-event)
+  .timeline
+    display: none
 
 @import style/index
