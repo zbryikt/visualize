@@ -3,8 +3,9 @@ angular.module \0media.events, <[]>
     $scope.style = \default
     mapnode = $('#zm-event .eventmap')
     $scope.dim = {width: 0, height: 0, wtype: 'w-md', htype: 'h-md', timeline-height: 300}
-    resize = (p1,p2) -> $scope.$apply ->
+    resize = -> $scope.$apply ->
       [w,h] = [mapnode.width!, mapnode.height!]
+      console.log \okok, w
       $scope.dim <<< {width: w,height: h}
       $scope.dim.wtype = if w <= 480 => 'w-mc'
         else if w <= 768 => 'w-xs'
@@ -16,7 +17,7 @@ angular.module \0media.events, <[]>
         else if h <= 480 => 'h-sm'
         else if h <= 600 => 'h-md'
         else 'h-lg'
-      $scope.dim.timeline-height = {'h-mc':180, 'h-xs': 240, 'h-sm': 270, 'h-md': 300, 'h-lg': 300}[$scope.dim.htype]
+      $scope.dim.timeline-height = {'h-mc':120, 'h-xs': 140, 'h-sm': 200, 'h-md': 300, 'h-lg': 300}[$scope.dim.htype]
 
     overlay-adapter = do
       onAdd: (overlay, root) ->
@@ -116,5 +117,6 @@ angular.module \0media.events, <[]>
         $scope.map = map.init mapnode.0, resize, overlay-adapter
         $scope.set-style \green
         $scope.loaded = ''
+        setTimeout resize, 0
     $scope.initData!
     $scope.loaded = ''

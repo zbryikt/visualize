@@ -16,8 +16,8 @@ html, body {
 #layout {
   position: absolute;
   top: 0;
-  left: 20%;
-  width: 60%;
+  left: 5%;
+  width: 90%;
   margin: 1% 0;
   height: 78%; }
 
@@ -42,9 +42,6 @@ html, body {
   height: 100%;
   padding-bottom: 40px;
   font-family: "Open Sans", sans-serif; }
-  @media (max-width: 768px) {
-    #zm-event {
-      padding-bottom: 70px; } }
 
 #zm-event .eventmap {
   width: 100%;
@@ -60,20 +57,6 @@ html, body {
   width: 200px;
   overflow: hidden;
   box-shadow: 0 2px 1px rgba(0, 0, 0, 0.5); }
-  @media (max-width: 991px), (max-height: 480px) {
-    #zm-event .timeline {
-      box-shadow: none; } }
-  @media (max-width: 991px) {
-    #zm-event .timeline {
-      width: 100px;
-      margin-left: -20px;
-      overflow: visible; } }
-  @media (max-width: 768px) {
-    #zm-event .timeline {
-      width: 40px; } }
-  @media (max-height: 240px) {
-    #zm-event .timeline {
-      display: none; } }
   #zm-event .timeline .header {
     position: absolute;
     z-index: 6;
@@ -97,9 +80,6 @@ html, body {
       text-overflow: ellipsis; }
     #zm-event .timeline .header .casualty {
       font-size: 0.8em; }
-    @media (max-width: 991px), (max-height: 480px) {
-      #zm-event .timeline .header {
-        display: none; } }
   #zm-event .timeline .background {
     position: absolute;
     top: 0;
@@ -107,9 +87,6 @@ html, body {
     z-index: 5;
     width: 100%;
     height: 100%; }
-    @media (max-width: 480px), (max-width: 768px), (max-width: 991px), (max-height: 480px) {
-      #zm-event .timeline .background {
-        display: none; } }
   #zm-event .timeline .line {
     border-radius: 5px;
     position: absolute;
@@ -118,25 +95,11 @@ html, body {
     top: 72px;
     left: 15px;
     z-index: 7; }
-    @media (max-height: 580px) {
-      #zm-event .timeline .line {
-        height: 200px; } }
-    @media (max-height: 480px) {
-      #zm-event .timeline .line {
-        top: 20px;
-        height: 140px; } }
-    @media (max-height: 320px) {
-      #zm-event .timeline .line {
-        top: 20px;
-        height: 120px; } }
   #zm-event .timeline .events {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%; }
-    @media (max-height: 320px) {
-      #zm-event .timeline .events {
-        top: -52px; } }
   #zm-event .timeline .event {
     position: absolute;
     top: 65px;
@@ -155,18 +118,10 @@ html, body {
       left: 0;
       width: 100%;
       padding: 0 10px 0 30px; }
-      @media (max-width: 768px) {
-        #zm-event .timeline .event .desc {
-          display: none; } }
       #zm-event .timeline .event .desc .name {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis; }
-    @media (max-width: 991px) {
-      #zm-event .timeline .event .desc .name {
-        display: none; }
-      #zm-event .timeline .event.top .name {
-        display: inline-block; } }
   #zm-event .timeline .circle {
     z-index: 9;
     position: absolute;
@@ -210,24 +165,6 @@ html, body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-  @media (max-width: 991px), (max-height: 480px) {
-    #zm-event .ctrlpanel {
-      border-radius: 5px;
-      top: initial;
-      bottom: 50px;
-      width: 170px;
-      left: 10px; } }
-  @media (max-width: 768px) {
-    #zm-event .ctrlpanel {
-      width: 100%;
-      margin: 0;
-      left: 0;
-      bottom: 40px;
-      top: initial;
-      border-radius: 0; } }
-  @media (max-height: 320px) {
-    #zm-event .ctrlpanel {
-      display: none; } }
   #zm-event .ctrlpanel i.glyphicon {
     margin: 3px 4px;
     padding: 4px;
@@ -264,9 +201,6 @@ html, body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-  @media (max-width: 768px) {
-    #zm-event .infopanel {
-      margin-top: 30px; } }
 #zm-event .infopanel .date, #zm-event .infopanel .title, #zm-event .infopanel .casualty, #zm-event .infopanel .c-hurt, #zm-event .infopanel .c-die {
   display: inline-block; }
 #zm-event .infopanel .casualty {
@@ -275,15 +209,6 @@ html, body {
   font-size: 0.8em;
   min-width: 60px;
   text-align: right; }
-@media (max-width: 768px) {
-  #zm-event .infopanel .casualty, #zm-event .infopanel .date {
-    position: absolute;
-    z-index: 10;
-    top: 0; }
-  #zm-event .infopanel .casualty {
-    right: 5px; }
-  #zm-event .infopanel .date {
-    left: 5px; } }
 #zm-event .bubble {
   width: 0;
   height: 0;
@@ -334,6 +259,160 @@ html, body {
     display: none; }
   #zm-event.loading .dimmer {
     display: block; }
+
+#zm-event.w-mc {
+  padding-bottom: 70px; }
+
+#zm-event.w-xs {
+  padding-bottom: 70px; }
+
+#zm-event.w-mc .timeline {
+  box-shadow: none; }
+
+#zm-event.w-xs .timeline {
+  box-shadow: none; }
+
+#zm-event.h-mc .timeline {
+  box-shadow: none; }
+
+#zm-event.h-xs .timeline {
+  box-shadow: none; }
+
+#zm-event.w-mc .timeline {
+  width: 100px;
+  margin-left: -20px;
+  overflow: visible; }
+
+#zm-event.w-mc .timeline {
+  width: 40px; }
+
+#zm-event.h-mc .timeline {
+  display: none; }
+
+#zm-event.w-mc .timeline .background {
+  display: none; }
+
+#zm-event.w-xs .timeline .background {
+  display: none; }
+
+#zm-event.h-mc .timeline .background {
+  display: none; }
+
+#zm-event.h-xs .timeline .background {
+  display: none; }
+
+#zm-event.w-mc .timeline .header {
+  display: none; }
+
+#zm-event.w-xs .timeline .header {
+  display: none; }
+
+#zm-event.h-mc .timeline .header {
+  display: none; }
+
+#zm-event.h-xs .timeline .header {
+  display: none; }
+
+#zm-event.h-mc .timeline .line {
+  height: 200px; }
+
+#zm-event.h-xs .timeline .line {
+  height: 200px; }
+
+#zm-event.h-sm .timeline .line {
+  height: 200px; }
+
+#zm-event.h-mc .timeline .line {
+  top: 20px;
+  height: 140px; }
+
+#zm-event.h-xs .timeline .line {
+  top: 20px;
+  height: 140px; }
+
+#zm-event.h-mc .timeline .line {
+  height: 120px; }
+
+#zm-event.h-mc .timeline .events {
+  top: -52px; }
+
+#zm-event.w-mc .timeline .events .event .desc {
+  display: none; }
+
+#zm-event.w-mc .timeline .events .event .desc .name {
+  display: none; }
+#zm-event.w-mc .timeline .events .event.top .name {
+  display: inline-block; }
+
+#zm-event.w-xs .timeline .events .event .desc .name {
+  display: none; }
+#zm-event.w-xs .timeline .events .event.top .name {
+  display: inline-block; }
+
+#zm-event.w-mc .ctrlpanel {
+  border-radius: 5px;
+  top: initial;
+  bottom: 50px;
+  width: 170px;
+  left: 10px;
+  width: 100%;
+  margin: 0;
+  left: 0;
+  bottom: 40px;
+  top: initial;
+  border-radius: 0; }
+
+#zm-event.w-xs .ctrlpanel {
+  border-radius: 5px;
+  top: initial;
+  bottom: 50px;
+  width: 170px;
+  left: 10px;
+  width: 100%;
+  margin: 0;
+  left: 0;
+  bottom: 40px;
+  top: initial;
+  border-radius: 0; }
+
+#zm-event.h-mc .ctrlpanel {
+  border-radius: 5px;
+  top: initial;
+  bottom: 50px;
+  width: 170px;
+  left: 10px; }
+
+#zm-event.h-xs .ctrlpanel {
+  border-radius: 5px;
+  top: initial;
+  bottom: 50px;
+  width: 170px;
+  left: 10px; }
+
+#zm-event.w-mc .ctrlpanel {
+  display: none; }
+
+#zm-event.w-mc .infopanel {
+  margin-top: 30px; }
+#zm-event.w-mc .casualty, #zm-event.w-mc .date {
+  position: absolute;
+  z-index: 10;
+  top: 0; }
+#zm-event.w-mc .casualty {
+  right: 5px; }
+#zm-event.w-mc .date {
+  left: 5px; }
+
+#zm-event.w-xs .infopanel {
+  margin-top: 30px; }
+#zm-event.w-xs .casualty, #zm-event.w-xs .date {
+  position: absolute;
+  z-index: 10;
+  top: 0; }
+#zm-event.w-xs .casualty {
+  right: 5px; }
+#zm-event.w-xs .date {
+  left: 5px; }
 
 #zm-event.default .bubble {
   background: rgba(255, 128, 64, 0.3);

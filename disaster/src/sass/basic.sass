@@ -49,5 +49,17 @@
   overflow: hidden
   text-overflow: ellipsis
 
+=dim-max($d, $s, $c)
+  @each $v in $dim
+    @if index($dim,$v) <= index($dim,$s)
+      #{$c}.#{$d}-#{$v}
+        @content
+
+=dim-min($d, $s, $c)
+  @each $v in $dim
+    @if index($dim,$v) >= index($dim,$s)
+      #{$c}.#{$d}-#{$v}
+        @content
+
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak
   display: none !important

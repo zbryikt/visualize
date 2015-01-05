@@ -6,8 +6,6 @@
   height: 100%
   padding-bottom: 40px
   font-family: 'Open Sans', sans-serif
-  @media ($sm)
-    padding-bottom: 70px
 
 #zm-event
   .eventmap
@@ -25,16 +23,6 @@
     width: 200px
     overflow: hidden
     box-shadow: 0 2px 1px rgba(0,0,0,0.5)
-    @media ($md),($sm-h)
-      box-shadow: none
-    @media ($md)
-      width: 100px
-      margin-left: -20px
-      overflow: visible
-    @media ($sm)
-      width: 40px
-    @media ($mc-h)
-      display: none
 
     .header
       position: absolute
@@ -54,8 +42,6 @@
         text-overflow: ellipsis
       .casualty
         font-size: 0.8em
-      @media ($md), ($sm-h)
-        display: none
 
     .background
       position: absolute
@@ -64,8 +50,6 @@
       z-index: index($order, timeline-bk)
       width: 100%
       height: 100%
-      @media ($xs), ($sm), ($md), ($sm-h)
-        display: none
 
     .line
       border-radius: 5px
@@ -75,21 +59,12 @@
       top: 72px
       left: 15px
       z-index: index($order, timeline-line)
-      @media ($md-h)
-        height: 200px
-      @media ($sm-h)
-        top: 20px
-        height: 140px
-      @media ($xs-h)
-        top: 20px
-        height: 120px
+
     .events
       position: absolute
       top: 0
       left: 0
       width: 100%
-      @media ($xs-h)
-        top: -52px
     .event
       position: absolute
       top: 65px
@@ -98,8 +73,6 @@
       font-size: 12px
       @include no-selection
       .desc
-        @media ($sm)
-          display: none
         position: absolute
         letter-spacing: 1px
         left: 0
@@ -109,11 +82,7 @@
           white-space: nowrap
           overflow: hidden
           text-overflow: ellipsis
-      @media ($md)
-        .desc .name
-          display: none
-        &.top .name
-          display: inline-block
+
     .circle
       z-index: index($order, timeline-circle)
       position: absolute
@@ -149,21 +118,7 @@
     border-bottom-left-radius: 5px
     border-bottom-right-radius: 5px
     @include no-selection
-    @media ($md),($sm-h)
-      border-radius: 5px
-      top: initial
-      bottom: 50px
-      width: 170px
-      left: 10px
-    @media ($sm)
-      width: 100%
-      margin: 0
-      left: 0
-      bottom: 40px
-      top: initial
-      border-radius: 0
-    @media ($xs-h)
-      display: none
+
     i.glyphicon
       margin: 3px 4px
       padding: 4px
@@ -189,8 +144,6 @@
     padding: 0 10px
     @include ellipsis
     @include no-selection
-    @media ($sm)
-      margin-top: 30px
 
   .infopanel
     .date, .title, .casualty, .c-hurt, .c-die
@@ -201,15 +154,6 @@
       font-size: 0.8em
       min-width: 60px
       text-align: right
-    @media ($sm)
-      .casualty, .date
-        position: absolute
-        z-index: index($order, infotext)
-        top: 0
-      .casualty
-        right: 5px
-      .date
-        left: 5px
 
   .bubble
     width: 0
@@ -253,4 +197,171 @@
     display: none
   .dimmer
     display: block
+
+@include dim-max(w,xs,#zm-event)
+  padding-bottom: 70px
+
+@include dim-max(w,xs,#zm-event)
+  .timeline
+    box-shadow: none
+@include dim-max(h,xs,#zm-event)
+  .timeline
+    box-shadow: none
+@include dim-max(w,mc,#zm-event)
+  .timeline
+    width: 100px
+    margin-left: -20px
+    overflow: visible
+@include dim-max(w,mc,#zm-event)
+  .timeline
+    width: 40px
+@include dim-max(h,mc,#zm-event)
+  .timeline
+    display: none
+
+//-#zm-event .timeline
+  @media ($sm)
+    width: 40px
+  @media ($mc-h)
+    display: none
+
+@include dim-max(w,xs,#zm-event)
+  .timeline .background
+    display: none
+@include dim-max(h,xs,#zm-event)
+  .timeline .background
+    display: none
+
+//-#zm-event .timeline  .background
+  @media ($xs), ($sm), ($md), ($sm-h)
+    display: none
+
+@include dim-max(w,xs,#zm-event)
+  .timeline .header
+    display: none
+@include dim-max(h,xs,#zm-event)
+  .timeline .header
+    display: none
+//-#zm-event .timeline .header
+  @media ($md), ($sm-h)
+    display: none
+
+@include dim-max(h,sm,#zm-event)
+  .timeline .line
+    height: 200px
+@include dim-max(h,xs,#zm-event)
+  .timeline .line
+    top: 20px
+    height: 140px
+@include dim-max(h,mc,#zm-event)
+  .timeline .line
+    height: 120px
+
+
+//-#zm-event .timeline .line
+  @media ($md-h)
+    height: 200px
+  @media ($sm-h)
+    top: 20px
+    height: 140px
+  @media ($xs-h)
+    top: 20px
+    height: 120px
+
+//-#zm-event .timeline .events
+  @media ($xs-h)
+    top: -52px
+
+@include dim-max(h,mc,#zm-event)
+  .timeline .events
+    top: -52px
+
+@include dim-max(w,mc,#zm-event)
+  .timeline .events .event .desc
+    display: none
+
+//-#zm-event .timeline .events .event .desc
+  @media ($sm)
+    display: none
+
+@include dim-max(w,xs,#zm-event)
+  .timeline .events .event
+    .desc .name
+      display: none
+    &.top .name
+      display: inline-block
+//-#zm-event .timeline .events .event
+  @media ($md)
+    .desc .name
+      display: none
+    &.top .name
+      display: inline-block
+
+@include dim-max(w,xs,#zm-event)
+  .ctrlpanel
+    border-radius: 5px
+    top: initial
+    bottom: 50px
+    width: 170px
+    left: 10px
+
+    width: 100%
+    margin: 0
+    left: 0
+    bottom: 40px
+    top: initial
+    border-radius: 0
+
+@include dim-max(h,xs,#zm-event)
+  .ctrlpanel
+    border-radius: 5px
+    top: initial
+    bottom: 50px
+    width: 170px
+    left: 10px
+
+@include dim-max(w,mc,#zm-event)
+  .ctrlpanel
+    display: none
+//#zm-event .ctrlpanel
+  //-@media ($md),($sm-h)
+    border-radius: 5px
+    top: initial
+    bottom: 50px
+    width: 170px
+    left: 10px
+  //-@media ($sm)
+    width: 100%
+    margin: 0
+    left: 0
+    bottom: 40px
+    top: initial
+    border-radius: 0
+  @media ($xs-h)
+    display: none
+
+@include dim-max(w,xs,#zm-event)
+  .infopanel
+    margin-top: 30px
+  .casualty, .date
+    position: absolute
+    z-index: index($order, infotext)
+    top: 0
+  .casualty
+    right: 5px
+  .date
+    left: 5px
+//-#zm-event .infopanel
+  @media ($sm)
+    margin-top: 30px
+  @media ($sm)
+    .casualty, .date
+      position: absolute
+      z-index: index($order, infotext)
+      top: 0
+    .casualty
+      right: 5px
+    .date
+      left: 5px
+
 @import style/index
