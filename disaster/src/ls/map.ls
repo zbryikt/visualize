@@ -1,10 +1,10 @@
 angular.module \0media.events
   ..factory \0media.events.map, <[]> ++ -> do
-    init: (node, resize, overlay) ->
+    init: (node, lats, lngs, resize, overlay) ->
       map-option = do
         center: new google.maps.LatLng 23.624146, 120.320623
         zoom: 9
-        minZoom: 7
+        minZoom: 5
         maxZoom: 18
         mapTypeId: google.maps.MapTypeId.ROADMAP
         panControl: false
@@ -14,7 +14,8 @@ angular.module \0media.events
         zoomControlOptions: position: google.maps.ControlPosition.RIGHT_CENTER
 
       map-bound = new google.maps.LatLngBounds!
-      bound-ptrs = [[25.471911, 119.455903] [21.707318, 122.356293]]
+      #bound-ptrs = [[25.471911, 119.455903] [21.707318, 122.356293]]
+      bound-ptrs = [[lats.1, lngs.0] [lats.0, lngs.1]]
       bound-ptrs.map(-> new google.maps.LatLng it.0, it.1)map(->map-bound.extend it)
       simdate = (date) -> date.getYear! + 1900
 

@@ -265,13 +265,13 @@ html, body {
     display: block; }
 
 #zm-event.h-mc .timeline .line {
-  height: 200px; }
+  height: 65%; }
 
 #zm-event.h-xs .timeline .line {
-  height: 200px; }
+  height: 65%; }
 
 #zm-event.h-sm .timeline .line {
-  height: 200px; }
+  height: 65%; }
 
 #zm-event.h-mc .ctrlpanel {
   border-radius: 5px;
@@ -318,6 +318,7 @@ html, body {
 #zm-event.w-mc .timeline {
   box-shadow: none;
   width: 100px;
+  max-height: 330px;
   overflow: visible; }
   #zm-event.w-mc .timeline .background {
     display: none; }
@@ -338,6 +339,7 @@ html, body {
 #zm-event.w-xs .timeline {
   box-shadow: none;
   width: 100px;
+  max-height: 330px;
   overflow: visible; }
   #zm-event.w-xs .timeline .background {
     display: none; }

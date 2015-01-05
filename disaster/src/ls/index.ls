@@ -25,7 +25,8 @@ angular.module \0media.events, <[]>
         root.appendChild(bubbles)
 
       draw: (overlay, map) ->
-        z = 1 .<<. ( map.getZoom! - 7 )
+        z = Math.pow(2, map.getZoom! - 6)
+        console.log z
         $scope.events.map (event, i) ->
           event <<< overlay.ll2p(event.lat, event.lng){x,y}
           event.rate = z
@@ -70,6 +71,8 @@ angular.module \0media.events, <[]>
           ret = {name, dateFull, casualty, lat, lng, loc, date}
           ret
         data = data.filter -> it.lat and it.lng and it.casualty.total
+        lats = data.map(->it.lat)sort!
+        lngs = data.map(->it.lng)sort!
         step = ->
           hit = 0
           chosen = false
@@ -112,7 +115,7 @@ angular.module \0media.events, <[]>
         $timeout step, 30
         $scope.events = data
         $scope.reset!
-        $scope.map = map.init mapnode.0, resize, overlay-adapter
+        $scope.map = map.init mapnode.0, [lats.0, lats[* - 1]], [lngs.0, lngs[* - 1]], resize, overlay-adapter
         $scope.set-style \green
         $scope.loaded = ''
         setTimeout resize, 0
