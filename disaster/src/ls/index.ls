@@ -2,11 +2,22 @@ angular.module \0media.events, <[]>
   ..controller \0media.events.main, <[$scope $interval $timeout $http 0media.events.map 0media.events.map-style]> ++ ($scope,$interval,$timeout,$http,map, map-style) ->
     $scope.style = \default
     mapnode = $('#zm-event .eventmap')
+    $scope.dim = {width: 0, height: 0, wtype: 'w-md', htype: 'h-md', timeline-height: 300}
     resize = (p1,p2) -> $scope.$apply ->
-      [w,h] = [mapnode.width!, mapnoe.height!]
-      $scope.events.map (event,i) ->
-        event.y = parseInt(( event.lat - p1.0 ) / (p2.0 - p1.0) * h)
-        event.x = parseInt(( event.lng - p1.1 ) / (p2.1 - p1.1) * w)
+      [w,h] = [mapnode.width!, mapnode.height!]
+      $scope.dim <<< {width: w,height: h}
+      $scope.dim.wtype = if w <= 480 => 'w-mc'
+        else if w <= 768 => 'w-xs'
+        else if w <= 991 => 'w-sm'
+        else if w <= 1199 => 'w-md'
+        else 'w-lg'
+      $scope.dim.htype = if h <=240 => 'h-mc'
+        else if h <= 320 => 'h-xs'
+        else if h <= 480 => 'h-sm'
+        else if h <= 600 => 'h-md'
+        else 'h-lg'
+      $scope.dim.timeline-height = {'h-mc':180, 'h-xs': 240, 'h-sm': 270, 'h-md': 300, 'h-lg': 300}[$scope.dim.htype]
+
     overlay-adapter = do
       onAdd: (overlay, root) ->
         bubbles = $('#zm-event .bubbles')0
@@ -62,6 +73,10 @@ angular.module \0media.events, <[]>
         step = ->
           hit = 0
           chosen = false
+          line-h = $scope.dim.timeline-height
+          console.log line-h
+          line-h3 = line-h / 3
+          line-h133 = line-h * 1.33
           if (data[* - 1].top <= 67 and $scope.dir==1) or (data[0].top >=65 and $scope.dir==-1) => $scope.state = 0
           data.map (it, i) -> 
             if $scope.state == 1 => it.top = it.top - 4 * $scope.dir
@@ -69,11 +84,11 @@ angular.module \0media.events, <[]>
             if it.top < 65 =>
               it.fadeout = 1 - (65 - it.top) / 20
               if it.fadeout < 0 => it.fadeout = 0
-            if it.top > 300 =>
-              it.fadeout = 1 - ((it.top - 300) / 100)
-            it.opacity = ( 400 - it.top ) / 400
+            if it.top > line-h =>
+              it.fadeout = 1 - ((it.top - line-h) / line-h3)
+            it.opacity = ( line-h133 - it.top ) / line-h133
             it.opacity <?1 >?0
-            if it.top < -200 or it.top > 300 =>
+            if it.top < -200 or it.top > line-h =>
               it.bubble.state = 0
               it.circle_opacity = 0
               it.size = 0
@@ -102,3 +117,4 @@ angular.module \0media.events, <[]>
         $scope.set-style \green
         $scope.loaded = ''
     $scope.initData!
+    $scope.loaded = ''

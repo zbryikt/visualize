@@ -10,10 +10,8 @@ angular.module \0media.events
         panControl: false
         scaleControl: false
         mapTypeControl: false
-        streetviewControl: false
+        streetViewControl: false
         zoomControlOptions: position: google.maps.ControlPosition.RIGHT_CENTER
-        #panControlOptions: position: google.maps.ControlPosition.LEFT_CENTER
-        #mapTypeControlOptions: position: google.maps.ControlPosition.LEFT_CENTER
 
       map-bound = new google.maps.LatLngBounds!
       bound-ptrs = [[25.471911, 119.455903] [21.707318, 122.356293]]
@@ -30,6 +28,7 @@ angular.module \0media.events
         b = map.getBounds!
         [lat1,lng1] = [b.getNorthEast!.lat!, b.getSouthWest!.lng!]
         [lat2,lng2] = [b.getSouthWest!.lat!, b.getNorthEast!.lng!]
+        resize [lat1, lng2], [lat2, lng1]
 
       _overlay = new google.maps.OverlayView! <<< do
         ll2p: (lat, lng)->

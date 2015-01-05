@@ -24,14 +24,17 @@
     height: 80%
     width: 200px
     overflow: hidden
-    @media ($n-md)
-      box-shadow: 0 2px 1px rgba(0,0,0,0.5)
+    box-shadow: 0 2px 1px rgba(0,0,0,0.5)
+    @media ($md),($sm-h)
+      box-shadow: none
     @media ($md)
       width: 100px
       margin-left: -20px
       overflow: visible
     @media ($sm)
       width: 40px
+    @media ($mc-h)
+      display: none
 
     .header
       position: absolute
@@ -51,7 +54,7 @@
         text-overflow: ellipsis
       .casualty
         font-size: 0.8em
-      @media ($md)
+      @media ($md), ($sm-h)
         display: none
 
     .background
@@ -61,22 +64,25 @@
       z-index: index($order, timeline-bk)
       width: 100%
       height: 100%
-      @media ($xs)
-        display: none
-      @media ($md)
+      @media ($xs), ($sm), ($md), ($sm-h)
         display: none
 
     .line
       border-radius: 5px
       position: absolute
-      height: 75%
+      height: 70%
       width: 4px
       top: 72px
       left: 15px
       z-index: index($order, timeline-line)
+      @media ($md-h)
+        height: 200px
+      @media ($sm-h)
+        top: 20px
+        height: 140px
       @media ($xs-h)
         top: 20px
-        height: 200px
+        height: 120px
     .events
       position: absolute
       top: 0
@@ -143,10 +149,10 @@
     border-bottom-left-radius: 5px
     border-bottom-right-radius: 5px
     @include no-selection
-    @media ($md)
+    @media ($md),($sm-h)
       border-radius: 5px
       top: initial
-      bottom: 80px
+      bottom: 50px
       width: 170px
       left: 10px
     @media ($sm)
@@ -156,6 +162,8 @@
       bottom: 40px
       top: initial
       border-radius: 0
+    @media ($xs-h)
+      display: none
     i.glyphicon
       margin: 3px 4px
       padding: 4px

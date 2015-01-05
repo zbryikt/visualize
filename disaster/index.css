@@ -58,10 +58,11 @@ html, body {
   z-index: 4;
   height: 80%;
   width: 200px;
-  overflow: hidden; }
-  @media (min-width: 992px) {
+  overflow: hidden;
+  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.5); }
+  @media (max-width: 991px), (max-height: 480px) {
     #zm-event .timeline {
-      box-shadow: 0 2px 1px rgba(0, 0, 0, 0.5); } }
+      box-shadow: none; } }
   @media (max-width: 991px) {
     #zm-event .timeline {
       width: 100px;
@@ -70,6 +71,9 @@ html, body {
   @media (max-width: 768px) {
     #zm-event .timeline {
       width: 40px; } }
+  @media (max-height: 240px) {
+    #zm-event .timeline {
+      display: none; } }
   #zm-event .timeline .header {
     position: absolute;
     z-index: 6;
@@ -93,7 +97,7 @@ html, body {
       text-overflow: ellipsis; }
     #zm-event .timeline .header .casualty {
       font-size: 0.8em; }
-    @media (max-width: 991px) {
+    @media (max-width: 991px), (max-height: 480px) {
       #zm-event .timeline .header {
         display: none; } }
   #zm-event .timeline .background {
@@ -103,30 +107,34 @@ html, body {
     z-index: 5;
     width: 100%;
     height: 100%; }
-    @media (max-width: 480px) {
-      #zm-event .timeline .background {
-        display: none; } }
-    @media (max-width: 991px) {
+    @media (max-width: 480px), (max-width: 768px), (max-width: 991px), (max-height: 480px) {
       #zm-event .timeline .background {
         display: none; } }
   #zm-event .timeline .line {
     border-radius: 5px;
     position: absolute;
-    height: 75%;
+    height: 70%;
     width: 4px;
     top: 72px;
     left: 15px;
     z-index: 7; }
-    @media (max-height: 550px) {
+    @media (max-height: 580px) {
+      #zm-event .timeline .line {
+        height: 200px; } }
+    @media (max-height: 480px) {
       #zm-event .timeline .line {
         top: 20px;
-        height: 200px; } }
+        height: 140px; } }
+    @media (max-height: 320px) {
+      #zm-event .timeline .line {
+        top: 20px;
+        height: 120px; } }
   #zm-event .timeline .events {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%; }
-    @media (max-height: 550px) {
+    @media (max-height: 320px) {
       #zm-event .timeline .events {
         top: -52px; } }
   #zm-event .timeline .event {
@@ -202,11 +210,11 @@ html, body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
-  @media (max-width: 991px) {
+  @media (max-width: 991px), (max-height: 480px) {
     #zm-event .ctrlpanel {
       border-radius: 5px;
       top: initial;
-      bottom: 80px;
+      bottom: 50px;
       width: 170px;
       left: 10px; } }
   @media (max-width: 768px) {
@@ -217,6 +225,9 @@ html, body {
       bottom: 40px;
       top: initial;
       border-radius: 0; } }
+  @media (max-height: 320px) {
+    #zm-event .ctrlpanel {
+      display: none; } }
   #zm-event .ctrlpanel i.glyphicon {
     margin: 3px 4px;
     padding: 4px;
