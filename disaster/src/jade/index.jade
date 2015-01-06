@@ -25,7 +25,9 @@ html(lang="en")
             .btn.btn-primary.btn-sm(ng-click="setStyle('default')") 預設
             .btn.btn-default.btn-sm(ng-click="setStyle('gray')") 亮灰
             .btn.btn-success.btn-sm(ng-click="setStyle('green')") 淺綠
-          .btn-sm.pull-left: strong 事件數據視覺化
+          #title.btn-sm.pull-left: strong 
+            img(src="img/favicon.png")
+            |  事件數據視覺化
 
           .clearfix
         #main: #zm-event.default(ng-class="[style,loaded,dim.htype,dim.wtype]")
@@ -34,12 +36,12 @@ html(lang="en")
             br
             br
             | 準備時間軸
-          .timeline
+          .timeline: .timeline-inner
             .header
               .name {{current.name}}
               .casualty {{current.casualty.die}}死 {{current.casualty.hurt}}傷
             .background
-            .line
+            .line-wrap: .line
             .events
               .event(ng-repeat="event in events",
                   ng-attr-style="top:{{event.top}}px;opacity:{{event.fadeout}}",

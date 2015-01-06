@@ -77,6 +77,7 @@ angular.module \0media.events, <[]>
           hit = 0
           chosen = false
           line-h = $scope.dim.timeline-height
+          line-h = $('#zm-event .timeline .line').height! * 0.9
           line-h3 = line-h / 3
           line-h133 = line-h * 1.33
           if (data[* - 1].top <= 67 and $scope.dir==1) or (data[0].top >=65 and $scope.dir==-1) => $scope.state = 0
@@ -120,4 +121,3 @@ angular.module \0media.events, <[]>
         $scope.loaded = ''
         setTimeout resize, 0
     $scope.initData!
-    $scope.loaded = ''

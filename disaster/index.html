@@ -27,25 +27,29 @@
             <div ng-click="setStyle('default')" class="btn btn-primary btn-sm">預設</div>
             <div ng-click="setStyle('gray')" class="btn btn-default btn-sm">亮灰</div>
             <div ng-click="setStyle('green')" class="btn btn-success btn-sm">淺綠</div></span>
-          <div class="btn-sm pull-left"><strong>事件數據視覺化</strong></div>
+          <div id="title" class="btn-sm pull-left"><strong><img src="img/favicon.png"> 事件數據視覺化</strong></div>
           <div class="clearfix"></div>
         </div>
         <div id="main">
           <div id="zm-event" ng-class="[style,loaded,dim.htype,dim.wtype]" class="default">
             <div class="dimmer"><img src="img/spin.gif"><br><br>準備時間軸</div>
             <div class="timeline">
-              <div class="header">
-                <div class="name">{{current.name}}</div>
-                <div class="casualty">{{current.casualty.die}}死 {{current.casualty.hurt}}傷</div>
-              </div>
-              <div class="background"></div>
-              <div class="line"></div>
-              <div class="events">
-                <div ng-repeat="event in events" ng-attr-style="top:{{event.top}}px;opacity:{{event.fadeout}}" ng-class="{'top':event.first}" class="event">
-                  <div ng-class="{'xl':event.casualty.total&gt;2000,'lg':event.casualty.total&lt;2000 &amp;&amp; event.casualty.total&gt;500}" class="circle"></div>
-                  <div class="desc">
-                    <div class="data">{{event.date}}</div>
-                    <div ng-attr-style="opacity:{{event.opacity}}" class="name">{{event.name}}</div>
+              <div class="timeline-inner">
+                <div class="header">
+                  <div class="name">{{current.name}}</div>
+                  <div class="casualty">{{current.casualty.die}}死 {{current.casualty.hurt}}傷</div>
+                </div>
+                <div class="background"></div>
+                <div class="line-wrap">
+                  <div class="line"></div>
+                </div>
+                <div class="events">
+                  <div ng-repeat="event in events" ng-attr-style="top:{{event.top}}px;opacity:{{event.fadeout}}" ng-class="{'top':event.first}" class="event">
+                    <div ng-class="{'xl':event.casualty.total&gt;2000,'lg':event.casualty.total&lt;2000 &amp;&amp; event.casualty.total&gt;500}" class="circle"></div>
+                    <div class="desc">
+                      <div class="data">{{event.date}}</div>
+                      <div ng-attr-style="opacity:{{event.opacity}}" class="name">{{event.name}}</div>
+                    </div>
                   </div>
                 </div>
               </div>

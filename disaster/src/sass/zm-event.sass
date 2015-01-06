@@ -12,15 +12,19 @@
     width: 100%
     height: 100%
     z-index: index($order, eventmap)
-
   .timeline
-    position: absolute
-    top: 20px
-    left: 20px
-    border-radius: 5px
+    height: 100%
+    padding: 20px 0 70px 20px
     z-index: index($order, timeline)
-    height: 80%
-    width: 200px
+    position: absolute
+    top: 0
+    left: 0
+    width: 220px
+  .timeline-inner
+    position: relative
+    border-radius: 5px
+    height: 100%
+    width: 100%
     overflow: hidden
     box-shadow: 0 2px 1px rgba(0,0,0,0.5)
 
@@ -51,14 +55,15 @@
       width: 100%
       height: 100%
 
+    .line-wrap
+      position: absolute
+      z-index: index($order, timeline-line)
+      padding: 72px 0 40px 15px
+      height: 100%
     .line
       border-radius: 5px
-      position: absolute
-      height: 70%
+      height: 100%
       width: 4px
-      top: 72px
-      left: 15px
-      z-index: index($order, timeline-line)
 
     .events
       position: absolute
@@ -111,7 +116,7 @@
     z-index: index($order, ctrlpanel)
     width: 200px
     height: 30px
-    top: 80%
+    bottom: 70px
     left: 20px
     padding: 0 5px
     margin-top: -10px
@@ -198,9 +203,6 @@
   .dimmer
     display: block
 
-@include dim-max(h,sm,#zm-event)
-  .timeline .line
-    height: 65%
 @include dim-max(h,xs,#zm-event)
   .ctrlpanel
     border-radius: 5px
@@ -208,15 +210,14 @@
     bottom: 50px
     width: 170px
     left: 10px
-  .timeline
+  .timeline-inner
     box-shadow: none
     .background
       display: none
     .header
       display: none
-    .line
-      top: 20px
-      height: 140px
+    .line-wrap
+      padding-top: 20px
     .events
       top: -52px
 
@@ -228,9 +229,10 @@
     width: 170px
     left: 10px
   .timeline
+    padding-bottom: 90px
+  .timeline-inner
     box-shadow: none
     width: 100px
-    max-height: 330px
     overflow: visible
     .background
       display: none
@@ -247,14 +249,24 @@
   padding-bottom: 70px
   .infopanel
     margin-top: 30px
-    .casualty, .date
-      position: absolute
-      z-index: index($order, infotext)
-      top: 0
     .casualty
-      right: 5px
+      display: inline-block
+      line-height: 16px
+      font-size: 12px
+      padding: 4px 0
+      & > div
+        display: block
     .date
-      left: 5px
+      font-size: 12px
+    // move date and casualty to the top if need
+      .casualty, .date
+        position: absolute
+        z-index: index($order, infotext)
+        top: 0
+      .casualty
+        right: 5px
+      .date
+        left: 5px
   .ctrlpanel
     border-radius: 5px
     top: initial
@@ -269,7 +281,7 @@
     border-radius: 0
   .timeline
     width: 40px
-    margin-left: -20px
+    padding-left: 0
     overflow: visible
     .events .desc
       display: none

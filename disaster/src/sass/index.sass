@@ -26,6 +26,9 @@ html,body
     height: 100%
     margin: 0
     padding-bottom: 30px
+    .btn
+      border-radius: 0
+      float: right
 
 #main
   background: #eee
@@ -36,11 +39,19 @@ html,body
   border-radius: 5px
   overflow: hidden
   box-shadow: 0 2px 2px rgba(0,0,0,0.5)
+  @media (max-width: 480px)
+    border-radius: 0
+    box-shadow: none
 
 #color
   margin-bottom: 3px
   @media (max-width:480px)
+    margin-bottom: 0
     .btn, .btn-sm
       padding: 2px 5px
       font-size: 0.8em
+
+#title img
+  height: 16px
+  width: 16px
 @import zm-event
