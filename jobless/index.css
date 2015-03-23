@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html, body {
   margin: 0;
   padding: 0;
@@ -52,10 +53,12 @@ text {
     display: inline-block; }
     .choices .choice:after {
       margin: 0 5px;
-      content: "\00bb"; }
+      content: "»"; }
     .choices .choice:last-child:after {
       content: ""; }
 
 #footer {
   margin: 20px;
   padding: 20px; }
+
+/*# sourceMappingURL=index.css.map */

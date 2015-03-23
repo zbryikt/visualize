@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head prefix="og: http://ogp.me/ns#">
-    <title> </title>
+    <title></title>
     <meta charset="utf-8">
     <meta property="og:locale" content="zh_TW">
     <meta property="og:image" content="http://zbryikt.github.io/visualize/jobless/thumbnail.png">
@@ -28,16 +28,18 @@
         <div class="or"></div>
         <div ng-click="serialDate()" class="ui button">依序顯示資料</div>
         <div style="margin-left: 5px;display:inline-block">
-          <div ng-click="sorted=!sorted" ng-show="!sorted" class="ui button">請幫我排序</div>
-          <div ng-click="sorted=!sorted" ng-show="sorted" class="ui button">請不要排序</div>
+          <div ng-show="!sorted" ng-click="sorted=!sorted" class="ui button">請幫我排序</div>
+          <div ng-show="sorted" ng-click="sorted=!sorted" class="ui button">請不要排序</div>
+        </div>
+        <div style="margin-left: 5px;display:inline-block">
+          <div ng-show="!fast" ng-click="fast=!!!fast" class="ui button">跑快點</div>
+          <div ng-show="fast" ng-click="fast=!!!fast" class="ui button">跑慢點</div>
         </div>
       </div>
       <h6>以下為 {{current["時間"]}} 時的資料</h6>
       <div class="ui divider"></div>
       <div ng-click="setFav('pie')" ng-class="isFav('pie')" class="item">
-        <div class="title">
-           
-          Pie Chart
+        <div class="title">Pie Chart
           <div ng-class="isFav('pie')" class="order">{{fav['pie']}}</div>
         </div>
         <svg id="pie" width="400px" height="300px" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid">

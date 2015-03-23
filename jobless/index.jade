@@ -1,4 +1,4 @@
-!!!5
+doctype html
 //- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0)/semantic-ui(0.9.3/0.9.5)
 - var usecdn = true
 - var lib = { jquery: true, d3js: true, angular: true, bootstrap: false, semantic: true }
@@ -28,8 +28,12 @@ html
         .or
         .ui.button(ng-click="serialDate()") 依序顯示資料
         div(style="margin-left: 5px;display:inline-block")
-          .ui.button(ng-click="serialDate()",ng-show="!sorted",ng-click="sorted=!sorted") 請幫我排序
-          .ui.button(ng-click="serialDate()",ng-show="sorted",ng-click="sorted=!sorted") 請不要排序
+          .ui.button(ng-show="!sorted",ng-click="sorted=!sorted") 請幫我排序
+          .ui.button(ng-show="sorted",ng-click="sorted=!sorted") 請不要排序
+
+        div(style="margin-left: 5px;display:inline-block")
+          .ui.button(ng-show="!fast", ng-click="fast=!!!fast") 跑快點
+          .ui.button(ng-show="fast", ng-click="fast=!!!fast") 跑慢點
       h6 以下為 {{current["時間"]}} 時的資料
       .ui.divider
       .item(ng-click="setFav('pie')",ng-class="isFav('pie')")

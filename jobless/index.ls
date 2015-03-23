@@ -35,7 +35,7 @@ mainCtrl = ($scope) ->
         $scope.$apply ->
           $scope.serial = ($scope.serial + 1) % ($scope.data.length)
           $scope.current = $scope.data[$scope.serial]
-      ,500
+      ,10
     data: []
     type: []
     current: {}
