@@ -127,8 +127,8 @@ $(document).ready(function(){
       w = coord2[0] - coord1[0];
       h = coord2[1] - coord1[1];
       gm.svg.style("position", "absolute")
-            .style("top", coord1[1])
-            .style("left", coord1[0])
+            .style("top", coord1[1]+"px")
+            .style("left", coord1[0]+"px")
             .style("width", w+"px")
             .style("height",h+"px")
             .attr("viewBox","0 0 "+w+" "+h);
