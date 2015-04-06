@@ -129,8 +129,8 @@ $(document).ready(function(){
       gm.svg.style("position", "absolute")
             .style("top", coord1[1])
             .style("left", coord1[0])
-            .style("width", w)
-            .style("height",h)
+            .style("width", w+"px")
+            .style("height",h+"px")
             .attr("viewBox","0 0 "+w+" "+h);
       gm.svg.selectAll("path").attr("transform","translate("+(-coord1[0])+" "+(-coord1[1])+")").attr("d",path2);
       gm.svg.selectAll("circle").attr("transform","translate("+(-coord1[0])+" "+(-coord1[1])+")")
