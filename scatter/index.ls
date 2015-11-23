@@ -26,9 +26,9 @@ hannah = (d1, d2) ->
   
 load-px = (data, idx, ldx) ->
   px = new Px data
-  index = px.metadata.VALUES.指標
-  range = px.metadata.VALUES.期間
-  local = px.metadata.VALUES.縣市
+  index = px.metadata.VALUES[\指標]
+  range = px.metadata.VALUES[\期間]
+  local = px.metadata.VALUES[\縣市]
   offset = idx * range.length * local.length
   ret = {
     data: for r,i in range => parseFloat(px.data[offset + i * local.length + ldx]) or 0
