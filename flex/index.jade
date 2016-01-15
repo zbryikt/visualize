@@ -8,60 +8,104 @@ doctype html
 html(lang="en")
   head(prefix="og: http://ogp.me/ns#")
     meta(charset="utf-8")
-    title template
+    title Cheatsheet: CSS Flexbox
     // libraries
     include library.jade
     // custom files
     link(rel="stylesheet",type="text/css",href="index.css")
     script(type="text/javascript",src="ui-choices.js")
     script(type="text/javascript",src="index.js")
+    script(type="text/javascript",src="clipboard.min.js")
   body(ng-app="main",ng-controller="main")
-    form#ctrlpanel.form-inline
-      .form-group
-        label width & height
-        br
-        toggle.btn.btn-default(ng-model="randomHeight",active) 隨機高度
-        toggle.btn.btn-default(ng-model="randomWidth",active) 隨機寬度
-        toggle.btn.btn-default(ng-model="invisibleItem",active) 最後元素
-      .form-group
-        label main direction
-        br
-        choices(ng-model="direction",data-type="array")
-          choice(value="row",fallback,active) 順向列
-          choice(value="row-reverse") 反向列
-          choice(value="column") 順向行
-          choice(value="column-reverse") 反向行
-      .form-group
-        label main align
-        br
-        choices(ng-model="justify",data-type="array")
-          choice(value="flex-start",active,fallback) 對齊頭
-          choice(value="flex-end") 對齊尾
-          choice(value="center") 置中
-          choice(value="space-between") 中間空格
-          choice(value="space-around") 周圍空格
-      .form-group
-        label cross align
-        br
-        choices(ng-model="align",data-type="array")
-          choice(value="auto") 自動
-          choice(value="flex-start",active,fallback) 對齊頭
-          choice(value="flex-end") 對齊尾
-          choice(value="center") 置中
-          choice(value="baseline") 基線
-          choice(value="stretch") 延伸
-      .form-group
-        label multi-align
-        br
-        choices(ng-model="multialign",data-type="array")
-          choice(value="flex-start",active,fallback) 對齊頭
-          choice(value="flex-end") 對齊尾
-          choice(value="center") 置中
-          choice(value="space-between") 中間空格
-          choice(value="space-around") 周圍空格
-          choice(value="stretch") 延伸
-
-    #container(style="flex-direction:{{direction[0]}};justify-content:{{justify[0]}};align-items:{{align[0]}};align-content:{{multialign[0]}}")
-      .item(ng-repeat="n in nodes",style="flex: 1 1 {{n.w}}px")
-        .ib(ng-attr-style="width:{{n.w}}px;height:{{n.h}}px")
-      .item.phantom(ng-show="invisibleItem",style="flex: 999 999 auto")
+    #root
+      h2 Flexbox Cheatsheet
+      p Flex is a powerful tool of controlling content flow, yet it's a little complicated. All we need is a tiny, live example of effects of each flex related attributes. So here it is, enjoy!
+      hr
+      form#ctrlpanel.form-inline
+        .form-group
+          label Node Type
+          br
+          choices(ng-model="nodetype",data-type="array",btn-type="btn-sm btn btn-default")
+            choice(value="inline",fallback,active) Inline
+            choice(value="block") Block
+        .form-group
+          label width & height
+          br
+          toggle.btn.btn-default.btn-sm(ng-model="randomHeight",ng-disabled="nodetype=='inline'",active) Random Height
+          toggle.btn.btn-default.btn-sm(ng-model="randomWidth",ng-disabled="nodetype=='inline'",active) Random Width
+          toggle.btn.btn-default.btn-sm(ng-model="invisibleItem",active) Add a Invisible Last Item
+        .form-group
+          label main direction
+          br
+          choices(ng-model="direction",data-type="array",btn-type="btn-sm btn btn-default")
+            choice(value="row",fallback,active) Row
+            choice(value="column") Column
+          toggle.btn.btn-default.btn-sm(ng-model="directionReverse") Reversed
+        .form-group
+          label main align
+          br
+          choices(ng-model="justify",data-type="array",btn-type="btn-sm btn btn-default")
+            choice(value="flex-start",active,fallback) Start
+            choice(value="flex-end") End
+            choice(value="center") Center
+            choice(value="space-between") Space Between
+            choice(value="space-around") Space Around
+        .form-group
+          label cross align
+          br
+          choices(ng-model="align",data-type="array",btn-type="btn-sm btn btn-default")
+            choice(value="auto") Auto
+            choice(value="flex-start",active,fallback) Start
+            choice(value="flex-end") End
+            choice(value="center") Center
+            choice(value="baseline") Baseline
+            choice(value="stretch") Stretch
+        .form-group
+          label multi-align
+          br
+          choices(ng-model="multialign",data-type="array",btn-type="btn btn-sm btn-default")
+            choice(value="flex-start",active,fallback) Start
+            choice(value="flex-end") End
+            choice(value="center") Center
+            choice(value="space-between") Space Between
+            choice(value="space-around") Space Around
+            choice(value="stretch") Stretch
+        .form-group
+          label grow
+          br
+          choices(ng-model="grow",data-type="array",btn-type="btn btn-sm btn-default")
+            choice(value="0",active,fallback) 0
+            choice(value="1") 1
+        .form-group
+          label shrink
+          br
+          choices(ng-model="shrink",data-type="array",btn-type="btn btn-sm btn-default")
+            choice(value="0",active,fallback) 0
+            choice(value="1") 1
+        .form-group
+          label basis
+          br
+          choices(ng-model="basis",data-type="array",btn-type="btn btn-sm btn-default")
+            choice(value="0") 0
+            choice(value="30px") 30px
+            choice(value="500px") 500px
+            choice(value="auto",active,fallback) auto
+      hr
+      .row
+        .col-sm-8
+          label Preview
+          #container(style="flex-direction:{{flexdirection}};justify-content:{{justify[0]}};align-items:{{align[0]}};align-content:{{multialign[0]}}",ng-class="{'with-phantom':invisibleItem}")
+            .item(ng-repeat="n in nodes",ng-attr-style="flex: {{grow[0]}} {{shrink[0]}} {{basis[0]}}")
+              span(ng-if="nodetype[0]=='inline'") test
+              .ib(ng-if="nodetype[0]=='block'",ng-attr-style="width:{{n.w}}px;height:{{n.h}}px")
+            //-.item.phantom(ng-show="invisibleItem",style="flex: 999 999 auto")
+              span invisible phantom node
+        .col-sm-4
+          label CSS
+          textarea#output.form-control(rows="13",ng-model="output",data-clipboard-target="#output")
+      #footer
+        .pull-right
+          span by &nbsp;
+          a(href="https://twitter.com/zbryikt") @zbryikt
+          span &nbsp; / &nbsp;
+          a(href="https://github.com/zbryikt/visualize/tree/gh-pages/flex") Github
