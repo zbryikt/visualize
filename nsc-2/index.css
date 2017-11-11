@@ -14,7 +14,7 @@ circle {
 text {
   text-anchor: middle;
   dominant-baseline: central;
-  font-size: 2px;
+  font-size: 14px;
   cursor: pointer; }
 
 text.bk {
